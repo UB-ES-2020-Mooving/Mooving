@@ -10,7 +10,7 @@
           <div class="col-sm">Distance</div>
           <div class="col-sm">Type</div>
         </div>
-        <button v-for="item in available_motos.items.sort(function(a, b){return a.distance - b.distance})" :key="item.license_plate" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto()">
+        <button v-for="item in displayed_motos.items.sort(function(a, b){return a.distance - b.distance})" :key="item.license_plate" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto()">
           <div class="row">
             <div class="col-sm">{{item.license_plate}}</div>
             <div class="col-sm">{{item.distance}}</div>
@@ -19,7 +19,7 @@
         </button>
       </div>
         <!-- Mensaje si no hay motos -->
-        <div id="no_motos" v-if="available_motos.items.length===0" class="center-screen">
+        <div id="no_motos" v-if="displayed_motos.items.length===0" class="center-screen">
           <p>There are no motos availables</p>
         </div>
     </div>
@@ -41,7 +41,7 @@ export default {
           {license_plate: 'apple2', distance: '7', type: 'asdf', horses: '250'},
           {license_plate: 'apple3', distance: '30', type: 'as', horses: '500'},
           {license_plate: 'apple2', distance: '7', type: 'asdf', horses: '250'},
-          {license_plate: 'apple3', distance: '23', type: 'as', horses: '500'}
+          {license_plate: 'apple3', distance: '230', type: 'as', horses: '500'}
         ]
       },
       displayed_motos: {
