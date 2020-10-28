@@ -3,16 +3,17 @@
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import '@/../bootstrap/css/bootstrap.css'
 import Vue from 'vue'
+import Vuelidate from 'vuelidate'
 import App from './App.vue'
 import router from './router'
 
+Vue.use(BootstrapVue)
+Vue.use(Vuelidate)
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 
-/* eslint-disable no-new */
 new Vue({
-  el: '#app',
   router,
   render: (h) => h(App)
 }).$mount('#app')
