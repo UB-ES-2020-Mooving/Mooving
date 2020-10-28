@@ -25,7 +25,7 @@ db.init_app(app)
 
 
 api.add_resource(Motos,"/motos/<int:id>","/motos")
-#api.add_resource(Clients)
+api.add_resource(Clients,"/clients/<int:client_id>","/clients")
 
 
 

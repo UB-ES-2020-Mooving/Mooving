@@ -15,6 +15,10 @@ class MotoModel(db.Model):
     #Para la fecha intentemos utilizar el formato AAAA/MM/DIA (10 caracteres)
     fecha_ultima_revision = db.Column(db.String(10))
 
+    #También existe la variable    clients
+    #Esto es asi por la relación many to many que hay definida en client.
+
+
     def __init__(self):
         self.estado = 'garage'
         self.km_totales = 0.
