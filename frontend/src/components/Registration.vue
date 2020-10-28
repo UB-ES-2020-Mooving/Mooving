@@ -7,24 +7,26 @@
             <h2>Register Form</h2>
             <form @submit.prevent="handleSubmit">
               <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" v-model="user.firstName" id="firstName" name="firstName" class="form-control" :class="{ 'is-invalid': submitted && $v.user.firstName.$error }" />
-                <div v-if="submitted && !$v.user.firstName.required" class="invalid-feedback">First Name is required</div>
-              </div>
-              <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" v-model="user.lastName" id="lastName" name="lastName" class="form-control" :class="{ 'is-invalid': submitted && $v.user.lastName.$error }" />
-                <div v-if="submitted && !$v.user.lastName.required" class="invalid-feedback">Last Name is required</div>
+                <label for="completeName">Complete Name</label>
+                <input type="text" v-model="user.completeName" id="completeName" name="CompleteName" class="form-control" :class="{ 'is-invalid': submitted && $v.user.completeName.$error }" />
+                <div v-if="submitted && !$v.user.completeName.required" class="invalid-feedback">Complete Name is required</div>
               </div>
               <div class="form-group">
                 <label for="dniNie">DNI/NIE</label>
                 <input type="text" v-model="user.dniNie" id="dniNie" name="dniNie" class="form-control" :class="{ 'is-invalid': submitted && $v.user.dniNie.$error }" />
-                <div v-if="submitted && !$v.user.dniNie.required" class="invalid-feedback">DNI/NIE is required</div>
+                <div v-if="submitted && $v.user.dniNie.$error" class="invalid-feedback">
+                  <span v-if="!$v.user.dniNie.required">DNI/NIE is required</span>
+                  <span v-if="!$v.user.dniNie.minLength">DNI/NIE must be at least 8 characters</span>
+                </div>
               </div>
               <div class="form-group">
                 <label for="iban">IBAN</label>
                 <input type="text" v-model="user.iban" id="iban" name="iban" class="form-control" :class="{ 'is-invalid': submitted && $v.user.iban.$error }" />
-                <div v-if="submitted && !$v.user.iban.required" class="invalid-feedback">IBAN is required</div>
+                <div v-if="submitted && $v.user.iban.$error" class="invalid-feedback">
+                  <span v-if="!$v.user.iban.required">IBAN is required</span>
+                  <span v-if="!$v.user.iban.minLength">IBAN must be at least 5 characters</span>
+                  <span v-if="!$v.user.iban.maxLength">IBAN must be no more than 34 characters</span>
+                </div>
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
@@ -62,15 +64,14 @@
 </template>
 
 <script>
-import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 
 export default {
   name: 'Registration',
   data () {
     return {
       user: {
-        firstName: '',
-        lastName: '',
+        completeName: '',
         dniNie: '',
         iban: '',
         email: '',
@@ -82,10 +83,9 @@ export default {
   },
   validations: {
     user: {
-      firstName: { required },
-      lastName: { required },
-      dniNie: { required },
-      iban: { required },
+      completeName: { required },
+      dniNie: { required, minLength: minLength(8) },
+      iban: { required, minLength: minLength(5), maxLength: maxLength(34) },
       email: { required, email },
       password: { required, minLength: minLength(6) },
       confirmPassword: { required, sameAsPassword: sameAs('password') }
@@ -100,7 +100,7 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      // TODO: alert('User already exists'), una vez tengo el database, y con axios, catch error de POST
+      // TODO: alert('User already exists'), una vez tengo el database, y con axios, catch error de POST (comprobar si ya existe email igual/DNI/NIE)
       alert('User created on success')
     }
   }
