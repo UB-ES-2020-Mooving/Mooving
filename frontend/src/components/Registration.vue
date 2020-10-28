@@ -7,14 +7,9 @@
             <h2>Register Form</h2>
             <form @submit.prevent="handleSubmit">
               <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" v-model="user.firstName" id="firstName" name="firstName" class="form-control" :class="{ 'is-invalid': submitted && $v.user.firstName.$error }" />
-                <div v-if="submitted && !$v.user.firstName.required" class="invalid-feedback">First Name is required</div>
-              </div>
-              <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" v-model="user.lastName" id="lastName" name="lastName" class="form-control" :class="{ 'is-invalid': submitted && $v.user.lastName.$error }" />
-                <div v-if="submitted && !$v.user.lastName.required" class="invalid-feedback">Last Name is required</div>
+                <label for="completeName">Complete Name</label>
+                <input type="text" v-model="user.completeName" id="completeName" name="CompleteName" class="form-control" :class="{ 'is-invalid': submitted && $v.user.completeName.$error }" />
+                <div v-if="submitted && !$v.user.completeName.required" class="invalid-feedback">Complete Name is required</div>
               </div>
               <div class="form-group">
                 <label for="dniNie">DNI/NIE</label>
@@ -76,8 +71,7 @@ export default {
   data () {
     return {
       user: {
-        firstName: '',
-        lastName: '',
+        completeName: '',
         dniNie: '',
         iban: '',
         email: '',
@@ -89,8 +83,7 @@ export default {
   },
   validations: {
     user: {
-      firstName: { required },
-      lastName: { required },
+      completeName: { required },
       dniNie: { required, minLength: minLength(8) },
       iban: { required, minLength: minLength(5), maxLength: maxLength(34) },
       email: { required, email },
