@@ -20,14 +20,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 migrate = Migrate(app, db)
 db.init_app(app)
 
-
-
-
-
-api.add_resource(Motos,"/motos/<int:id>","/motos")
-api.add_resource(Clients,"/clients/<int:client_id>","/clients")
-
-
+api.add_resource(Motos, "/motos/<int:id>", "/motos")
+api.add_resource(Clients, "/clients/<int:client_id>", "/clients")
 
 
 @app.route('/')

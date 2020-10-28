@@ -46,4 +46,24 @@ class Clients(Resource):
             return {'message': 'There is no client with ID [{}] .'.format(client_id)}, 404
 
     def put(self, client_id):
-        return {'message': "Put Not developed yet"}, 404
+        # Creamos el request parser, que nos ayudará a manejar la informacion de entrada
+        parser = reqparse.RequestParser()
+        # Definimos que esperamos como entrada
+        parser.add_argument('nombre', type=str, required=True, help="Name field cannot be left blanck")
+        parser.add_argument('email', type=str, required=True, help="Email field cannot be left blanck")
+        parser.add_argument('iban', type=str, required=True, help="IBAN field cannot be left blanck")
+        parser.add_argument('genero', type=str, required=True, help="Genre field cannot be left blanck")
+        # Tomamos la información del parser en un diccionario (data)
+        data = parser.parse_args()
+
+        c = ClientModel.query.filter_by(client_id=client_id).first()
+        if c:
+            c.nombre = data['nombre']
+            c.email = data['email']
+            c.iban = data['iban']
+            c.genero = data['genero']
+            c.save_to_db()
+
+            return c.json(), 200
+        else:
+            return {'message': 'There is no client with ID [{}] .'.format(client_id)}, 404
