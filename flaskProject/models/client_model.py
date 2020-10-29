@@ -3,7 +3,7 @@ from models.constantes import generos
 
 relations_table = db.Table('relations_table',
                            db.Column('clients', db.Integer, db.ForeignKey('clients.client_id')),
-                           db.Column('motos', db.Integer, db.ForeignKey('motos.moto_id'))
+                           db.Column('motos', db.Integer, db.ForeignKey('motos.id'))
                            )
 
 class ClientModel(db.Model):
