@@ -38,14 +38,14 @@ class ClientModel(db.Model):
         self.dni_nie = dni_nie
 
     def json(self):
-        return {"client":{
+        return {
         "client_id":self.client_id,
         "nombre": self.nombre,
         "email" : self.email,
         "iban" : self.iban,
         "genero" : self.genero,
         "dni_nie" : self.dni_nie
-        }}
+        }
 
     def save_to_db(self):
         """Saves instance to DB

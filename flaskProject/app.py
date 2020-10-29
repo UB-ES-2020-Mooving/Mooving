@@ -6,7 +6,7 @@ from db import db
 from models.moto_model import MotoModel
 from models.client_model import ClientModel
 
-from resources.clients import Clients
+from resources.clients import Clients, ClientsList
 from resources.motos import Moto, MotosList
 
 
@@ -24,15 +24,28 @@ db.init_app(app)
 
 """
 Para volver a crear la base de datos:
-    Primero borrar la carpeta migrations y el archivo data.db
-    Segundo abrir terminal y escribir:
-        - python3 -m flask db init
-        - python3 -m flask db migrate -m "Initial migration."
-        - python3 -m flask db upgrade
+    1. borrar la carpeta migrations y el archivo data.db
+    
+    (Antes de ejecutar el segundo asegurarnos que las líneas del 3.
+    están comentadas.)
+    2. abrir terminal y escribir:
+        flask db init
+        flask db migrate -m "Initial migration."
+        flask db upgrade
+    3.Descomentamos las dos lineas siguientes :
+        (
+        from add_data import init_db
+        init_db()
+        )
+        y ejecutamos app.py
+    4.volvemos a comentar las lineas que acabamos de descomentar.
 """
 #from add_data import init_db
 #init_db()
-api.add_resource(Clients, "/clients/<int:client_id>", "/clients")
+
+
+api.add_resource(Clients, "/client/<int:client_id>", "/client")
+api.add_resource(ClientsList, '/clients')
 
 api.add_resource(Moto,"/moto/<int:id>","/moto")
 api.add_resource(MotosList, '/motos')

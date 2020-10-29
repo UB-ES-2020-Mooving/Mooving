@@ -6,7 +6,7 @@ class Clients(Resource):
     def get(self, client_id):
         c = ClientModel.query.filter_by(client_id=client_id).first()
         if c:
-            return c.json(), 200
+            return {'client':c.json()}, 200
         else:
             return {'message': 'There is no client with ID [{}] .'.format(client_id)}, 404
 
@@ -20,7 +20,7 @@ class Clients(Resource):
         parser.add_argument('iban', type=str,required=True, help="IBAN field cannot be left blanck")
         parser.add_argument('genero', type=str,required=True, help="Genre field cannot be left blanck")
         parser.add_argument('dni_nie', type=str,required=True, help="DNI/NIE field cannot be left blanck")
-        parser.add_argument('password', type=str, required=True, help="DNI/NIE field cannot be left blanck")
+        parser.add_argument('password', type=str, required=True, help="Password field cannot be left blanck")
         #Tomamos la información del parser en un diccionario (data)
         data = parser.parse_args()
 
@@ -67,3 +67,14 @@ class Clients(Resource):
             return c.json(), 200
         else:
             return {'message': 'There is no client with ID [{}] .'.format(client_id)}, 404
+
+class ClientsList(Resource):
+    def get(self):
+        clients=ClientModel.query.filter_by().all()
+        data ={'clients':[]}
+        for c in clients:
+            data['clients'].append(c.json())
+
+        return data
+
+

@@ -6,7 +6,7 @@ class Moto(Resource):
     def get(self, id):
         try:
             moto = MotoModel.find_by_id(id)
-            return moto.json(), 200
+            return {'moto':moto.json()}, 200
         except:
             return {"message": "Error Get Moto"}, 500
 
@@ -70,8 +70,8 @@ class Moto(Resource):
 class MotosList(Resource):
     def get(self):
         data = {'motos': []}
-        events = MotoModel.get_all()
-        for a in events:
-            data['motos'].append(a.json())
+        motos = MotoModel.get_all()
+        for m in motos:
+            data['motos'].append(m.json())
 
         return data
