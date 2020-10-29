@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Homepage from '@/components/Homepage'
 import Motos from '@/components/Motos.vue'
-import HelloWorld from '@/components/HelloWorld'
 import Registration from '@/components/Registration.vue'
 
 Vue.use(Router)
