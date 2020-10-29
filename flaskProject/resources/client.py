@@ -2,7 +2,7 @@ from db import db
 from flask_restful import Resource, reqparse
 from models.client_model import ClientModel
 
-class Clients(Resource):
+class Client(Resource):
     def get(self, client_id):
         c = ClientModel.query.filter_by(client_id=client_id).first()
         if c:
@@ -18,7 +18,6 @@ class Clients(Resource):
         parser.add_argument('nombre', type=str,required=True, help="Name field cannot be left blanck")
         parser.add_argument('email', type=str,required=True, help="Email field cannot be left blanck")
         parser.add_argument('iban', type=str,required=True, help="IBAN field cannot be left blanck")
-        parser.add_argument('genero', type=str,required=True, help="Genre field cannot be left blanck")
         parser.add_argument('dni_nie', type=str,required=True, help="DNI/NIE field cannot be left blanck")
         parser.add_argument('password', type=str, required=True, help="Password field cannot be left blanck")
         #Tomamos la información del parser en un diccionario (data)
@@ -32,7 +31,7 @@ class Clients(Resource):
         if c:
             return {'message': 'A client with same DNI/NIE [{}] already exists'.format(data['dni_nie'])}, 400
 
-        entry = ClientModel(data['nombre'],data['genero'],data['iban'],data['dni_nie'],data['email'],data['password'])
+        entry = ClientModel(data['nombre'],data['iban'],data['dni_nie'],data['email'],data['password'])
         entry.save_to_db()
 
         return entry.json(), 201
@@ -52,7 +51,6 @@ class Clients(Resource):
         parser.add_argument('nombre', type=str, required=True, help="Name field cannot be left blanck")
         parser.add_argument('email', type=str, required=True, help="Email field cannot be left blanck")
         parser.add_argument('iban', type=str, required=True, help="IBAN field cannot be left blanck")
-        parser.add_argument('genero', type=str, required=True, help="Genre field cannot be left blanck")
         # Tomamos la información del parser en un diccionario (data)
         data = parser.parse_args()
 
@@ -61,7 +59,6 @@ class Clients(Resource):
             c.nombre = data['nombre']
             c.email = data['email']
             c.iban = data['iban']
-            c.genero = data['genero']
             c.save_to_db()
 
             return c.json(), 200

@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+from models.article_model import ArticleModel
 from models.moto_model import MotoModel
 from models.client_model import ClientModel
 app = Flask(__name__)
@@ -63,7 +64,6 @@ def init_db():
 
     client1 = ClientModel(
         nombre = "Juana",
-        genero = "mujer",
         iban = "2223462362665251w",
         dni_nie = "11111111J",
         email = "juanita@gmail.com",
@@ -73,7 +73,6 @@ def init_db():
 
     client1 = ClientModel(
         nombre="Camila",
-        genero="mujer",
         iban="22462362665251w",
         dni_nie="14441111J",
         email="Camila@gmail.com",
@@ -83,7 +82,6 @@ def init_db():
 
     client1 = ClientModel(
         nombre="Sofia",
-        genero="mujer",
         iban="2223332362665251w",
         dni_nie="11188881J",
         email="Sofia@gmail.com",
@@ -93,24 +91,37 @@ def init_db():
 
     client1 = ClientModel(
         nombre="Ramona",
-        genero="mujer",
         iban="225554362665251w",
         dni_nie="12341111J",
         email="Ramona@gmail.com",
         password="1234"
     )
     db.session.add(client1)
-
-
     """
     client1 = ClientModel(
         nombre = ,
-        genero = ,
         iban = ,
         dni_nie = ,
         email = ,
         password = 
     )"""
+
+    articulo1=ArticleModel(
+        titulo = "¡Motos más nuevas y potentes que nunca!",
+        texto = "Las nuevas motos de Mooving están batiendo todos los"
+                "récord habidos y por haber. Tenemos más de 400 motos eléctricas"
+                "con una autonomía de más de 100KM.",
+        fecha_creacion = "2020/10/29",
+        visible = True)
+    db.session.add(articulo1)
+    articulo1=ArticleModel(
+        titulo = "¡Motos más rápidas !",
+        texto = "Las nuevas motos de Mooving son más rápidas que las de la competencia."
+                " Tenemos más de 400 motos eléctricas"
+                " con una velocidad punta de más de 100KM/H .",
+        fecha_creacion = "2020/10/28",
+        visible = True)
+    db.session.add(articulo1)
 
 
     db.session.commit()
