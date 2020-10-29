@@ -20,6 +20,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 migrate = Migrate(app, db)
 db.init_app(app)
 
+
+
 """
 Para volver a crear la base de datos:
     Primero borrar la carpeta migrations y el archivo data.db
@@ -30,9 +32,11 @@ Para volver a crear la base de datos:
 """
 #from add_data import init_db
 #init_db()
+api.add_resource(Clients, "/clients/<int:client_id>", "/clients")
 
 api.add_resource(Moto,"/moto/<int:id>","/moto")
 api.add_resource(MotosList, '/motos')
+
 
 
 @app.route('/')
