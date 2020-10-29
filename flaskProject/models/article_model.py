@@ -19,3 +19,23 @@ class ArticleModel(db.Model):
         self.texto = texto
         self.fecha_creacion = fecha_creacion
         self.visible = visible
+
+    def json(self):
+        return {
+        "titulo":self.titulo,
+        "texto": self.texto,
+        "fecha_creacion" : self.fecha_creacion,
+        "visible" : self.visible,
+        }
+
+    def save_to_db(self):
+        """Saves instance to DB
+        """
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_from_db(self):
+        """Deletes instance from DB
+        """
+        db.session.delete(self)
+        db.session.commit()

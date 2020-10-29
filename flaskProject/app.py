@@ -5,8 +5,9 @@ from db import db
 
 from models.moto_model import MotoModel
 from models.client_model import ClientModel
+from resources.article import ArticlesList
 
-from resources.clients import Clients, ClientsList
+from resources.client import Client, ClientsList
 from resources.motos import Moto, MotosList
 
 
@@ -43,8 +44,9 @@ Para volver a crear la base de datos:
 #from add_data import init_db
 #init_db()
 
+api.add_resource(ArticlesList,"/articles")
 
-api.add_resource(Clients, "/client/<int:client_id>", "/client")
+api.add_resource(Client, "/client/<int:client_id>", "/client")
 api.add_resource(ClientsList, '/clients')
 
 api.add_resource(Moto,"/moto/<int:id>","/moto")
