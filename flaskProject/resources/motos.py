@@ -1,26 +1,77 @@
 from flask_restful import Resource, reqparse
+from models.moto_model import MotoModel
 
 
-class Motos(Resource):
+class Moto(Resource):
     def get(self, id):
-        return {'message': "Get Not developed yet"}, 404
+        try:
+            moto = MotoModel.find_by_id(id)
+            return moto.json(), 200
+        except:
+            return {"message": "Error Get Moto"}, 500
 
     def post(self):
-
-        #Creamos el request parser, que nos ayudará a manejar la informacion de entrada
         parser = reqparse.RequestParser()
-        #Definimos que esperamos como entrada
-        parser.add_argument('state', type=str)
-
-        #Tomamos la información del parser en un diccionario (data)
+        parser.add_argument('state', type=str, required=True, help="This field cannot be left blank")
+        parser.add_argument('matricula', type=str, required=True, help="This field cannot be left blank")
+        parser.add_argument('date_estreno', type=str, required=True, help="This field cannot be left blank")
+        parser.add_argument('model_generic', type=str, required=True, help="This field cannot be left blank")
+        parser.add_argument('last_coordinate_latitude', type=float, required=True, help="This field cannot be left blank")
+        parser.add_argument('last_coordinate_longitude', type=float, required=True, help="This field cannot be left blank")
+        parser.add_argument('km_restantes', type=float, required=True, help="This field cannot be left blank")
+        parser.add_argument('km_totales', type=float, required=True, help="This field cannot be left blank")
+        parser.add_argument('date_last_check', type=str, required=True, help="This field cannot be left blank")
         data = parser.parse_args()
 
-        return {'message':"No me gusta "+data['state']+" me gusta más..."}
-
-        return {'message': "Post Not developed yet"}, 404
+        try:
+            moto = MotoModel(data['state'], data['matricula'], data['date_estreno'], data['model_generic'], data['last_coordinate_latitude'],
+                               data['last_coordinate_longitude'], data['km_restantes'], data['km_totales'],
+                              data['date_last_check'])
+            MotoModel.save_to_db(moto)
+            return {"message": "Moto added successfully"}, 200
+        except:
+            return {"message": "Error Post Moto"}, 500
 
     def delete(self, id):
-        return {'message': "Delete Not developed yet"}, 404
+        try:
+            moto = MotoModel.find_by_id(id)
+            if moto:
+                MotoModel.delete_from_db(moto)
+                return {"message": "Moto deleted"}, 200
+            return {"message": "Moto not found "}, 404
+        except:
+            return {"message": "Error Delete Moto"}, 500
 
     def put(self, id):
-        return {'message': "Put Not developed yet"}, 404
+        parser = reqparse.RequestParser()
+        parser.add_argument('state', type=str, required=True, help="This field cannot be left blank")
+        parser.add_argument('matricula', type=str, required=True, help="This field cannot be left blank")
+        parser.add_argument('date_estreno', type=str, required=True, help="This field cannot be left blank")
+        parser.add_argument('model_generic', type=str, required=True, help="This field cannot be left blank")
+        parser.add_argument('last_coordinate_latitude', type=float, required=True,
+                            help="This field cannot be left blank")
+        parser.add_argument('last_coordinate_longitude', type=float, required=True,
+                            help="This field cannot be left blank")
+        parser.add_argument('km_restantes', type=float, required=True, help="This field cannot be left blank")
+        parser.add_argument('km_totales', type=float, required=True, help="This field cannot be left blank")
+        parser.add_argument('date_last_check', type=str, required=True, help="This field cannot be left blank")
+        data = parser.parse_args()
+
+        try:
+            moto = MotoModel.find_by_id(id)
+            moto.set_moto(data['state'], data['matricula'], data['date_estreno'], data['model_generic'], data['last_coordinate_latitude'],
+                               data['last_coordinate_longitude'], data['km_restantes'], data['km_totales'],
+                              data['date_last_check'])
+            MotoModel.save_to_db(moto)
+            return {"message": "Moto modified successfully"}, 200
+        except:
+            return {"message": "Error Put Moto"}, 500
+
+class MotosList(Resource):
+    def get(self):
+        data = {'motos': []}
+        events = MotoModel.get_all()
+        for a in events:
+            data['motos'].append(a.json())
+
+        return data

@@ -1,8 +1,8 @@
-"""Initial migration
+"""Initial migration.
 
-Revision ID: 2cc8a7c8cb50
+Revision ID: 253470b891ca
 Revises: 
-Create Date: 2020-10-27 17:41:11.004079
+Create Date: 2020-10-29 02:07:04.115137
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2cc8a7c8cb50'
+revision = '253470b891ca'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,18 +27,26 @@ def upgrade():
     sa.UniqueConstraint('dni')
     )
     op.create_table('motos',
-    sa.Column('moto_id', sa.Integer(), nullable=False),
-    sa.Column('estado', sa.Enum('ready', 'reserved', 'broken', 'garage'), nullable=True),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('state', sa.Enum('AVAILABLE', 'RESERVED', 'ACTIVE', 'REPAIRING', 'LOW_BATTERY_FUEL', 'UNREPAIRABLE', 'UNCHECKED', 'ACCIDENT'), nullable=False),
+    sa.Column('matricula', sa.String(length=30), nullable=False),
+    sa.Column('date_estreno', sa.String(length=30), nullable=False),
+    sa.Column('model_generic', sa.String(length=10), nullable=False),
+    sa.Column('model_fabric', sa.String(length=10), nullable=False),
+    sa.Column('cc', sa.Integer(), nullable=False),
+    sa.Column('battery_autonomy', sa.Integer(), nullable=False),
+    sa.Column('last_coordinate_latitude', sa.Float(), nullable=False),
+    sa.Column('last_coordinate_longitude', sa.Float(), nullable=False),
+    sa.Column('km_restantes', sa.Float(), nullable=False),
     sa.Column('km_totales', sa.Float(), nullable=False),
-    sa.Column('km_ultima_revision', sa.Float(), nullable=False),
-    sa.Column('fecha_ultima_revision', sa.String(length=10), nullable=True),
-    sa.PrimaryKeyConstraint('moto_id')
+    sa.Column('date_last_check', sa.String(length=30), nullable=False),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('relations_table',
     sa.Column('clients', sa.Integer(), nullable=True),
     sa.Column('motos', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['clients'], ['clients.client_id'], ),
-    sa.ForeignKeyConstraint(['motos'], ['motos.moto_id'], )
+    sa.ForeignKeyConstraint(['motos'], ['motos.id'], )
     )
     # ### end Alembic commands ###
 
