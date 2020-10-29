@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Homepage from '@/components/Homepage'
 import Motos from '@/components/Motos.vue'
-import HelloWorld from '@/components/HelloWorld'
 import Registration from '@/components/Registration.vue'
 import Login from '@/components/Login.vue'
 
@@ -17,9 +17,9 @@ export default new Router({
       component: Motos
     },
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/Homepage',
+      name: 'Homepage',
+      component: Homepage
     },
     {
       path: '/userregister',
