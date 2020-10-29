@@ -1,0 +1,7 @@
+/__pycache__/
+/venv/
+/migrations/
+/models/__pycache__/
+/resources/__pycache__/
+/.idea/
+
