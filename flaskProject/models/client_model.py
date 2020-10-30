@@ -27,7 +27,7 @@ class ClientModel(db.Model):
     motos = db.relationship('MotoModel', secondary=relations_table,
                             backref=db.backref('clients', lazy='dynamic'))
 
-    def __init__(self, nombre,iban, dni_nie, email, password):
+    def __init__(self, nombre, iban, dni_nie, email, password):
         self.nombre = nombre
         self.email = email
         self.iban = iban
@@ -55,3 +55,12 @@ class ClientModel(db.Model):
         """
         db.session.delete(self)
         db.session.commit()
+
+    # Metodo que encuentra al cliente segun su email y lo retorna
+    @classmethod
+    def find_by_email(cls, email):
+        return ClientModel.query.filter_by(email=email).first()
+
+    # Metodo que comprueba si la contraseña es correcta
+    def verify_password(self, password):
+        return self.password.__eq__(password)
