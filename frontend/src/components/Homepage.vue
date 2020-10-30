@@ -21,10 +21,10 @@
       <!-- Links -->
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="#">Log in</a>
+          <a class="nav-link" href="#/userlogin">Log in</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Sign up</a>
+          <a class="nav-link" href="#/userregister">Sign up</a>
         </li>
       </ul>
     </nav>

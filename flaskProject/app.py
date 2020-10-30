@@ -3,6 +3,9 @@ from flask_restful import Resource, Api, reqparse
 from flask_migrate import Migrate
 from db import db
 
+from flask_cors import CORS
+from flask import render_template
+
 from models.moto_model import MotoModel
 from models.client_model import ClientModel
 from resources.article import ArticlesList
@@ -11,9 +14,13 @@ from resources.client import Client, ClientsList
 from resources.motos import Moto, MotosList
 
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_folder="../frontend/dist/static",
+            template_folder="../frontend/dist")
+app.config.from_object(__name__)
 
 api = Api(app)
+CORS(app, resources={r'/*': {'origins':'*'}})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -55,8 +62,8 @@ api.add_resource(MotosList, '/motos')
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello World!'
+def render_vue():
+    return render_template("index.html")
 
 
 if __name__ == '__main__':
