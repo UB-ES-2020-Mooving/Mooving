@@ -12,6 +12,7 @@ from resources.article import ArticlesList
 
 from resources.client import Client, ClientsList
 from resources.motos import Moto, MotosList
+from resources.login import Login
 
 
 app = Flask(__name__,
@@ -58,6 +59,8 @@ api.add_resource(ClientsList, '/clients')
 
 api.add_resource(Moto,"/moto/<int:id>","/moto")
 api.add_resource(MotosList, '/motos')
+
+api.add_resource(Login, '/login')
 
 
 
