@@ -35,6 +35,7 @@
 
 <script>
 import { required, email, minLength } from 'vuelidate/lib/validators'
+import axios from 'axios'
 
 export default {
   name: 'Login',
@@ -62,8 +63,21 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      // TODO: alert('Username or Password incorrect'), una vez tengo el database, y con axios, catch error de POST
-      alert('User logged on success')
+
+      const parameters = {
+        email: this.user.email,
+        password: this.user.password
+      }
+      const path = `http://localhost:5000/login`
+      axios.post(path, parameters)
+        .then((res) => {
+          this.$router.push({ path: '/motospage', query: { nombre: res.data.client.nombre } })
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error)
+          alert('Username or Password incorrect')
+        })
     }
   }
 }
