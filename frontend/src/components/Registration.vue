@@ -102,23 +102,21 @@ export default {
         return
       }
       const parameters = {
-        completeName: this.user.completeName,
+        nombre: this.user.completeName,
         email: this.user.email,
         iban: this.user.iban,
-        dniNie: this.user.dniNie,
+        dni_nie: this.user.dniNie,
         password: this.user.password
       }
-      const path = `http://localhost:5000/client`
+      const path = 'http://localhost:5000/client'
       axios.post(path, parameters)
         .then((res) => {
-          this.$router.push({ path: '/Motos', query: { username: this.user.completeName } })
-          // TODO: change /Homepage to /Motos.
           alert('User created on success')
+          this.$router.replace({name: 'Motos'})
         })
         .catch((error) => {
           console.error(error)
           alert('User already exists')
-          // TODO: error de POST (comprobar si ya existe email igual/DNI/NIE), se hace en backend
         })
     }
   }

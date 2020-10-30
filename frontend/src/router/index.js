@@ -8,6 +8,8 @@ import Login from '@/components/Login.vue'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
   routes: [
     {
       path: '/Motos',
@@ -15,7 +17,7 @@ export default new Router({
       component: Motos
     },
     {
-      path: '/Homepage',
+      path: '/',
       name: 'Homepage',
       component: Homepage
     },
