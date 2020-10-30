@@ -112,7 +112,8 @@ export default {
       axios.post(path, parameters)
         .then((res) => {
           alert('User created on success')
-          this.$router.replace({name: 'Motos'})
+          // this.$router.replace({name: 'Motos'})
+          this.$router.push({ path: '/motospage', query: { nombre: this.user.completeName } })
         })
         .catch((error) => {
           console.error(error)
