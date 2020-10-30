@@ -45,12 +45,12 @@ Para volver a crear la base de datos:
 #from add_data import init_db
 #init_db()
 
-api.add_resource(ArticlesList,"/articles")
+api.add_resource(ArticlesList, "/articles")
 
 api.add_resource(Client, "/client/<int:client_id>", "/client")
 api.add_resource(ClientsList, '/clients')
 
-api.add_resource(Moto,"/moto/<int:id>","/moto")
+api.add_resource(Moto, "/moto/<int:id>", "/moto")
 api.add_resource(MotosList, '/motos')
 
 api.add_resource(Login, '/login')

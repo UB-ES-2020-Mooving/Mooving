@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.moto_model import MotoModel
+from geopy.distance import distance
 
 
 class Moto(Resource):
@@ -69,9 +70,13 @@ class Moto(Resource):
 
 class MotosList(Resource):
     def get(self):
+        coord_client = (23.4433, 23.4433)
         data = {'motos': []}
         motos = MotoModel.get_all()
         for m in motos:
-            data['motos'].append(m.json())
+            lista_motos = m.json_listmotos()
+            lista_motos['distance_client'] = distance((m.get_last_coordinate_latitude(), m.get_last_coordinate_longitude()), coord_client).m
+            data['motos'].append(lista_motos)
 
+        data['motos'].sort(key=lambda x: x["distance_client"])
         return data

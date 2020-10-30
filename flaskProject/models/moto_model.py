@@ -73,6 +73,20 @@ class MotoModel(db.Model):
         }
         return data
 
+    def json_listmotos(self):
+        data = {
+            'matricula': self.matricula,
+            'model_generic': self.model_generic,
+            'km_restantes': self.km_restantes,
+        }
+        return data
+
+    def get_last_coordinate_latitude(self):
+        return self.last_coordinate_latitude
+
+    def get_last_coordinate_longitude(self):
+        return self.last_coordinate_longitude
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
