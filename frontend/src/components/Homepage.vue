@@ -21,10 +21,10 @@
       <!-- Links -->
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="#">Log in</a>
+          <router-link to="/userlogin">Log in</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Sign up</a>
+          <router-link to="/userregister">Sign up</router-link>
         </li>
       </ul>
     </nav>

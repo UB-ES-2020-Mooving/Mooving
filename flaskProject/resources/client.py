@@ -25,11 +25,11 @@ class Client(Resource):
 
         c = ClientModel.query.filter_by(email=data['email']).first()
         if c:
-            return {'message': 'A client with same email [{}] already exists'.format(data['email'])}, 400
+            return {'message': 'A client with same email [{}] already exists'.format(data['email'])}, 409
 
         c = ClientModel.query.filter_by(dni_nie=data['dni_nie']).first()
         if c:
-            return {'message': 'A client with same DNI/NIE [{}] already exists'.format(data['dni_nie'])}, 400
+            return {'message': 'A client with same DNI/NIE [{}] already exists'.format(data['dni_nie'])}, 409
 
         entry = ClientModel(data['nombre'],data['iban'],data['dni_nie'],data['email'],data['password'])
         entry.save_to_db()

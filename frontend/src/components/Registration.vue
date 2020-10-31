@@ -65,6 +65,7 @@
 
 <script>
 import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
+import axios from 'axios'
 
 export default {
   name: 'Registration',
@@ -100,8 +101,24 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      // TODO: alert('User already exists'), una vez tengo el database, y con axios, catch error de POST (comprobar si ya existe email igual/DNI/NIE)
-      alert('User created on success')
+      const parameters = {
+        nombre: this.user.completeName,
+        email: this.user.email,
+        iban: this.user.iban,
+        dni_nie: this.user.dniNie,
+        password: this.user.password
+      }
+      const path = 'http://localhost:5000/client'
+      axios.post(path, parameters)
+        .then((res) => {
+          alert('User created on success')
+          // this.$router.replace({name: 'Motos'})
+          this.$router.push({ path: '/motospage', query: { nombre: this.user.completeName } })
+        })
+        .catch((error) => {
+          console.error(error)
+          alert('User already exists')
+        })
     }
   }
 }

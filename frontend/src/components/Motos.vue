@@ -10,7 +10,7 @@
           <div class="col-sm">Distance</div>
           <div class="col-sm">Type</div>
         </div>
-        <button v-for="item in displayed_motos.items.sort(function(a, b){return a.distance - b.distance})" :key="item.license_plate" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto()">
+        <button v-for="item in displayed_motos.items" :key="item.license_plate" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto()">
           <div class="row">
             <div class="col-sm">{{item.license_plate}}</div>
             <div class="col-sm">{{item.distance}}</div>
