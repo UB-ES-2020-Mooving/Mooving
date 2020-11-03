@@ -61,8 +61,8 @@ export default {
       axios.get(path)
         .then((res) => {
           this.available_motos = res.data.motos
-          alert(res.data.motos)
-          alert(res.data.motos.length)
+          // alert(res.data.motos)
+          // alert(res.data.motos.length)
           console.log(res.data.motos)
         })
         .catch((error) => {
