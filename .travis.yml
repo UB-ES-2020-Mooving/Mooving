@@ -4,4 +4,24 @@ language:
   - python
 python:
   - 3.8.5
+install:
+  - pip install -r flaskProject/requirements.txt
+  - ./create_db.sh
+  - cp 
+script:
+  - echo "Success"
+branches:
+  only:
+    - master
+    - develop
+    - us6_deployment
+deploy:
+  skip_cleanup: true
+  provider: heroku
+  apikey:
+    secure: ADD_API_KEY_HERE
+  app:
+    master: mooving
+    develop: mooving-develop
+    us6_deployment: mooving-us6-deployment
 
