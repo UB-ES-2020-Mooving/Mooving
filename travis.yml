@@ -4,7 +4,8 @@ language:
   - python
 python:
   - 3.8.5
-install: true
+install:
+  - echo "Success"
 script: 
   - echo "Success"
 branches:
