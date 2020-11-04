@@ -8,7 +8,7 @@ class MotoModel(db.Model):
     # Atributo ID
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     # Atributo estado de la moto
-    state = db.Column(db.Enum(*states_moto), nullable=False)
+    state = db.Column(db.Enum(*states_moto, name='states_types'), nullable=False)
     # Atributo matricula de la moto
     matricula = db.Column(db.String(30), nullable=False)
     # Fecha estreno de la moto
