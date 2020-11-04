@@ -1,0 +1,14 @@
+os: 
+  - linux
+language:
+  - python
+python:
+  - 3.8.5
+install: true
+script: 
+  - echo "Success"
+branches:
+  only:
+    - master
+    - develop
+    - us6_deployment
