@@ -13,6 +13,8 @@ branches:
   - master
   - develop
   - us6_deployment
+before_deploy:
+  - cd flaskProject
 deploy:
   skip_cleanup: true
   provider: heroku
@@ -23,4 +25,4 @@ deploy:
     develop: mooving-develop
     us6_deployment: provant999
 after_deploy:
-- "./create_db.sh"
+- ./create_db.sh
