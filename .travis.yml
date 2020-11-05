@@ -6,7 +6,6 @@ python:
 - 3.8.5
 install:
 - pip install -r flaskProject/requirements.txt
-- ./create_db.sh
 script:
 - echo "Success"
 branches:
@@ -23,3 +22,5 @@ deploy:
     master: mooving
     develop: mooving-develop
     us6_deployment: provant999
+after_deploy:
+  - ./create_db.sh
