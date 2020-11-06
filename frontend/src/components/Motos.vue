@@ -57,7 +57,7 @@ export default {
       this.displayed_motos = this.available_motos
     },
     getAvailableMotos () {
-      const path = 'https://mooving-dev-ops.herokuapp.com/motos'
+      const path = 'http://127.0.0.1:5000/motos'
       axios.get(path)
         .then((res) => {
           this.available_motos = res.data.motos
