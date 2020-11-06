@@ -1,27 +1,28 @@
-os: 
-  - linux
+os:
+- linux
 language:
-  - python
+- python
 python:
-  - 3.8.5
+- 3.8.5
 install:
-  - pip install -r flaskProject/requirements.txt
-  - ./create_db.sh
-  - cp 
+- pip install -r flaskProject/requirements.txt
 script:
-  - echo "Success"
+- echo "Success"
 branches:
   only:
-    - master
-    - develop
-    - us6_deployment
+  - master
+  - develop
+  - us6_deployment
+before_deploy:
+  - cd flaskProject
 deploy:
   skip_cleanup: true
   provider: heroku
-  apikey:
-    secure: ADD_API_KEY_HERE
+  api_key:
+    secure: cEQKjP0/iwu1w0pejwgucUD4oRHDBErb3iQbYPlV6ARxDcQFa/d6FfBu/UkhwqH09msfVnEwmF0XRgU54C3fPl3v4oZrT/vHnRm/yihXaqkm8PWBdStFC8WPTIX9KJjpx6eol4G3dLl0joNjN5eq3OfH3hjfpHzjfOZls12sVJ5LdjfaXoFpv5vI4o00GD84yP3Ttlnhs31R6hbNodc2LliqjRjHHka0NMGm/7ZPBtb+BHCzePly0r7VRf+8VstqbaPZSktBHMkm9wYhXrTd0u/4BdFvlNk40guWoGKjdJb0AW12IRiRoOdKel+m0YBEABHu9TF3fAz+la32SBsisPeyHA5IRpxdtn/OkheInQ7EFZ08RhmvSqRGnt52+Qd+IqXJu3005lYWanxdy0YOP07XbD2LejfdbvQnV98ukT6jEvNJrzWFHFMYUw5yYxnXLKRqAT/LkKdmspNnHEnUlNwx3NG47BpKRh6DNDK6fQmFef6p24ogwDMJOUkuRToZu7YDBn9jjg3WcsinxYA+HNYQEb60oh5dDrkFdyBlW9Yil3KXVR0KN6kzzxKAYBmcWmE9Gflo0j7OXfsz0CzDGnu07kipuVu2L1KR78VLc3n7WoES3JoAS0Q1DvFfMW/3h/Pl8Czjb2pU9n6K2/x0Wr0AHOv9ZMDCHbKL0gKGgEo=
   app:
     master: mooving
     develop: mooving-develop
-    us6_deployment: mooving-us6-deployment
-
+    us6_deployment: provant999
+after_deploy:
+- ./create_db.sh

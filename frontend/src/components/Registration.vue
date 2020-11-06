@@ -108,7 +108,7 @@ export default {
         dni_nie: this.user.dniNie,
         password: this.user.password
       }
-      const path = 'https://mooving-dev-ops.herokuapp.com/client'
+      const path = 'http://127.0.0.1:5000/client'
       axios.post(path, parameters)
         .then((res) => {
           alert('User created on success')
