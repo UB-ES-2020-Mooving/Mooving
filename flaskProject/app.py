@@ -21,10 +21,12 @@ app = Flask(__name__)
 environment = config['development']
 app.template_folder = '../frontend/dist'
 app.static_folder = '../frontend/dist/static'
-if config_decouple('PRODUCTION', cast=bool, default=False):
-    environment = config['production']
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#if config_decouple('PRODUCTION', cast=bool, default=False):
+#    environment = config['production']
 
-app.config.from_object(environment)
+#app.config.from_object(environment)
 
 api = Api(app)
 CORS(app, resources={r'/*': {'origins':'*'}})
