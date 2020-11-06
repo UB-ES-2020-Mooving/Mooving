@@ -1,10 +1,34 @@
 <template>
   <div id="app">
     <h1> {{ name }} </h1>
-    <!-- Lista de motos -->
+    <!-- Lista de motos para el mecanico-->
     <div class="list-group">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
-      <div id="lista_motos" v-if="available_motos.length>0" class="center-screen">
+      <div id="lista_motos_mechanic" v-if="displayed_motos.length>0" class="center-screen">
+        <div class="row">
+          <div class="col-sm">License plate</div>
+          <div class="col-sm">State</div>
+          <div class="col-sm">Distance</div>
+          <div class="col-sm">Type</div>
+        </div>
+        <button v-for="item in displayed_motos" :key="item.id" type="button" class="list-group-item list-group-item-action"  @click="checkMoto()">
+          <div class="row">
+            <div class="col-sm">{{item.license_plate}}</div>
+            <div class="col-sm">{{item.state}}</div>
+            <div class="col-sm">{{item.distance}}</div>
+            <div class="col-sm">{{item.type}}</div>
+          </div>
+        </button>
+      </div>
+      <!-- Mensaje si no hay motos que el mecanico necesite reparar -->
+      <div id="no_motos_mechanic" v-if="displayed_motos.length===0" class="center-screen">
+        <p>{{message_no_motos_mechanic_to_check}}</p>
+      </div>
+    </div>
+    <!-- Lista de motos para el cliente-->
+    <div class="list-group">
+      <!-- Mostrar cabecera y lista solo si hay elementos -->
+      <div id="lista_motos_client" v-if="available_motos.length>0" class="center-screen">
         <div class="row">
           <div class="col-sm">License plate</div>
           <div class="col-sm">Distance</div>
@@ -18,8 +42,8 @@
           </div>
         </button>
       </div>
-        <!-- Mensaje si no hay motos -->
-        <div id="no_motos" v-if="available_motos.length===0" class="center-screen">
+        <!-- Mensaje si no hay motos disponibles para que el cliente utilice-->
+        <div id="no_motos_client" v-if="available_motos.length===0" class="center-screen">
           <p>There are no motos availables</p>
         </div>
     </div>
@@ -41,7 +65,8 @@ export default {
       },
       displayed_motos: {
         items: []
-      }
+      },
+      message_no_motos_mechanic_to_check: 'No motos to check'
     }
   },
   created () {
@@ -52,7 +77,9 @@ export default {
     reserveMoto () {
       // Nos lleva a otra pagina donde se ve la info especifica de la moto
     },
-
+    checkMoto () {
+      // El mecanico accede a una pagina con mas info de la moto
+    },
     displayAvailableMotosList () {
       this.displayed_motos = this.available_motos
     },
