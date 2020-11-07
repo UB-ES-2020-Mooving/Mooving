@@ -76,7 +76,7 @@ export default {
         .catch((error) => {
           // eslint-disable-next-line
           console.error(error)
-          alert('Username or Password incorrect')
+          alert('email or password incorrect')
         })
     }
   }
