@@ -31,7 +31,7 @@
       <div id="lista_motos_client" v-if="available_motos.length>0" class="center-screen">
         <div class="row">
           <div class="col-sm">License plate</div>
-          <div class="col-sm">Distance</div>
+          <div class="col-sm">Distance (in meters)</div>
           <div class="col-sm">Type</div>
         </div>
         <button v-for="item in available_motos" :key="item.matricula" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto()">
@@ -42,10 +42,10 @@
           </div>
         </button>
       </div>
-        <!-- Mensaje si no hay motos disponibles para que el cliente utilice-->
-        <div id="no_motos_client" v-if="available_motos.length===0" class="center-screen">
-          <p>There are no motos availables</p>
-        </div>
+      <!-- Mensaje si no hay motos disponibles para que el cliente utilice-->
+      <div id="no_motos_client" v-if="available_motos.length===0" class="center-screen">
+          <p>{{ message_no_motos_available }}</p>
+      </div>
     </div>
   </div>
   <!-- Mostrar la lista de motos -->
@@ -66,7 +66,8 @@ export default {
       displayed_motos: {
         items: []
       },
-      message_no_motos_mechanic_to_check: 'No motos to check'
+      message_no_motos_mechanic_to_check: 'No motos to check',
+      message_no_motos_available: 'There are no motos available'
     }
   },
   created () {

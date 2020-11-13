@@ -1,14 +1,13 @@
 #!/bin/sh
-cd flaskProject
-if [ -e "migration" ]; then
+if [ -e "migrations" ]; then
     rm -r "migrations"
 fi
 
-if [ -e "__py_cahce__" ]; then
-    rm -r "__pycahce__"
+if [ -e "__pycache__" ]; then
+    rm -r "__pycache__"
 fi
 
-if [ -e "data.db" ]; then
+if [ -f "data.db" ]; then
     rm "data.db"
 fi
 
@@ -16,3 +15,4 @@ flask db init
 flask db migrate -m "Initial migration"
 flask db upgrade
 cd ..
+echo "Succes creating empty database"
