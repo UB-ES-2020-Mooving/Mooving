@@ -21,7 +21,8 @@ def init_db():
         last_coordinate_longitude=23.4432,
         km_restantes=80.0,
         km_totales=0.0,
-        date_last_check="18/10/2020")
+        date_last_check="18/10/2020",
+        km_last_check=0.0)
     db.session.add(new_moto1)
 
     new_moto2 = MotoModel(
@@ -33,7 +34,8 @@ def init_db():
         last_coordinate_longitude=23.4433,
         km_restantes=80.0,
         km_totales=0.0,
-        date_last_check="18/10/2020")
+        date_last_check="18/10/2020",
+        km_last_check=0.0)
     db.session.add(new_moto2)
 
     new_moto3 = MotoModel(
@@ -45,7 +47,8 @@ def init_db():
         last_coordinate_longitude=23.4433,
         km_restantes=120.0,
         km_totales=0.0,
-        date_last_check="18/10/2020")
+        date_last_check="18/10/2020",
+        km_last_check=0.0)
     db.session.add(new_moto3)
 
     new_moto4 = MotoModel(
@@ -57,7 +60,8 @@ def init_db():
         last_coordinate_longitude=23.4432,
         km_restantes=120.0,
         km_totales=0.0,
-        date_last_check="18/10/2020")
+        date_last_check="18/10/2020",
+        km_last_check=0.0)
     db.session.add(new_moto4)
 
     client1 = ClientModel(
