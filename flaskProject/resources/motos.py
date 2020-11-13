@@ -80,3 +80,20 @@ class MotosList(Resource):
 
         data['motos'].sort(key=lambda x: x["distance_client"])
         return data
+
+
+class MechanicMotosList(Resource):
+    def get(self):
+        coord_client = (23.4433, 23.4433)
+        data = {'motos': []}
+        motos = MotoModel.get_all()
+        for m in motos:
+            lista_motos = m.json_mechaniclistmotos()
+            distancia_metros = distance((m.get_last_coordinate_latitude(), m.get_last_coordinate_longitude()), coord_client).m
+            lista_motos['distance'] =  round(distancia_metros, 1) #distance to the user in meters with 1 decimals
+            data['motos'].append(lista_motos)
+
+        data['motos'].sort(key=lambda x: x['distance'])
+        return data
+
+

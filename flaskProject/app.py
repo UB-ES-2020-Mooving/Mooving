@@ -11,7 +11,7 @@ from models.client_model import ClientModel
 from resources.article import ArticlesList
 
 from resources.client import Client, ClientsList
-from resources.motos import Moto, MotosList
+from resources.motos import Moto, MotosList, MechanicMotosList
 from resources.login import Login
 
 #configuration of the app
@@ -63,6 +63,7 @@ api.add_resource(ClientsList, '/clients')
 
 api.add_resource(Moto, "/moto/<int:id>", "/moto")
 api.add_resource(MotosList, '/motos')
+api.add_resource(MechanicMotosList, '/mechanicMotos')
 
 api.add_resource(Login, '/login')
 
