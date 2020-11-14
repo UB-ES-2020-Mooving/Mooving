@@ -57,7 +57,7 @@ export default {
       this.displayed_motos = this.available_motos
     },
     getAvailableMotos () {
-      const path = 'http://127.0.0.1:5000/motos'
+      const path = process.env.VUE_APP_CALL_PATH + '/motos'
       axios.get(path)
         .then((res) => {
           this.available_motos = res.data.motos
