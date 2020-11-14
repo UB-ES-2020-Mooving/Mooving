@@ -1,5 +1,13 @@
 <template>
-  <div id="app">
+  <div id="app" style="margin-top: 0">
+    <!-- Nav bar with the logo of the company -->
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <!-- Brand -->
+      <a class="navbar-brand" href="#">
+        <img src="./Images/moovingLogoBlanco.png" alt= "Logo" style= "width:100px; margin-top: 0">
+      </a>
+    </nav>
+    <!-- Title of the page -->
     <h1> {{ name }} </h1>
     <!-- Lista de motos para el mecanico-->
     <div class="list-group">
@@ -122,3 +130,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  nav {
+    border-top: 1px solid black;    /* in place of the word "black", you can use #000000 or rgb(0,0,0) */
+    border-bottom: 1px solid black;
+    margin: 0;
+  }
+</style>
