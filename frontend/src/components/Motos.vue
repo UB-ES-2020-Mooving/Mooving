@@ -72,7 +72,8 @@ export default {
     }
   },
   created () {
-    this.getAvailableMotos()
+    this.getAvailableMotos() // Gets the motos that are available for the client to use
+    this.getMotosToCheck() // Gets the motos that need to be checked by the mechanic
     this.displayAvailableMotosList()
   },
   methods: {
@@ -103,6 +104,20 @@ export default {
     },
     displayFilteredMotosList () {
       // this.displayed_motos = this.filtered_motos
+    },
+    getMotosToCheck () {
+      const path = 'http://127.0.0.1:5000/mechanicMotos'
+      axios.get(path)
+        .then((res) => {
+          this.displayed_motos = res.data.motos
+          // alert(res.data.motos)
+          alert(res.data.motos.length)
+          console.log(res.data.motos)
+        })
+        .catch((error) => {
+          console.error(error)
+          alert(error)
+        })
     }
   }
 }
