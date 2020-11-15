@@ -29,6 +29,8 @@ case $BRANCH in
 esac
 #move build files
 cd ..
-\cp -r patata/dist flaskProject
+\cp -r patata/dist/static flaskProject
+mkdir flaskProject/templates
+\cp patata/dist/index.html flaskProject/templates
 #Done
 echo "Success"
