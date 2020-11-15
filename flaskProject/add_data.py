@@ -129,4 +129,4 @@ def init_db():
     db.session.commit()
     print('Success in adding items to database')
 
-init_db()
+#init_db()

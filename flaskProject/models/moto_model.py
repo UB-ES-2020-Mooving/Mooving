@@ -83,6 +83,8 @@ class MotoModel(db.Model):
             'matricula': self.matricula,
             'model_generic': self.model_generic,
             'km_restantes': self.km_restantes,
+            'last_coordinate_latitude': self.last_coordinate_latitude,
+            'last_coordinate_longitude': self.last_coordinate_longitude,
         }
         return data
 
@@ -106,6 +108,8 @@ class MotoModel(db.Model):
             'id': self.id,
             'time_since_last_check': time_since_last_check , #days since last check
             'km_since_last_check': self.km_totales - self.km_last_check , #km since last check
+            'last_coordinate_latitude': self.last_coordinate_latitude,
+            'last_coordinate_longitude': self.last_coordinate_longitude,
         }
         return data
 
