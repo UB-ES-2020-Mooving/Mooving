@@ -71,7 +71,11 @@ export default {
       const path = `http://127.0.0.1:5000/login`
       axios.post(path, parameters)
         .then((res) => {
-          this.$router.push({ path: '/motospage', query: { nombre: res.data.client.nombre } })
+          if (res.data.type === 'client') {
+            this.$router.push({ path: '/motospage', query: { nombre: res.data.client.nombre } })
+          } else {
+            this.$router.push({ path: '/motospage', query: { nombre: res.data.mechanic.name } })
+          }
         })
         .catch((error) => {
           // eslint-disable-next-line

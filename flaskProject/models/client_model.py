@@ -17,8 +17,8 @@ class ClientModel(db.Model):
     # Bancario
     iban = db.Column(db.String(34), nullable=False)
     # Únicos
-    dni_nie = db.Column(db.String(9), nullable=False, unique=True)
-    email = db.Column(db.String(50), nullable=False, unique=True)
+    dni_nie = db.Column(db.String(9), nullable=False)
+    email = db.Column(db.String(50), nullable=False)
 
     # Provisional
     password = db.Column(db.String(20), nullable=False)
