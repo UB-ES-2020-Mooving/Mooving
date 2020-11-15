@@ -22,9 +22,9 @@ app.static_folder = '../frontend/dist/static'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-if config('PRODUCTION', cast=bool, default=False):
+if config('PRODUCTION', cast=bool, default=True):
     app.template_folder = '/templates'
-    app.static_folder = '/templates'
+    app.static_folder = '/static'
     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL', default='localhost')
 
 api = Api(app)
