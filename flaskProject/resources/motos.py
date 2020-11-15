@@ -108,15 +108,9 @@ class MechanicMotosList(Resource):
         coord_client = (23.4433, 23.4433)
         data = {'motos': []}
         motos = MotoModel.get_all()
-        for m in motos:
-            lista_motos = m.json_mechaniclistmotos()
-            distancia_metros = distance((m.get_last_coordinate_latitude(), m.get_last_coordinate_longitude()),
-                                        coord_client).m
-            lista_motos['distance'] = round(distancia_metros, 1)  # distance to the user in meters with 1 decimals
-            data['motos'].append(lista_motos)
-
-        data['motos'].sort(key=lambda x: x['distance'])
-        return data
+        motos_json = [m.json_listmotos() for m in motos]
+        result = compute_distance(motos_json, coord_client, "distance")
+        return result
 
 
 def compute_distance(motos, coord, key_name, max_dist=float("inf")):
@@ -127,7 +121,7 @@ def compute_distance(motos, coord, key_name, max_dist=float("inf")):
             raise NameError('key_name ERROR. key_name cannot be the same as other keys'
                             'in the JSON.')
     # Valor al que se redondea la distancia
-    round_value = 10
+    round_value = 1
     data = {'motos': []}
     for m in motos:
         distancia_metros = distance((m['last_coordinate_latitude'], m['last_coordinate_latitude']), coord).m
