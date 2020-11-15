@@ -1,12 +1,18 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from decouple import config
 
 from models.article_model import ArticleModel
 from models.moto_model import MotoModel
 from models.client_model import ClientModel
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+if config('PRODUCTION', cast=bool, default=False):
+    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL', default='localhost')
+
 db = SQLAlchemy(app)
 
 def init_db():

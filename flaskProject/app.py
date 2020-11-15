@@ -14,19 +14,18 @@ from resources.client import Client, ClientsList
 from resources.motos import Moto, MotosList
 from resources.login import Login
 
-#configuration of the app
-from decouple import config as config_decouple
-from config import config
+# App configuration, local by default
+from decouple import config
 app = Flask(__name__)
-environment = config['development']
 app.template_folder = '../frontend/dist'
 app.static_folder = '../frontend/dist/static'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#if config_decouple('PRODUCTION', cast=bool, default=False):
-#    environment = config['production']
 
-#app.config.from_object(environment)
+if config('PRODUCTION', cast=bool, default=False):
+    app.template_folder = '/templates'
+    app.static_folder = '/templates'
+    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL', default='localhost')
 
 api = Api(app)
 CORS(app, resources={r'/*': {'origins':'*'}})
