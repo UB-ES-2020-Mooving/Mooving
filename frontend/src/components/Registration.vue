@@ -113,11 +113,11 @@ export default {
         .then((res) => {
           alert('User created on success')
           // this.$router.replace({name: 'Motos'})
-          this.$router.push({ path: '/motospage', query: { nombre: this.user.completeName } })
+          this.$router.push({ path: '/motospage', query: { email: this.user.email } })
         })
         .catch((error) => {
           console.error(error)
-          alert('A user with the same email or DNI/NIE already exists.')
+          alert('User already exists')
         })
     }
   }

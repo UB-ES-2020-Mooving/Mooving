@@ -71,12 +71,12 @@ export default {
       const path = `http://127.0.0.1:5000/login`
       axios.post(path, parameters)
         .then((res) => {
-          this.$router.push({ path: '/motospage', query: { nombre: res.data.client.nombre } })
+          this.$router.push({ path: '/motospage', query: { email: res.data.client.email } })
         })
         .catch((error) => {
           // eslint-disable-next-line
           console.error(error)
-          alert('email or password incorrect')
+          alert('Username or Password incorrect')
         })
     }
   }
