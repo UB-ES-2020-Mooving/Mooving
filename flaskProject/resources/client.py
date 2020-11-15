@@ -6,7 +6,7 @@ class Client(Resource):
     def get(self, client_id):
         c = ClientModel.query.filter_by(client_id=client_id).first()
         if c:
-            return {'client':c.json()}, 200
+            return {'client': c.json()}, 200
         else:
             return {'message': 'There is no client with ID [{}] .'.format(client_id)}, 404
 

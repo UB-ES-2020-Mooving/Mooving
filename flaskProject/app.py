@@ -6,12 +6,11 @@ from db import db
 from flask_cors import CORS
 from flask import render_template
 
-from models.moto_model import MotoModel
-from models.client_model import ClientModel
 from resources.article import ArticlesList
+from resources.mechanic import Mechanic, MechanicList
 
 from resources.client import Client, ClientsList
-from resources.motos import Moto, MotosList, MechanicMotosList
+from resources.motos import Moto, ClientMotosList, MechanicMotosList
 from resources.login import Login
 
 #configuration of the app
@@ -62,11 +61,13 @@ api.add_resource(Client, "/client/<int:client_id>", "/client")
 api.add_resource(ClientsList, '/clients')
 
 api.add_resource(Moto, "/moto/<int:id>", "/moto")
-api.add_resource(MotosList, '/motos')
+api.add_resource(ClientMotosList, '/motos')
 api.add_resource(MechanicMotosList, '/mechanicMotos')
 
 api.add_resource(Login, '/login')
 
+api.add_resource(Mechanic, "/mechanic/<int:id>", "/mechanic")
+api.add_resource(MechanicList, '/mechanics')
 
 
 @app.route('/')
