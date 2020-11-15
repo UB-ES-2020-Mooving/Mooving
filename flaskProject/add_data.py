@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from models.article_model import ArticleModel
 from models.moto_model import MotoModel
 from models.client_model import ClientModel
+from models.mechanic_model import MechanicModel
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -64,6 +66,32 @@ def init_db():
         km_last_check=0.0)
     db.session.add(new_moto4)
 
+    new_moto5 = MotoModel(
+        state="LOW_BATTERY_FUEL",
+        matricula="5555-MMM",
+        date_estreno="08/10/2020",
+        model_generic="premium",
+        last_coordinate_latitude=23.4434,
+        last_coordinate_longitude=23.4431,
+        km_restantes=30.0,
+        km_totales=100.0,
+        date_last_check="18/10/2020",
+        km_last_check=100.0)
+    db.session.add(new_moto5)
+
+    new_moto6 = MotoModel(
+        state="LOW_BATTERY_FUEL",
+        matricula="5555-MMM",
+        date_estreno="08/10/2020",
+        model_generic="premium",
+        last_coordinate_latitude=23.4434,
+        last_coordinate_longitude=23.4431,
+        km_restantes=30.0,
+        km_totales=100.0,
+        date_last_check="18/10/2020",
+        km_last_check=100.0)
+    db.session.add(new_moto6)
+
     client1 = ClientModel(
         nombre = "Juana",
         iban = "2223462362665251w",
@@ -116,6 +144,7 @@ def init_db():
         fecha_creacion = "2020/10/29",
         visible = True)
     db.session.add(articulo1)
+
     articulo1=ArticleModel(
         titulo = "¡Motos más rápidas !",
         texto = "Las nuevas motos de Mooving son más rápidas que las de la competencia."
@@ -125,8 +154,25 @@ def init_db():
         visible = True)
     db.session.add(articulo1)
 
+    new_mechanic = MechanicModel(
+        name="Jose",
+        subname="De carglass",
+        dni="11111111J",
+        password="1234",
+        date_registration="23/02/2020")
+    db.session.add(new_mechanic)
+
+    new_mechanic = MechanicModel(
+        name="Pepe",
+        subname="De marcota",
+        dni="22222222J",
+        password="1234",
+        date_registration="24/02/2020")
+    db.session.add(new_mechanic)
 
     db.session.commit()
     print('Success in adding items to database')
 
+
 #init_db()
+
