@@ -74,7 +74,7 @@ class Moto(Resource):
             return {"message": "Error Put Moto"}, 500
 
 
-class MotosList(Resource):
+class ClientMotosList(Resource):
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('model_generic', type=str)
@@ -84,7 +84,7 @@ class MotosList(Resource):
         data = parser.parse_args()
 
         # coord_client = (data["client_coordinate_latitude"], data["client_coordinate_longitude"])
-        coord_client = (23.4433, 23.4433)
+        coord_client = (23.44333, 23.4433)
 
         # Si model generic no es None
         if data['model_generic']:
@@ -105,10 +105,10 @@ class MotosList(Resource):
 
 class MechanicMotosList(Resource):
     def get(self):
-        coord_client = (23.4433, 23.4433)
+        coord_client = (23.44333, 23.4433)
         data = {'motos': []}
         motos = MotoModel.get_all()
-        motos_json = [m.json_listmotos() for m in motos]
+        motos_json = [m.json_mechaniclistmotos() for m in motos]
         result = compute_distance(motos_json, coord_client, "distance")
         return result
 
