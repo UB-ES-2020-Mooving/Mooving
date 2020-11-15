@@ -17,9 +17,9 @@ from resources.login import Login
 # App configuration, local by default
 from decouple import config
 app = Flask(__name__)
-app.template_folder = '../frontend/dist'
-app.static_folder = '../frontend/dist/static'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+#app.template_folder = '../frontend/dist'
+#app.static_folder = '../frontend/dist/static'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 if config('PRODUCTION', cast=bool, default=True):
