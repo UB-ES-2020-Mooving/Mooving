@@ -30,6 +30,7 @@ esac
 #move build files
 cd ..
 \cp -r patata/dist/static flaskProject
+\cp patata/dist/favicon.ico flaskProject/static
 mkdir flaskProject/templates
 \cp patata/dist/index.html flaskProject/templates
 #Done
