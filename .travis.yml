@@ -1,18 +1,18 @@
 os:
 - linux
 language:
-- python
-python:
-- 3.8.5
+- node_js
+node_js:
+- 15.0.1
 install:
-- pip install -r flaskProject/requirements.txt
+- echo "Starting"
 script:
-- echo "Success"
+- ./build_frontend.sh
 branches:
   only:
   - master
   - develop
-  - us6_deployment
+  - TR6T1_CD
 before_deploy:
   - cd flaskProject
 deploy:
@@ -23,6 +23,6 @@ deploy:
   app:
     master: mooving
     develop: mooving-develop
-    us6_deployment: provant999
+    TR6T1_CD: provant999
 after_deploy:
 - ./create_db.sh
