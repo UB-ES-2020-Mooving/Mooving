@@ -8,11 +8,9 @@
       <div id="lista_motos_mechanic" v-if="displayed_motos.length>0" class="center-screen">
         <button v-for="item in displayed_motos" :key="item.license_plate" type="button" class="list-group-item list-group-item-action"  @click="checkMoto()">
           <div class="row">
-            <div class="text-left">
-              <div class="col-sm" style="font-weight: bold;">{{item.license_plate}}</div>
-            </div>
+            <div class="col-sm" style="font-weight: bold;">{{item.license_plate}}</div>
             <div class="col-sm" style="font-weight: bold;">State: {{item.state}}</div>
-            <div class="col-sm">Distance (in meters): {{item.distance}}</div>
+            <div class="col-sm">Distance: {{item.distance}}m</div>
             <div class="col-sm">Type: {{item.type}}</div>
           </div>
         </button>
@@ -27,16 +25,11 @@
     <div class="list-group">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
       <div id="lista_motos_client" v-if="available_motos.length>0" class="center-screen">
-        <div class="row">
-          <div class="col-sm">License plate</div>
-          <div class="col-sm">Distance (in meters)</div>
-          <div class="col-sm">Type</div>
-        </div>
         <button v-for="item in available_motos" :key="item.matricula" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto()">
           <div class="row">
-            <div class="col-sm">{{item.matricula}}</div>
-            <div class="col-sm">{{item.distance_client}}</div>
-            <div class="col-sm">{{item.model_generic}}</div>
+            <div class="col-sm" style="font-weight: bold;">{{item.matricula}}</div>
+            <div class="col-sm">Distance: {{item.distance_client}}m</div>
+            <div class="col-sm">Type: {{item.model_generic}}</div>
           </div>
         </button>
       </div>
@@ -124,11 +117,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  nav {
-    border-top: 1px solid black;    /* in place of the word "black", you can use #000000 or rgb(0,0,0) */
-    border-bottom: 1px solid black;
-    margin: 0;
-  }
-</style>
