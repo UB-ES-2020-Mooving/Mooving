@@ -68,7 +68,9 @@ export default {
         email: this.user.email,
         password: this.user.password
       }
-      const path = `http://127.0.0.1:5000/login`
+      console.log('variable')
+      console.log(process.env.VUE_APP_CALL_PATH)
+      const path = process.env.VUE_APP_CALL_PATH + '/login'
       axios.post(path, parameters)
         .then((res) => {
           if (res.data.type === 'client') {

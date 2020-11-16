@@ -87,7 +87,7 @@ export default {
         items: []
       },
       displayed_motos: {
-        items: [ ]
+        items: []
       },
       message_no_motos_mechanic_to_check: 'No motos to check',
       message_no_motos_available: 'There are no motos available'
@@ -111,7 +111,7 @@ export default {
       // alert(this.displayed_motos.items.length)
     },
     getAvailableMotos () {
-      const path = 'http://127.0.0.1:5000/motos'
+      const path = process.env.VUE_APP_CALL_PATH + '/motos'
       axios.get(path)
         .then((res) => {
           this.available_motos = res.data.motos

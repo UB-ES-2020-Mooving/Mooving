@@ -1,14 +1,20 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from decouple import config
 
 from models.article_model import ArticleModel
 from models.moto_model import MotoModel
 from models.client_model import ClientModel
+
 from models.mechanic_model import MechanicModel
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+if config('PRODUCTION', cast=bool, default=False):
+    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL', default='localhost')
+
 db = SQLAlchemy(app)
 
 def init_db():
@@ -173,5 +179,7 @@ def init_db():
     db.session.commit()
     print('Success in adding items to database')
 
+
 #Si usa script --> deja la linea de abajo descomentada
+
 init_db()
