@@ -5,6 +5,7 @@
 FRONTEND=mooving
 npm install -g @vue/cli
 #Create vue project
+echo $FRONTEND
 vue create --preset preset_v1.json $FRONTEND
 sed -i 's/"rules": {}/"rules": {\n\t\t\t"no-unused-vars": "off"\n\t\t\t}/' $FRONTEND/package.json
 #copy frontend source files
