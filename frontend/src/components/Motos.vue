@@ -65,7 +65,7 @@ export default {
         items: []
       },
       displayed_motos: {
-        items: [ ]
+        items: []
       },
       message_no_motos_mechanic_to_check: 'No motos to check',
       message_no_motos_available: 'There are no motos available'
