@@ -21,10 +21,10 @@ case $BRANCH in
         ./node_modules/.bin/vue-cli-service build --mode devops
         ;;
     STAGING)
-        ./node_modules/.bin/vue-cli-service build --mode staging
+        ./node_modules/.bin/vue-cli-service build --mode staging --fix
         ;;
     PRODUCTION)
-        ./node_modules/.bin/vue-cli-service build --mode production
+        ./node_modules/.bin/vue-cli-service build --mode production --fix
         ;;
     *)
         ./node_modules/.bin/vue-cli-service build
