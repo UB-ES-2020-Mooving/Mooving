@@ -12,7 +12,7 @@ class MechanicModel(db.Model):
     # Subname
     subname = db.Column(db.String(30), nullable=False)
     # DNI
-    dni = db.Column(db.String(20), nullable=False)
+    dni = db.Column(db.String(20), nullable=False, unique=True)
     # Email
     email = db.Column(db.String(30))
     # Password

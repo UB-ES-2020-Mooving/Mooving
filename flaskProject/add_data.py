@@ -81,7 +81,7 @@ def init_db():
 
     new_moto6 = MotoModel(
         state="LOW_BATTERY_FUEL",
-        matricula="5555-MMM",
+        matricula="6666-MMM",
         date_estreno="08/10/2020",
         model_generic="premium",
         last_coordinate_latitude=23.4434,
@@ -173,5 +173,5 @@ def init_db():
     db.session.commit()
     print('Success in adding items to database')
 
-
-#init_db()
+#Si usa script --> deja la linea de abajo descomentada
+init_db()
