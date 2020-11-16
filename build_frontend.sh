@@ -7,7 +7,7 @@ npm install -g @vue/cli
 #Create vue project
 echo $FRONTEND
 vue create --preset preset_v1.json $FRONTEND
-sed -i 's/"rules": {}/"rules": {\n\t\t\t"no-unused-vars": "off"\n\t\t\t}/' $FRONTEND/package.json
+sed -i 's/"rules": {}/"rules": {\n\t\t\t"no-unused-vars": "off",\n\t\t\t"no-multiple-empty-lines": "off"\n\t\t\t}/' $FRONTEND/package.json
 #copy frontend source files
 \cp -r frontend/bootstrap frontend/src frontend/tests frontend/vue.config.js $FRONTEND
 #copy env files
