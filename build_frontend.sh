@@ -1,16 +1,18 @@
 #!/bin/sh
 
-#Script designed for creation and build ONLY on server depending on branch
+#Script designed for the creation and build of the frontend on server (ONLY) 
+
+FRONTEND=mooving
 npm install -g @vue/cli
 #Create vue project
-vue create --preset preset_v1.json patata
-sed -i 's/"rules": {}/"rules": {\n\t\t\t"no-unused-vars": "off"\n\t\t\t}/' patata/package.json
+vue create --preset preset_v1.json $FRONTEND
+sed -i 's/"rules": {}/"rules": {\n\t\t\t"no-unused-vars": "off"\n\t\t\t}/' $FRONTEND/package.json
 #copy frontend source files
-\cp -r frontend/bootstrap frontend/src frontend/tests frontend/vue.config.js patata
+\cp -r frontend/bootstrap frontend/src frontend/tests frontend/vue.config.js $FRONTEND
 #copy env files
-\cp frontend/.env.devops frontend/.env.production frontend/.env.staging patata 
+\cp frontend/.env.devops frontend/.env.production frontend/.env.staging $FRONTEND 
 #install depencies
-cd patata
+cd $FRONTEND
 npm install --save axios bootstrap-vue vuelidate vue-router
 #build depending on branch
 case $BRANCH in
@@ -29,9 +31,9 @@ case $BRANCH in
 esac
 #move build files
 cd ..
-\cp -r patata/dist/static flaskProject
-\cp patata/dist/favicon.ico flaskProject/static
+\cp -r $FRONTEND/dist/static flaskProject
+\cp $FRONTEND/dist/favicon.ico flaskProject/static
 mkdir flaskProject/templates
-\cp patata/dist/index.html flaskProject/templates
+\cp $FRONTEND/dist/index.html flaskProject/templates
 #Done
 echo "Success"
