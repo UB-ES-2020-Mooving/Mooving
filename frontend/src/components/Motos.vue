@@ -5,14 +5,12 @@
         <b-navbar-brand href="#">
           <img src="./Images/moovingLogoBlanco.png" alt= "Logo" style= "width:100px;">
         </b-navbar-brand>
-
         <b-navbar-toggle target="navbar-toggle-collapse">
           <template #default="{ expanded }">
             <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
             <b-icon v-else icon="chevron-bar-down"></b-icon>
           </template>
         </b-navbar-toggle>
-
         <b-collapse id="navbar-toggle-collapse" is-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item><router-link :to="{path: '/motospage', query: { email: email } }">Motos</router-link></b-nav-item>
@@ -23,13 +21,38 @@
     </div>
     <div id="app">
       <h1> {{ name }} </h1>
-      <!-- Lista de motos -->
+      <!-- Lista de motos para el mecanico-->
       <div class="list-group">
         <!-- Mostrar cabecera y lista solo si hay elementos -->
-        <div id="lista_motos" v-if="available_motos.length>0" class="center-screen">
+        <div id="lista_motos_mechanic" v-if="displayed_motos.length>0" class="center-screen">
           <div class="row">
             <div class="col-sm">License plate</div>
-            <div class="col-sm">Distance</div>
+            <div class="col-sm">State</div>
+            <div class="col-sm">Distance (in meters)</div>
+            <div class="col-sm">Type</div>
+          </div>
+          <button v-for="item in displayed_motos" :key="item.license_plate" type="button" class="list-group-item list-group-item-action"  @click="checkMoto()">
+            <div class="row">
+              <div class="col-sm" style="font-weight: bold;">{{item.license_plate}}</div>
+              <div class="col-sm" style="font-weight: bold;">{{item.state}}</div>
+              <div class="col-sm">{{item.distance}}</div>
+              <div class="col-sm">{{item.type}}</div>
+            </div>
+          </button>
+        </div>
+        <!-- Mensaje si no hay motos que el mecanico necesite reparar -->
+        <!-- Obs: inicialmente deberia ser displayed_motos.items.length pero al recibir la llamada del axios es sin el items-->
+        <div id="no_motos_mechanic" v-if="displayed_motos.length===0" class="center-screen">
+          <p>{{message_no_motos_mechanic_to_check}}</p>
+        </div>
+      </div>
+      <!-- Lista de motos para el cliente-->
+      <div class="list-group">
+        <!-- Mostrar cabecera y lista solo si hay elementos -->
+        <div id="lista_motos_client" v-if="available_motos.length>0" class="center-screen">
+          <div class="row">
+            <div class="col-sm">License plate</div>
+            <div class="col-sm">Distance (in meters)</div>
             <div class="col-sm">Type</div>
           </div>
           <button v-for="item in available_motos" :key="item.matricula" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto()">
@@ -40,9 +63,9 @@
             </div>
           </button>
         </div>
-        <!-- Mensaje si no hay motos -->
-        <div id="no_motos" v-if="available_motos.length===0" class="center-screen">
-          <p>There are no motos availables</p>
+        <!-- Mensaje si no hay motos disponibles para que el cliente utilice-->
+        <div id="no_motos_client" v-if="available_motos.length===0" class="center-screen">
+          <p>{{ message_no_motos_available }}</p>
         </div>
       </div>
     </div>
@@ -64,8 +87,10 @@ export default {
         items: []
       },
       displayed_motos: {
-        items: []
-      }
+        items: [ ]
+      },
+      message_no_motos_mechanic_to_check: 'No motos to check',
+      message_no_motos_available: 'There are no motos available'
     }
   },
   created () {
@@ -77,9 +102,13 @@ export default {
     reserveMoto () {
       // Nos lleva a otra pagina donde se ve la info especifica de la moto
     },
-
+    checkMoto () {
+      // El mecanico accede a una pagina con mas info de la moto
+    },
     displayAvailableMotosList () {
-      this.displayed_motos = this.available_motos
+      // this.displayed_motos = this.available_motos
+      // alert('mostrar longitud')
+      // alert(this.displayed_motos.items.length)
     },
     getAvailableMotos () {
       const path = 'http://127.0.0.1:5000/motos'
@@ -118,3 +147,4 @@ a {
   color: #42b983;
 }
 </style>
+
