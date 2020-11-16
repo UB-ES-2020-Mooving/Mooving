@@ -3,7 +3,7 @@
     <!-- Title of the page -->
     <h1> {{ name }} </h1>
     <!-- Lista de motos para el mecanico-->
-    <div class="list-group">
+    <div class="list-group" v-if="is_mechanic">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
       <div id="lista_motos_mechanic" v-if="displayed_motos.length>0" class="center-screen">
         <button v-for="item in displayed_motos" :key="item.license_plate" type="button" class="list-group-item list-group-item-action"  @click="checkMoto()">
@@ -22,7 +22,7 @@
       </div>
     </div>
     <!-- Lista de motos para el cliente-->
-    <div class="list-group">
+    <div class="list-group" v-if="is_client">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
       <div id="lista_motos_client" v-if="available_motos.length>0" class="center-screen">
         <button v-for="item in available_motos" :key="item.matricula" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto()">
@@ -60,16 +60,25 @@ export default {
         items: [ ]
       },
       message_no_motos_mechanic_to_check: 'No motos to check',
-      message_no_motos_available: 'There are no motos available'
-      // is_mechanic : 1
+      message_no_motos_available: 'There are no motos available',
+      is_mechanic: false,
+      is_client: false,
+      email: ''
     }
   },
   created () {
     this.getAvailableMotos() // Gets the motos that are available for the client to use
     this.getMotosToCheck() // Gets the motos that need to be checked by the mechanic
     this.displayAvailableMotosList()
-    // this.is_admin = this.$route.query.is_admin
-    this.is_mechanic = this.$route.query.is_mechanic
+    this.email = this.$route.query.email
+    // si la extension es @mooving.com es un mecanico
+    if (this.email.includes('@mooving.com')) { // Es un mecanico
+      this.name = this.name_for_mechanic
+      this.is_mechanic = true
+    } else { // Es un cliente
+      this.name = this.name_for_client
+      this.is_client = true
+    }
   },
   methods: {
     reserveMoto () {
@@ -105,8 +114,6 @@ export default {
       axios.get(path)
         .then((res) => {
           this.displayed_motos = res.data.motos
-          // alert(res.data.motos)
-          // alert(res.data.motos.length)
           console.log(res.data.motos)
         })
         .catch((error) => {
