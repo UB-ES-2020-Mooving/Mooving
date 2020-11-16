@@ -25,5 +25,4 @@ deploy:
     master: mooving
     develop: mooving-develop
     TR6T1_CD: provant999
-after_deploy:
-- ./server_create_db.sh
+  run: ./server_create_db.sh
