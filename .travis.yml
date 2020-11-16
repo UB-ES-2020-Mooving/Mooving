@@ -25,4 +25,5 @@ deploy:
     develop: mooving-develop
     TR6T1_CD: provant999
 after_deploy:
-- echo "Done"
+- ls
+- ./server_create_db.sh
