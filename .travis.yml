@@ -15,6 +15,7 @@ branches:
   - TR6T1_CD
 before_deploy:
   - cd flaskProject
+  - heroku 
 deploy:
   skip_cleanup: true
   provider: heroku
@@ -25,5 +26,4 @@ deploy:
     develop: mooving-develop
     TR6T1_CD: provant999
 after_deploy:
-- ls
 - ./server_create_db.sh
