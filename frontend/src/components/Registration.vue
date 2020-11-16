@@ -117,7 +117,7 @@ export default {
         })
         .catch((error) => {
           console.error(error)
-          alert('User already exists')
+          alert('A user with the same email or DNI/NIE already exists.')
         })
     }
   }

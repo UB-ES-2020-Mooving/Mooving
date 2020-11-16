@@ -4,6 +4,7 @@ import Homepage from '@/components/Homepage'
 import Motos from '@/components/Motos.vue'
 import Registration from '@/components/Registration.vue'
 import Login from '@/components/Login.vue'
+import Profile from '@/components/Profile.vue'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/userlogin',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
     }
   ]
 })
