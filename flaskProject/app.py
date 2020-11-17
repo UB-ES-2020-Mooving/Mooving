@@ -9,7 +9,7 @@ from flask import render_template
 from resources.article import ArticlesList
 from resources.mechanic import Mechanic, MechanicList
 
-from resources.client import Client, ClientsList
+from resources.client import Client, ClientsList, Profile
 from resources.motos import Moto, ClientMotosList, MechanicMotosList
 from resources.login import Login
 
@@ -57,6 +57,7 @@ Para volver a crear la base de datos:
 api.add_resource(ArticlesList, "/articles")
 
 api.add_resource(Client, "/client/<int:client_id>", "/client")
+api.add_resource(Profile, "/client/profile/<string:email>")
 api.add_resource(ClientsList, '/clients')
 
 api.add_resource(Moto, "/moto/<int:id>", "/moto")
