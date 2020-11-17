@@ -13,9 +13,9 @@ class Login(Resource):
 
         try:
             email_aux = data['email'].split("@")
-            print(email_aux)
+            #print(email_aux)
             if "mooving.com" in email_aux:
-                print("entramos mecanico")
+                #print("entramos mecanico")
                 mechanic = MechanicModel.find_by_email(data['email'])
                 if mechanic:
                     if mechanic.verify_password(data['password']):
@@ -28,7 +28,7 @@ class Login(Resource):
                     return {"message": "Mechanic not found"}, 404
 
             else:
-                print("entramos cliente")
+                #print("entramos cliente")
                 client = ClientModel.find_by_email(data['email'])
                 if client:
                     if client.verify_password(data['password']):

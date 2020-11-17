@@ -13,20 +13,19 @@ from resources.client import Client, ClientsList, Profile
 from resources.motos import Moto, ClientMotosList, MechanicMotosList
 from resources.login import Login
 
-#configuration of the app
-from decouple import config as config_decouple
-from config import config
+# App configuration
+from decouple import config
 app = Flask(__name__)
-environment = config['development']
-app.template_folder = '../frontend/dist'
-app.static_folder = '../frontend/dist/static'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+# Production configuration
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#if config_decouple('PRODUCTION', cast=bool, default=False):
-#    environment = config['production']
-
-#app.config.from_object(environment)
-
+app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL', default='localhost')
+# Developer configuration
+if not config('PRODUCTION', cast=bool, default=False):
+    # by default use this config if it's not in production env
+    app.template_folder = '../frontend/dist'
+    app.static_folder = '../frontend/dist/static'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+# set db
 api = Api(app)
 CORS(app, resources={r'/*': {'origins':'*'}})
 migrate = Migrate(app, db)
