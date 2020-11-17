@@ -1,7 +1,7 @@
 from db import db
 from models.constantes import *
 from datetime import datetime
-
+from geopy.distance import distance
 
 class MotoModel(db.Model):
     __tablename__ = 'motos'
@@ -160,4 +160,24 @@ class MotoModel(db.Model):
     @classmethod
     def get_all(cls):
         return MotoModel.query.all()
+    @classmethod
+    def compute_distance(cls, motos, coord, key_name, max_dist=float("inf")):
+        # Este bloque es para comprobar que la key_name no coincida con otra key del diccionario y falle.
+        if len(motos) > 0:
+            json = motos[0]
+            if key_name in json.keys():
+                raise NameError('key_name ERROR. key_name cannot be the same as other keys'
+                                'in the JSON.')
+        # Valor al que se redondea la distancia
+        round_value = 1
+        data = {'motos': []}
+        for m in motos:
+            distancia_metros = distance((m['last_coordinate_latitude'], m['last_coordinate_latitude']), coord).m
+            m[key_name] = round(distancia_metros / round_value) * round_value
+            # Si es menor que la máxima distancia lo metemos
+            if m[key_name] < max_dist:
+                data['motos'].append(m)
 
+        data['motos'].sort(key=lambda x: x[key_name])
+
+        return data
