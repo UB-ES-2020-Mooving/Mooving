@@ -1,6 +1,6 @@
-from db import db
 from flask_restful import Resource, reqparse
 from models.article_model import ArticleModel
+
 
 class ArticlesList(Resource):
     def get(self):
