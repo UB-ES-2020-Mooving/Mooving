@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <b-navbar toggleable type="dark" variant="dark">
+      <b-navbar toggleable type="dark" variant="dark" v-if="available_motos.length>0">
         <b-navbar-brand href="#">
           <img src="./Images/moovingLogoBlanco.png" alt= "Logo" style= "width:100px;">
         </b-navbar-brand>
