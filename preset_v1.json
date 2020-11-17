@@ -1,0 +1,19 @@
+{
+    "useConfigFiles": false,
+    "plugins": {
+        "@vue/cli-plugin-babel": {},
+        "@vue/cli-plugin-router": {
+        "historyMode": true
+        },
+        "@vue/cli-plugin-eslint": {
+        "config": "standard",
+        "lintOn": [
+            "save"
+        ],
+        "rules": {
+            "no-unused-vars": "off"
+            }
+        }
+    },
+    "vueVersion": "2"
+}

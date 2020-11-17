@@ -15,8 +15,8 @@
 
         <b-collapse id="navbar-toggle-collapse" is-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item><router-link to="/motospage">Motos</router-link></b-nav-item>
-            <b-nav-item><router-link to="">Personal Info</router-link></b-nav-item>
+            <b-nav-item><router-link :to="{path: '/motospage', query: { email: email } }">Motos</router-link></b-nav-item>
+            <b-nav-item><router-link :to="{path: '/profile', query: { email: email } }">Personal Info</router-link></b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -38,7 +38,7 @@
                   <h6 class="mb-0">Email</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  coso@mooving.com
+                  {{ email }}
                 </div>
               </div>
               <hr>
@@ -68,7 +68,16 @@
 </template>
 
 <script>
-
+export default {
+  data () {
+    return {
+      email: ''
+    }
+  },
+  created () {
+    this.email = this.$route.query.email
+  }
+}
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>

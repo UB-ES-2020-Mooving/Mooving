@@ -73,7 +73,6 @@ class Moto(Resource):
         except:
             return {"message": "Error Put Moto"}, 500
 
-
 class ClientMotosList(Resource):
     def get(self):
         parser = reqparse.RequestParser()

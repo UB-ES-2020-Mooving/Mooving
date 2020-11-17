@@ -1,14 +1,20 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from decouple import config
 
 from models.article_model import ArticleModel
 from models.moto_model import MotoModel
 from models.client_model import ClientModel
+
 from models.mechanic_model import MechanicModel
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+if config('PRODUCTION', cast=bool, default=False):
+    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL', default='localhost')
+
 db = SQLAlchemy(app)
 
 def init_db():
@@ -81,7 +87,7 @@ def init_db():
 
     new_moto6 = MotoModel(
         state="LOW_BATTERY_FUEL",
-        matricula="5555-MMM",
+        matricula="6666-MMM",
         date_estreno="08/10/2020",
         model_generic="premium",
         last_coordinate_latitude=23.4434,
@@ -97,7 +103,7 @@ def init_db():
         iban = "2223462362665251w",
         dni_nie = "11111111J",
         email = "juanita@gmail.com",
-        password = "1234"
+        password = "123456"
     )
     db.session.add(client1)
 
@@ -106,7 +112,7 @@ def init_db():
         iban="22462362665251w",
         dni_nie="14441111J",
         email="Camila@gmail.com",
-        password="1234"
+        password="123456"
     )
     db.session.add(client1)
 
@@ -115,7 +121,7 @@ def init_db():
         iban="2223332362665251w",
         dni_nie="11188881J",
         email="Sofia@gmail.com",
-        password="1234"
+        password="123456"
     )
     db.session.add(client1)
 
@@ -124,7 +130,7 @@ def init_db():
         iban="225554362665251w",
         dni_nie="12341111J",
         email="Ramona@gmail.com",
-        password="1234"
+        password="123456"
     )
     db.session.add(client1)
     """
@@ -158,7 +164,7 @@ def init_db():
         name="Jose",
         subname="De carglass",
         dni="11111111J",
-        password="1234",
+        password="123456",
         date_registration="23/02/2020")
     db.session.add(new_mechanic)
 
@@ -166,7 +172,7 @@ def init_db():
         name="Pepe",
         subname="De marcota",
         dni="22222222J",
-        password="1234",
+        password="123456",
         date_registration="24/02/2020")
     db.session.add(new_mechanic)
 
@@ -174,5 +180,7 @@ def init_db():
     print('Success in adding items to database')
 
 
-#init_db()
+#Si usa script --> deja la linea de abajo descomentada
+
+init_db()
 
