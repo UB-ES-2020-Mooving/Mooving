@@ -44,6 +44,31 @@ class ClientModel(db.Model):
         "dni_nie" : self.dni_nie
         }
 
+    def json_profile(self):
+        data = {
+            'nombre': self.nombre,
+            'iban': self.iban,
+            'dni_nie': self.dni_nie,
+            'email': self.email
+        }
+        return data
+
+    def set_name(self, name):
+        self.nombre = name
+        db.session.commit()
+
+    def set_iban(self, iban):
+        self.iban = iban
+        db.session.commit()
+
+    def set_dni_nie(self, dni_nie):
+        self.dni_nie = dni_nie
+        db.session.commit()
+
+    def set_email(self, email):
+        self.email = email
+        db.session.commit()
+
     def save_to_db(self):
         """Saves instance to DB
         """

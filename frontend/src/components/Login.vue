@@ -68,15 +68,21 @@ export default {
         email: this.user.email,
         password: this.user.password
       }
-      const path = `https://mooving-dev-ops.herokuapp.com/login`
+      console.log('variable')
+      console.log(process.env.VUE_APP_CALL_PATH)
+      const path = process.env.VUE_APP_CALL_PATH + '/login'
       axios.post(path, parameters)
         .then((res) => {
-          this.$router.push({ path: '/motospage', query: { nombre: res.data.client.nombre } })
+          if (res.data.type === 'client') {
+            this.$router.push({ path: '/motospage', query: { nombre: res.data.client.email } })
+          } else {
+            this.$router.push({ path: '/motospage', query: { nombre: res.data.mechanic.email } })
+          }
         })
         .catch((error) => {
           // eslint-disable-next-line
           console.error(error)
-          alert('Username or Password incorrect')
+          alert('email or password incorrect')
         })
     }
   }

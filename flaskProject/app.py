@@ -6,24 +6,26 @@ from db import db
 from flask_cors import CORS
 from flask import render_template
 
-from models.moto_model import MotoModel
-from models.client_model import ClientModel
 from resources.article import ArticlesList
+from resources.mechanic import Mechanic, MechanicList
 
-from resources.client import Client, ClientsList
-from resources.motos import Moto, MotosList
+from resources.client import Client, ClientsList, Profile
+from resources.motos import Moto, ClientMotosList, MechanicMotosList
 from resources.login import Login
 
-#configuration of the app
-from decouple import config as config_decouple
-from config import config
+# App configuration
+from decouple import config
 app = Flask(__name__)
-environment = config['development']
-if config_decouple('PRODUCTION', cast=bool, default=False):
-    environment = config['production']
-app.config.from_object(environment)
-
-
+# Production configuration
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL', default='localhost')
+# Developer configuration
+if not config('PRODUCTION', cast=bool, default=False):
+    # by default use this config if it's not in production env
+    app.template_folder = '../frontend/dist'
+    app.static_folder = '../frontend/dist/static'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+# set db
 api = Api(app)
 CORS(app, resources={r'/*': {'origins':'*'}})
 migrate = Migrate(app, db)
@@ -55,13 +57,17 @@ Para volver a crear la base de datos:
 api.add_resource(ArticlesList, "/articles")
 
 api.add_resource(Client, "/client/<int:client_id>", "/client")
+api.add_resource(Profile, "/client/profile/<string:email>")
 api.add_resource(ClientsList, '/clients')
 
 api.add_resource(Moto, "/moto/<int:id>", "/moto")
-api.add_resource(MotosList, '/motos')
+api.add_resource(ClientMotosList, '/motos')
+api.add_resource(MechanicMotosList, '/mechanicMotos')
 
 api.add_resource(Login, '/login')
 
+api.add_resource(Mechanic, "/mechanic/<int:id>", "/mechanic")
+api.add_resource(MechanicList, '/mechanics')
 
 
 @app.route('/')

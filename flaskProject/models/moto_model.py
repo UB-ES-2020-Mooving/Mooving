@@ -1,5 +1,6 @@
 from db import db
 from models.constantes import *
+from datetime import datetime
 
 
 class MotoModel(db.Model):
@@ -10,7 +11,7 @@ class MotoModel(db.Model):
     # Atributo estado de la moto
     state = db.Column(db.Enum(*states_moto, name='states_types'), nullable=False)
     # Atributo matricula de la moto
-    matricula = db.Column(db.String(30), nullable=False)
+    matricula = db.Column(db.String(30), nullable=False, unique=True)
     # Fecha estreno de la moto
     date_estreno = db.Column(db.String(30), nullable=False)
 
@@ -34,9 +35,11 @@ class MotoModel(db.Model):
     km_totales = db.Column(db.Float, nullable=False)
     # Atributo fecha ultima revision
     date_last_check = db.Column(db.String(30), nullable=False)
+    # Atributo km recorrido en ultima revision (para los nuevos seran 0km)
+    km_last_check = db.Column(db.Float, nullable=False)
 
     def __init__(self, state, matricula, date_estreno, model_generic, last_coordinate_latitude,
-                 last_coordinate_longitude, km_restantes, km_totales, date_last_check):
+                 last_coordinate_longitude, km_restantes, km_totales, date_last_check, km_last_check):
         self.state = state
         self.matricula = matricula
         self.date_estreno = date_estreno
@@ -54,6 +57,7 @@ class MotoModel(db.Model):
         self.km_restantes = km_restantes
         self.km_totales = km_totales
         self.date_last_check = date_last_check
+        self.km_last_check = km_last_check
 
     def json(self):
         data = {
@@ -70,6 +74,7 @@ class MotoModel(db.Model):
             'km_restantes': self.km_restantes,
             'km_totales': self.km_totales,
             'date_last_check': self.date_last_check,
+            'km_last_check': self.km_last_check,
         }
         return data
 
@@ -77,9 +82,33 @@ class MotoModel(db.Model):
         data = {
             'matricula': self.matricula,
             'model_generic': self.model_generic,
-            'km_restantes': self.km_restantes,
+            'km_restantes': self.km_restantes
         }
         return data
+
+
+
+    def json_mechaniclistmotos(self):
+        date_format = "%d/%m/%Y"
+        date_last_check = datetime.strptime(self.date_last_check, date_format)
+        today = datetime.strptime(datetime.now().strftime(date_format), date_format)
+        time_since_last_check = (today - date_last_check).days
+
+        date_estreno = datetime.strptime(self.date_estreno, date_format)
+        time_total = (today - date_estreno).days
+
+        data = {
+            'license_plate': self.matricula,
+            'state': self.state,
+            'type': self.model_generic, #type of moto (basic, premium)
+            'km_total': self.km_totales, #km since added to the system
+            'time_total': time_total, #days since added to the system: date_estreno - date_actual
+            'id': self.id,
+            'time_since_last_check': time_since_last_check , #days since last check
+            'km_since_last_check': self.km_totales - self.km_last_check #km since last check
+        }
+        return data
+
 
     def get_last_coordinate_latitude(self):
         return self.last_coordinate_latitude
@@ -96,7 +125,7 @@ class MotoModel(db.Model):
         db.session.commit()
 
     def set_moto(self, state, matricula, date_estreno, model_generic, last_coordinate_latitude,
-                 last_coordinate_longitude, km_restantes, km_totales, date_last_check):
+                 last_coordinate_longitude, km_restantes, km_totales, date_last_check,km_last_check):
         self.state = state
         self.matricula = matricula
         self.date_estreno = date_estreno
@@ -114,6 +143,7 @@ class MotoModel(db.Model):
         self.km_restantes = km_restantes
         self.km_totales = km_totales
         self.date_last_check = date_last_check
+        self.km_last_check = km_last_check
 
     @classmethod
     def find_by_id(cls, id):

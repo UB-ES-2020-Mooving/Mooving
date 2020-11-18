@@ -108,16 +108,16 @@ export default {
         dni_nie: this.user.dniNie,
         password: this.user.password
       }
-      const path = 'https://mooving-dev-ops.herokuapp.com/client'
+      const path = process.env.VUE_APP_CALL_PATH + '/client'
       axios.post(path, parameters)
         .then((res) => {
           alert('User created on success')
           // this.$router.replace({name: 'Motos'})
-          this.$router.push({ path: '/motospage', query: { nombre: this.user.completeName } })
+          this.$router.push({ path: '/motospage', query: { email: this.user.email } })
         })
         .catch((error) => {
           console.error(error)
-          alert('User already exists')
+          alert('A user with the same email or DNI/NIE already exists.')
         })
     }
   }
