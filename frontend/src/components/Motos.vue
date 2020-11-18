@@ -47,7 +47,7 @@
         <button v-for="item in available_motos" :key="item.matricula" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto()">
           <div class="row">
             <div class="col-sm" style="font-weight: bold;">{{item.matricula}}</div>
-            <div class="col-sm">Distance: {{item.distance_client}}m</div>
+            <div class="col-sm">Distance: {{item.distance}}m</div>
             <div class="col-sm">Type: {{item.model_generic}}</div>
           </div>
         </button>
