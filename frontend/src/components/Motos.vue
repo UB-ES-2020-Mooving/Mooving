@@ -128,7 +128,7 @@ export default {
       // this.displayed_motos = this.filtered_motos
     },
     getMotosToCheck () {
-      const path = 'http://127.0.0.1:5000/mechanicMotos'
+      const path = process.env.VUE_APP_CALL_PATH + '/mechanicMotos'
       axios.get(path)
         .then((res) => {
           this.displayed_motos = res.data.motos
