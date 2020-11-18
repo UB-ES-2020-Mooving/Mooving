@@ -1,13 +1,14 @@
 from flask_restful import Resource, reqparse
 from models.moto_model import MotoModel
-from geopy.distance import distance
+
+from sqlalchemy import and_, or_
 
 
 class Moto(Resource):
     def get(self, id):
         try:
             moto = MotoModel.find_by_id(id)
-            return {'moto':moto.json()}, 200
+            return {'moto': moto.json()}, 200
         except:
             return {"message": "Error Get Moto"}, 500
 
@@ -17,17 +18,20 @@ class Moto(Resource):
         parser.add_argument('matricula', type=str, required=True, help="This field cannot be left blank")
         parser.add_argument('date_estreno', type=str, required=True, help="This field cannot be left blank")
         parser.add_argument('model_generic', type=str, required=True, help="This field cannot be left blank")
-        parser.add_argument('last_coordinate_latitude', type=float, required=True, help="This field cannot be left blank")
-        parser.add_argument('last_coordinate_longitude', type=float, required=True, help="This field cannot be left blank")
+        parser.add_argument('last_coordinate_latitude', type=float, required=True,
+                            help="This field cannot be left blank")
+        parser.add_argument('last_coordinate_longitude', type=float, required=True,
+                            help="This field cannot be left blank")
         parser.add_argument('km_restantes', type=float, required=True, help="This field cannot be left blank")
         parser.add_argument('km_totales', type=float, required=True, help="This field cannot be left blank")
         parser.add_argument('date_last_check', type=str, required=True, help="This field cannot be left blank")
         data = parser.parse_args()
 
         try:
-            moto = MotoModel(data['state'], data['matricula'], data['date_estreno'], data['model_generic'], data['last_coordinate_latitude'],
-                               data['last_coordinate_longitude'], data['km_restantes'], data['km_totales'],
-                              data['date_last_check'])
+            moto = MotoModel(data['state'], data['matricula'], data['date_estreno'], data['model_generic'],
+                             data['last_coordinate_latitude'],
+                             data['last_coordinate_longitude'], data['km_restantes'], data['km_totales'],
+                             data['date_last_check'])
             MotoModel.save_to_db(moto)
             return {"message": "Moto added successfully"}, 200
         except:
@@ -60,9 +64,10 @@ class Moto(Resource):
 
         try:
             moto = MotoModel.find_by_id(id)
-            moto.set_moto(data['state'], data['matricula'], data['date_estreno'], data['model_generic'], data['last_coordinate_latitude'],
-                               data['last_coordinate_longitude'], data['km_restantes'], data['km_totales'],
-                              data['date_last_check'])
+            moto.set_moto(data['state'], data['matricula'], data['date_estreno'], data['model_generic'],
+                          data['last_coordinate_latitude'],
+                          data['last_coordinate_longitude'], data['km_restantes'], data['km_totales'],
+                          data['date_last_check'])
             MotoModel.save_to_db(moto)
             return {"message": "Moto modified successfully"}, 200
         except:
@@ -70,30 +75,41 @@ class Moto(Resource):
 
 class ClientMotosList(Resource):
     def get(self):
-        coord_client = (23.4433, 23.4433)
-        data = {'motos': []}
-        motos = MotoModel.get_all()
-        for m in motos:
-            lista_motos = m.json_listmotos()
-            lista_motos['distance_client'] = distance((m.get_last_coordinate_latitude(), m.get_last_coordinate_longitude()), coord_client).m
-            data['motos'].append(lista_motos)
+        parser = reqparse.RequestParser()
+        parser.add_argument('model_generic', type=str)
+        # parser.add_argument('client_coordinate_latitude', type=float, required=True,help="This field cannot be left blank")
+        # parser.add_argument('client_coordinate_longitude', type=float, required=True,help="This field cannot be left blank")
+        parser.add_argument('max_distance_m', type=float)
+        data = parser.parse_args()
 
-        data['motos'].sort(key=lambda x: x["distance_client"])
-        return data
+        # coord_client = (data["client_coordinate_latitude"], data["client_coordinate_longitude"])
+        coord_client = (23.44333, 23.4433)
+
+        # Si model generic no es None
+        if data['model_generic']:
+            # todo, comprobar que modelgeneric sea uno de los posibles y no cualquier cosa
+            motos = MotoModel.query.filter(
+                and_(MotoModel.model_generic == data['model_generic'], MotoModel.state == "ACTIVE")).all()
+        else:
+            motos = MotoModel.query.filter(MotoModel.state == "ACTIVE").all()
+
+        motos_json = [m.json_listmotos() for m in motos]
+        if data["max_distance_m"]:
+            result = MotoModel.compute_distance(motos_json, coord_client, "distance", data["max_distance_m"])
+        else:
+            result = MotoModel.compute_distance(motos_json, coord_client, "distance")
+
+        return result
 
 
 class MechanicMotosList(Resource):
     def get(self):
-        coord_client = (23.4433, 23.4433)
+        coord_client = (23.44333, 23.4433)
         data = {'motos': []}
         motos = MotoModel.get_all()
-        for m in motos:
-            lista_motos = m.json_mechaniclistmotos()
-            distancia_metros = distance((m.get_last_coordinate_latitude(), m.get_last_coordinate_longitude()), coord_client).m
-            lista_motos['distance'] =  round(distancia_metros, 1) #distance to the user in meters with 1 decimals
-            data['motos'].append(lista_motos)
+        motos_json = [m.json_mechaniclistmotos() for m in motos]
+        result = MotoModel.compute_distance(motos_json, coord_client, "distance")
+        return result
 
-        data['motos'].sort(key=lambda x: x['distance'])
-        return data
 
 

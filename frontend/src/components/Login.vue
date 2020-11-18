@@ -74,9 +74,9 @@ export default {
       axios.post(path, parameters)
         .then((res) => {
           if (res.data.type === 'client') {
-            this.$router.push({ path: '/motospage', query: { nombre: res.data.client.email } })
+            this.$router.push({ path: '/motospage', query: { email: res.data.client.email } })
           } else {
-            this.$router.push({ path: '/motospage', query: { nombre: res.data.mechanic.email } })
+            this.$router.push({ path: '/motospage', query: { email: res.data.mechanic.email } })
           }
         })
         .catch((error) => {
