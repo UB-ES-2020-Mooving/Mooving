@@ -68,7 +68,7 @@ class Moto(Resource):
         except:
             return {"message": "Error Put Moto"}, 500
 
-class MotosList(Resource):
+class ClientMotosList(Resource):
     def get(self):
         coord_client = (23.4433, 23.4433)
         data = {'motos': []}

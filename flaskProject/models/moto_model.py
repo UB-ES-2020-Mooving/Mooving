@@ -11,7 +11,7 @@ class MotoModel(db.Model):
     # Atributo estado de la moto
     state = db.Column(db.Enum(*states_moto, name='states_types'), nullable=False)
     # Atributo matricula de la moto
-    matricula = db.Column(db.String(30), nullable=False)
+    matricula = db.Column(db.String(30), nullable=False, unique=True)
     # Fecha estreno de la moto
     date_estreno = db.Column(db.String(30), nullable=False)
 
@@ -82,7 +82,7 @@ class MotoModel(db.Model):
         data = {
             'matricula': self.matricula,
             'model_generic': self.model_generic,
-            'km_restantes': self.km_restantes,
+            'km_restantes': self.km_restantes
         }
         return data
 
@@ -105,7 +105,7 @@ class MotoModel(db.Model):
             'time_total': time_total, #days since added to the system: date_estreno - date_actual
             'id': self.id,
             'time_since_last_check': time_since_last_check , #days since last check
-            'km_since_last_check': self.km_totales - self.km_last_check , #km since last check
+            'km_since_last_check': self.km_totales - self.km_last_check #km since last check
         }
         return data
 

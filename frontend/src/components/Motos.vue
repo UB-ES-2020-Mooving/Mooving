@@ -1,5 +1,24 @@
 <template>
   <div id="app" style="margin-top: 0">
+   <div>
+      <b-navbar toggleable type="dark" variant="dark" v-if="available_motos.length>0">
+        <b-navbar-brand href="#">
+          <img src="./Images/moovingLogoBlanco.png" alt= "Logo" style= "width:100px;">
+        </b-navbar-brand>
+        <b-navbar-toggle target="navbar-toggle-collapse">
+          <template #default="{ expanded }">
+            <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+            <b-icon v-else icon="chevron-bar-down"></b-icon>
+          </template>
+        </b-navbar-toggle>
+        <b-collapse id="navbar-toggle-collapse" is-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item><router-link :to="{path: '/motospage', query: { email: this.email } }">Motos</router-link></b-nav-item>
+            <b-nav-item><router-link :to="{path: '/profile', query: { email: this.email } }">Personal Info</router-link></b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
     <!-- Title of the page -->
     <h1> {{ name }} </h1>
     <!-- Lista de motos para el mecanico-->
@@ -35,11 +54,10 @@
       </div>
       <!-- Mensaje si no hay motos disponibles para que el cliente utilice-->
       <div id="no_motos_client" v-if="available_motos.length===0" class="center-screen">
-          <p>{{ message_no_motos_available }}</p>
+        <p>{{ message_no_motos_available }}</p>
       </div>
     </div>
   </div>
-  <!-- Mostrar la lista de motos -->
 </template>
 
 <script>
@@ -52,12 +70,13 @@ export default {
       name_for_mechanic: 'Motorbikes',
       logged: true,
       show_moto_list: true,
+      email: '',
       // available_motos: { items: [] },
       available_motos: {
         items: []
       },
       displayed_motos: {
-        items: [ ]
+        items: []
       },
       message_no_motos_mechanic_to_check: 'No motos to check',
       message_no_motos_available: 'There are no motos available',
@@ -93,7 +112,7 @@ export default {
       // alert(this.displayed_motos.items.length)
     },
     getAvailableMotos () {
-      const path = 'http://127.0.0.1:5000/motos'
+      const path = process.env.VUE_APP_CALL_PATH + '/motos'
       axios.get(path)
         .then((res) => {
           this.available_motos = res.data.motos
@@ -124,3 +143,21 @@ export default {
   }
 }
 </script>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h1, h2 {
+  font-weight: normal;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+</style>
+

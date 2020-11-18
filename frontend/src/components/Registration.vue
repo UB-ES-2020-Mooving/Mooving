@@ -108,12 +108,12 @@ export default {
         dni_nie: this.user.dniNie,
         password: this.user.password
       }
-      const path = 'http://127.0.0.1:5000/client'
+      const path = process.env.VUE_APP_CALL_PATH + '/client'
       axios.post(path, parameters)
         .then((res) => {
           alert('User created on success')
           // this.$router.replace({name: 'Motos'})
-          this.$router.push({ path: '/motospage', query: { nombre: this.user.completeName } })
+          this.$router.push({ path: '/motospage', query: { email: this.user.email } })
         })
         .catch((error) => {
           console.error(error)

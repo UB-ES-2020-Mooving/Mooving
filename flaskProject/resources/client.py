@@ -1,12 +1,12 @@
-from db import db
 from flask_restful import Resource, reqparse
 from models.client_model import ClientModel
+
 
 class Client(Resource):
     def get(self, client_id):
         c = ClientModel.query.filter_by(client_id=client_id).first()
         if c:
-            return {'client':c.json()}, 200
+            return {'client': c.json()}, 200
         else:
             return {'message': 'There is no client with ID [{}] .'.format(client_id)}, 404
 
@@ -65,6 +65,7 @@ class Client(Resource):
         else:
             return {'message': 'There is no client with ID [{}] .'.format(client_id)}, 404
 
+
 class ClientsList(Resource):
     def get(self):
         clients=ClientModel.query.filter_by().all()
@@ -73,5 +74,37 @@ class ClientsList(Resource):
             data['clients'].append(c.json())
 
         return data
+
+
+class Profile(Resource):
+    def get(self, email):
+        try:
+            client = ClientModel.find_by_email(email)
+            return {'client profile': client.json_profile()}, 200
+        except:
+            return {"message": "Error Get Client Pofile"}, 500
+
+    def put(self, email):
+        parser = reqparse.RequestParser()
+        parser.add_argument('nombre', type=str, required=False)
+        parser.add_argument('iban', type=str, required=False)
+        parser.add_argument('dni_nie', type=str, required=False)
+        parser.add_argument('email', type=str, required=False)
+        data = parser.parse_args()
+
+        try:
+            client = ClientModel.find_by_email(email)
+            if data['nombre']:
+                client.set_name(data['nombre'])
+            if data['iban']:
+                client.set_iban(data['iban'])
+            if data['dni_nie']:
+                client.set_dni_nie(data['dni_nie'])
+            if data['email']:
+                client.set_email(data['email'])
+
+            return {"message": "Client profile modified successfully"}, 200
+        except:
+            return {"message": "Error Put client profile"}, 500
 
 
