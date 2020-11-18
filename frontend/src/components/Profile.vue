@@ -29,7 +29,7 @@
                   <h6 class="mb-0">Name</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  Coso
+                  {{ this.user.nombre }}
                 </div>
               </div>
               <hr>
@@ -47,7 +47,7 @@
                   <h6 class="mb-0">IBAN</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  111111111
+                  {{ this.user.iban }}
                 </div>
               </div>
               <hr>
@@ -56,7 +56,7 @@
                   <h6 class="mb-0">DNI/NIE</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  12345678A
+                  {{ this.user.dni_nie }}
                 </div>
               </div>
             </div>
@@ -68,14 +68,44 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {
-      email: ''
+      email: '',
+      algo: [],
+      user: {
+        email: '',
+        nombre: '',
+        iban: '',
+        dni_nie: ''
+      }
     }
   },
   created () {
     this.email = this.$route.query.email
+    this.getProfileInfo()
+  },
+  methods: {
+
+    getProfileInfo () {
+      const parameters = {
+        email: this.email,
+      }
+      const path = process.env.VUE_APP_CALL_PATH + '/profile'+ '/'+this.email
+      console.log(process.env.VUE_APP_CALL_PATH + '/profile'+ '/'+this.email)
+      axios.get(path)
+        .then((res) => {
+          this.user.nombre = res.data.client_profile.nombre
+          this.user.iban = res.data.client_profile.iban
+          this.user.dni_nie = res.data.client_profile.dni_nie
+          this.user.email = res.data.client_profile.email
+        })
+        .catch((error) => {
+          console.error(error)
+          alert(error)
+        })
+    }
   }
 }
 </script>
