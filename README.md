@@ -12,6 +12,6 @@ The app is formed by a _vue_ app for frontend and a _flask_ app for the backend,
 
 ### Local set-up
 
-For the frontend, _loosely_ follow the **build_frontend.sh** file, a more formal script is on the way. In short, create the app, add the needed depencies and copy the **frontend** directory content. To build it, you will have to do it as the script, or you can modify the **package.json** file at the _script_ _build_ keyword, adding: `--mode personal`.
+For the frontend, execute **build_frontend.sh** file, and erase _templates_ and _static_ folder in _flaskProject_. Change the name form _mooving_ to _frontend_ and modify the **package.json** file at the _script_ _build_ keyword, adding: `--mode personal`. And run it again `npm run build`.
 
 For the backend, simply install the requirements at **flaskProject/requirements.txt** and create the database with `./local_create_db.sh`. Optionally, run `python flaskProject/add_data.py` to populate it.
