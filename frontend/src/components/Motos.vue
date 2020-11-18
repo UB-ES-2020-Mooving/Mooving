@@ -81,8 +81,7 @@ export default {
       message_no_motos_mechanic_to_check: 'No motos to check',
       message_no_motos_available: 'There are no motos available',
       is_mechanic: false,
-      is_client: false,
-      email: ''
+      is_client: false
     }
   },
   created () {
