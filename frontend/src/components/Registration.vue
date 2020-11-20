@@ -113,7 +113,7 @@ export default {
         .then((res) => {
           alert('User created on success')
           // this.$router.replace({name: 'Motos'})
-          this.$router.push({ path: '/motospage', query: { email: this.user.email } })
+          this.$router.push({ path: '/motospageclient', query: { email: this.user.email } })
         })
         .catch((error) => {
           console.error(error)
