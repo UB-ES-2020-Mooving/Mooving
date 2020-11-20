@@ -91,10 +91,10 @@ export default {
 
     getProfileInfo () {
       const parameters = {
-        email: this.email,
+        email: this.email
       }
-      const path = process.env.VUE_APP_CALL_PATH + '/profile'+ '/'+this.email
-      console.log(process.env.VUE_APP_CALL_PATH + '/profile'+ '/'+this.email)
+      const path = process.env.VUE_APP_CALL_PATH + '/profile' + '/' + this.email
+      console.log(process.env.VUE_APP_CALL_PATH + '/profile' + '/' + this.email)
       axios.get(path)
         .then((res) => {
           this.user.nombre = res.data.client_profile.nombre
