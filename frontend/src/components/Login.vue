@@ -77,7 +77,7 @@ export default {
             this.$router.push({ path: '/motospageclient', query: { email: res.data.client.email } })
           } else {
             // if (this.email.includes('@mooving.com')) { // si la extension es @mooving.com es un mecanico
-            this.$router.push({ path: '/motospage', query: { email: res.data.mechanic.email } })
+            this.$router.push({ path: '/motospagemechanic', query: { email: res.data.mechanic.email } })
           }
         })
         .catch((error) => {
