@@ -57,7 +57,7 @@ Para volver a crear la base de datos:
 api.add_resource(ArticlesList, "/articles")
 
 api.add_resource(Client, "/client/<int:client_id>", "/client")
-api.add_resource(Profile, "/client/profile/<string:email>")
+api.add_resource(Profile, "/profile/<string:email>")
 api.add_resource(ClientsList, '/clients')
 
 api.add_resource(Moto, "/moto/<int:id>", "/moto")
