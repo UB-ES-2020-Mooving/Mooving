@@ -2,6 +2,7 @@ from db import db
 from models.constantes import *
 from datetime import datetime
 from geopy.distance import distance
+from geopy.geocoders import Nominatim
 
 class MotoModel(db.Model):
     __tablename__ = 'motos'
@@ -28,6 +29,8 @@ class MotoModel(db.Model):
     last_coordinate_latitude = db.Column(db.Float, nullable=False)
     # Atributo last_coordinate_longitude, ultima coordenada longitud de la moto
     last_coordinate_longitude = db.Column(db.Float, nullable=False)
+    # Atributo address, direccion de la ultima aparcamiento de la moto
+    address = db.Column(db.String(150),nullable=False)
 
     # Atributo km_restantes de la moto para que se le acabe la bateria
     km_restantes = db.Column(db.Float, nullable=False)
@@ -54,10 +57,17 @@ class MotoModel(db.Model):
             self.battery_autonomy = moto_model_premium["battery_autonomy"]
         self.last_coordinate_latitude = last_coordinate_latitude
         self.last_coordinate_longitude = last_coordinate_longitude
+        self.address = self.obtainAddressFromCoordinates(last_coordinate_latitude,last_coordinate_longitude)
         self.km_restantes = km_restantes
         self.km_totales = km_totales
         self.date_last_check = date_last_check
         self.km_last_check = km_last_check
+
+    def obtainAddressFromCoordinates(self, last_coordinate_latitude,last_coordinate_longitude):
+        geolocator = Nominatim(user_agent = "Mooving")
+        location = geolocator.reverse(str(last_coordinate_latitude) + ',' + str(last_coordinate_longitude),
+                                      language="es")
+        return location.address
 
     def json(self):
         data = {
@@ -71,6 +81,7 @@ class MotoModel(db.Model):
             'battery_autonomy': self.battery_autonomy,
             'last_coordinate_latitude': self.last_coordinate_latitude,
             'last_coordinate_longitude': self.last_coordinate_longitude,
+            'address': self.address,
             'km_restantes': self.km_restantes,
             'km_totales': self.km_totales,
             'date_last_check': self.date_last_check,
@@ -144,6 +155,7 @@ class MotoModel(db.Model):
             self.battery_autonomy = moto_model_premium["battery_autonomy"]
         self.last_coordinate_latitude = last_coordinate_latitude
         self.last_coordinate_longitude = last_coordinate_longitude
+        self.address = self.obtainAddressFromCoordinates(last_coordinate_latitude,last_coordinate_longitude)
         self.km_restantes = km_restantes
         self.km_totales = km_totales
         self.date_last_check = date_last_check
