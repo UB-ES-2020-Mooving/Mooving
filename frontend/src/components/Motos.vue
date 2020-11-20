@@ -87,7 +87,6 @@ export default {
   created () {
     this.getAvailableMotos() // Gets the motos that are available for the client to use
     this.getMotosToCheck() // Gets the motos that need to be checked by the mechanic
-    this.displayAvailableMotosList()
     this.email = this.$route.query.email
     // si la extension es @mooving.com es un mecanico
     if (this.email.includes('@mooving.com')) { // Es un mecanico
@@ -104,11 +103,6 @@ export default {
     },
     checkMoto () {
       // El mecanico accede a una pagina con mas info de la moto
-    },
-    displayAvailableMotosList () {
-      // this.displayed_motos = this.available_motos
-      // alert('mostrar longitud')
-      // alert(this.displayed_motos.items.length)
     },
     getAvailableMotos () {
       const path = process.env.VUE_APP_CALL_PATH + '/motos'

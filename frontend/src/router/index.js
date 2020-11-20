@@ -5,6 +5,7 @@ import Motos from '@/components/Motos.vue'
 import Registration from '@/components/Registration.vue'
 import Login from '@/components/Login.vue'
 import Profile from '@/components/Profile.vue'
+import MotosClient from '../components/MotosClient'
 
 Vue.use(Router)
 
@@ -16,6 +17,11 @@ export default new Router({
       path: '/motospage',
       name: 'Motos',
       component: Motos
+    },
+    {
+      path: '/motospageclient',
+      name: 'MotosClient',
+      component: MotosClient
     },
     {
       path: '/',
