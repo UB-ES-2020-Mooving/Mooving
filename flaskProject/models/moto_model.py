@@ -89,8 +89,21 @@ class MotoModel(db.Model):
         }
         return data
 
+    def json_clientMoto(self):
+        data = {
+            'id': self.id,
+            'matricula': self.matricula,
+            'model_generic': self.model_generic,
+            'km_restantes': self.km_restantes,
+            'address': self.address,
+            'last_coordinate_latitude': self.last_coordinate_latitude,
+            'last_coordinate_longitude': self.last_coordinate_longitude,
+        }
+        return data
+
     def json_listmotos(self):
         data = {
+            'id': self.id,
             'matricula': self.matricula,
             'model_generic': self.model_generic,
             'km_restantes': self.km_restantes,

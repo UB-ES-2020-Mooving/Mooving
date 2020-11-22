@@ -106,12 +106,24 @@ class ClientMotosList(Resource):
 
 class MechanicMotosList(Resource):
     def get(self):
-        coord_client = (23.44333, 23.4433)
-        data = {'motos': []}
+        coord_mechanic = (23.44333, 23.4433)
         motos = MotoModel.get_all()
         motos_json = [m.json_mechaniclistmotos() for m in motos]
-        result = MotoModel.compute_distance(motos_json, coord_client, "distance")
+        result = MotoModel.compute_distance(motos_json, coord_mechanic, "distance")
         return result
 
+
+#informacion de un moto en concreto para cliente
+class ClientMoto(Resource):
+    def get(self, id):
+        coord_client = (23.44333, 23.4433)
+        try:
+            moto = MotoModel.find_by_id(id)
+            moto_json = [moto.json_clientMoto()]
+            result = MotoModel.compute_distance(moto_json, coord_client, "distance")
+            #los cambios de keyname de jsons es para coordinar con frontend
+            return {'client_moto': result['motos'][0]}, 200
+        except:
+            return {"message": "Error Get Moto"}, 500
 
 
