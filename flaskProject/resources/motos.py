@@ -25,13 +25,14 @@ class Moto(Resource):
         parser.add_argument('km_restantes', type=float, required=True, help="This field cannot be left blank")
         parser.add_argument('km_totales', type=float, required=True, help="This field cannot be left blank")
         parser.add_argument('date_last_check', type=str, required=True, help="This field cannot be left blank")
+        parser.add_argument('km_last_check', type=float, required=True, help="This field cannot be left blank")
         data = parser.parse_args()
 
         try:
             moto = MotoModel(data['state'], data['matricula'], data['date_estreno'], data['model_generic'],
                              data['last_coordinate_latitude'],
                              data['last_coordinate_longitude'], data['km_restantes'], data['km_totales'],
-                             data['date_last_check'])
+                             data['date_last_check'], data['km_last_check'])
             MotoModel.save_to_db(moto)
             return {"message": "Moto added successfully"}, 200
         except:
@@ -60,6 +61,7 @@ class Moto(Resource):
         parser.add_argument('km_restantes', type=float, required=True, help="This field cannot be left blank")
         parser.add_argument('km_totales', type=float, required=True, help="This field cannot be left blank")
         parser.add_argument('date_last_check', type=str, required=True, help="This field cannot be left blank")
+        parser.add_argument('km_last_check', type=float, required=True, help="This field cannot be left blank")
         data = parser.parse_args()
 
         try:
@@ -67,7 +69,7 @@ class Moto(Resource):
             moto.set_moto(data['state'], data['matricula'], data['date_estreno'], data['model_generic'],
                           data['last_coordinate_latitude'],
                           data['last_coordinate_longitude'], data['km_restantes'], data['km_totales'],
-                          data['date_last_check'])
+                          data['date_last_check'], data['km_last_check'])
             MotoModel.save_to_db(moto)
             return {"message": "Moto modified successfully"}, 200
         except:
