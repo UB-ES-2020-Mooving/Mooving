@@ -6,7 +6,7 @@ import Registration from '@/components/Registration.vue'
 import Login from '@/components/Login.vue'
 import Profile from '@/components/Profile.vue'
 import MotosClient from '@/components/MotosClient'
-import clientMoto from "../components/clientMoto";
+import clientMoto from '../components/clientMoto'
 
 Vue.use(Router)
 

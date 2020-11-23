@@ -97,9 +97,7 @@ export default {
     this.getMotoInfo()
   },
   methods: {
-
     getMotoInfo () {
-
       const path = process.env.VUE_APP_CALL_PATH + '/clientMoto' + '/' + this.id
       console.log(process.env.VUE_APP_CALL_PATH + '/clientMoto' + '/' + this.id)
       axios.get(path)
