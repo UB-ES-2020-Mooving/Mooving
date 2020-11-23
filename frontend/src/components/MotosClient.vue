@@ -19,7 +19,18 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <!-- Title of the page -->
+    <!-- Lista de motos reservadas -->
+    <h1 v-if="is_moto_reserved"> {{ name_reserved_motos }} </h1>
+    <div v-if="is_moto_reserved" style="margin-bottom: 20px">
+      <button type="button">
+        <div class="row">
+          <div class="col-sm" style="font-weight: bold;">{{moto_reserved.matricula}}</div>
+          <div class="col-sm">Distance: {{moto_reserved.distance}}m</div>
+          <div class="col-sm">Type: {{moto_reserved.model_generic}}</div>
+        </div>
+      </button>
+    </div>
+    <!-- Title of the page: Motorbikes for the client -->
     <h1> {{ name }} </h1>
     <!-- Lista de motos para el cliente-->
     <div class="list-group" v-if="is_client">
@@ -47,16 +58,24 @@ export default {
   data () {
     return {
       name: 'Available Motorbikes',
+      name_reserved_motos: 'Reserved Motorbikes',
       email: '',
       available_motos: {
         items: []
       },
       message_no_motos_available: 'There are no motos available',
-      is_client: true
+      is_client: true,
+      is_moto_reserved: true,
+      moto_reserved: {
+        matricula: 'ASD',
+        distance: 0,
+        model_generic: 'PATATAS'
+      }
     }
   },
   created () {
     this.getAvailableMotos() // Gets the motos that are available for the client to use
+    this.getReservedMoto() // Gets the moto reserved by this user
     this.email = this.$route.query.email // si la extension es @mooving.com es un mecanico
   },
   methods: {
@@ -75,6 +94,12 @@ export default {
           console.error(error)
           alert(error)
         })
+    },
+    getReservedMoto () {
+      // Call to the api GET to obtain the reserved motos
+      // is_moto_reserved true si hay
+      // si hay moto, actualizar moto_reserved
+      // si no, revisar que no pete
     }
   }
 }
