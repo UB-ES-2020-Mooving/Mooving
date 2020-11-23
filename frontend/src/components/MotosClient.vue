@@ -21,14 +21,16 @@
     </div>
     <!-- Lista de motos reservadas -->
     <h1 v-if="is_moto_reserved"> {{ name_reserved_motos }} </h1>
-    <div v-if="is_moto_reserved" style="margin-bottom: 20px">
-      <button type="button">
-        <div class="row">
-          <div class="col-sm" style="font-weight: bold;">{{moto_reserved.matricula}}</div>
-          <div class="col-sm">Distance: {{moto_reserved.distance}}m</div>
-          <div class="col-sm">Type: {{moto_reserved.model_generic}}</div>
-        </div>
-      </button>
+    <div class="list-group" v-if="is_moto_reserved" style="margin-bottom: 20px">
+      <div class="center-screen">
+        <button type="button" class="list-group-item list-group-item-action">
+          <div class="row">
+            <div class="col-sm" style="font-weight: bold;">{{moto_reserved.matricula}}</div>
+            <div class="col-sm">Distance: {{moto_reserved.distance}}m</div>
+            <div class="col-sm">Type: {{moto_reserved.model_generic}}</div>
+          </div>
+        </button>
+      </div>
     </div>
     <!-- Title of the page: Motorbikes for the client -->
     <h1> {{ name }} </h1>
@@ -58,7 +60,7 @@ export default {
   data () {
     return {
       name: 'Available Motorbikes',
-      name_reserved_motos: 'Reserved Motorbikes',
+      name_reserved_motos: 'Reserved Motorbike',
       email: '',
       available_motos: {
         items: []
