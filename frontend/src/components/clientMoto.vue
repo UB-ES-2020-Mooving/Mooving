@@ -74,11 +74,37 @@
       <!-- boton para reservar -->
       <div>
         <button id="reserveButton"
+                v-if="!is_reserved"
                 type="button"
+                @click="reserveMoto()"
                 style="margin-left: 20px;margin-top: 20px;border-radius: 12px;
                 background-color: #343a40;color: #42b983">
           Reserve
         </button>
+      </div>
+      <!-- boton para cancelar la reserva -->
+      <div class="row" style="margin-top: 20px;margin-bottom: 20px">
+        <div style="position: absolute; left: 20px">
+          <button id="cancelButton"
+                  v-if="is_reserved"
+                  type="button"
+                  class="float-left"
+                  style="border-radius: 12px;
+                background-color: #ff6961;color: #ffffff">
+            Cancel
+          </button>
+        </div>
+        <div style="position: absolute; right: 20px">
+          <!-- boton para aceptar la reserva -->
+          <button id="startButton"
+                  v-if="is_reserved"
+                  type="button"
+                  class="float-right"
+                  style="border-radius: 12px;
+                background-color: #343a40;color: #42b983">
+            Start
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -98,7 +124,8 @@ export default {
         km_restantes: 0.0,
         address: '',
         distance: 0
-      }
+      },
+      is_reserved: false
     }
   },
   created () {
@@ -123,6 +150,12 @@ export default {
           console.error(error)
           alert(error)
         })
+    },
+    reserveMoto () {
+      // Client reserves a moto
+      // Llamada a la api para poner la moto a reservada
+      // Se cambia la visibilidad de los botones
+      this.is_reserved = true
     }
   }
 }
