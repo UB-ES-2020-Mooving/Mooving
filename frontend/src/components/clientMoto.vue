@@ -70,6 +70,16 @@
           </div>
         </div>
       </div>
+      <!-- final del id prof -->
+      <!-- boton para reservar -->
+      <div>
+        <button id="reserveButton"
+                type="button"
+                style="margin-left: 20px;margin-top: 20px;border-radius: 12px;
+                background-color: #343a40;color: #42b983">
+          Reserve
+        </button>
+      </div>
     </div>
   </div>
 </template>
