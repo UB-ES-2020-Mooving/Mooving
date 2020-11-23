@@ -62,7 +62,7 @@ export default {
   methods: {
     reserveMoto (id) {
       // Nos lleva a otra pagina donde se ve la info especifica de la moto
-      this.$router.push({ path: '/clientMoto', query: { id: id ,email: this.email } })
+      this.$router.push({ path: '/clientMoto', query: { id: id, email: this.email } })
     },
     getAvailableMotos () {
       const path = process.env.VUE_APP_CALL_PATH + '/motos'
