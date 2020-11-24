@@ -47,6 +47,13 @@ class ReservedRunningModel(db.Model):
                     + str(dateTime.second)
         return data_time
 
+    """
+    Metodo que permite hacer el put de star en reserved
+    """
+    def make_star_moto(self):
+        self.dateTimeStart = datetime.now()
+        db.session.commit()
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
@@ -63,9 +70,20 @@ class ReservedRunningModel(db.Model):
     def find_by_client(cls, client_id):
         return ReservedRunningModel.query.filter_by(clientId=client_id).first()
 
+    @classmethod
+    def find_by_client_moto(cls, client_id, moto_id):
+        return ReservedRunningModel.query.filter_by(clientId=client_id).filter_by(motoId=moto_id).first()
+
     """
     Metodo que permite actualizar el estado de la moto y ponerlo a 'RESERVED'
     """
     def update_state_reserved(self):
         self.moto.set_state('RESERVED')
+        db.session.commit()
+
+    """
+    Metodo que permite actualizar el estado de la moto y ponerlo a 'ACTIVE'
+    """
+    def update_state_active(self):
+        self.moto.set_state('ACTIVE')
         db.session.commit()
