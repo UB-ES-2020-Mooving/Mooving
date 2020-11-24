@@ -12,6 +12,7 @@ from resources.mechanic import Mechanic, MechanicList
 from resources.client import Client, ClientsList, Profile
 from resources.motos import Moto, ClientMotosList, MechanicMotosList, ClientMoto
 from resources.login import Login
+from resources.reserved_running import ReservedRunning
 
 # App configuration
 from decouple import config
@@ -71,6 +72,8 @@ api.add_resource(Login, '/login')
 
 api.add_resource(Mechanic, "/mechanic/<int:id>", "/mechanic")
 api.add_resource(MechanicList, '/mechanics')
+
+api.add_resource(ReservedRunning, "/resrun/<int:id>", "/resrun/<string:client_email>/<int:moto_id>")
 
 
 

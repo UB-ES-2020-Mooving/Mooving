@@ -2,7 +2,7 @@
 generos = ('hombre','mujer','otro')
 
 states_moto = ('AVAILABLE', # Disponibles para el usuario
-           'RESERVED',
+           'RESERVED', # En estado de reserva
            'ACTIVE', # La gente la esta utilizando,
            'REPAIRING',
            'LOW_BATTERY_FUEL',

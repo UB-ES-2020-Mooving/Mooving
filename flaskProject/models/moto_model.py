@@ -41,6 +41,8 @@ class MotoModel(db.Model):
     # Atributo km recorrido en ultima revision (para los nuevos seran 0km)
     km_last_check = db.Column(db.Float, nullable=False)
 
+    rr = db.relationship('ReservedRunningModel', backref='moto', uselist=False)
+
     def __init__(self, state, matricula, date_estreno, model_generic, last_coordinate_latitude,
                  last_coordinate_longitude, km_restantes, km_totales, date_last_check, km_last_check):
         self.state = state
@@ -206,3 +208,6 @@ class MotoModel(db.Model):
         data['motos'].sort(key=lambda x: x[key_name])
 
         return data
+
+    def set_state(self, state):
+        self.state = state
