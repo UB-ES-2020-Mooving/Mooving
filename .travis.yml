@@ -1,18 +1,23 @@
 os:
-- linux
+  - linux
 language:
-- node_js
+  - node_js
 node_js:
-- 15.0.1
+  - 15.0.1
 install:
-- echo "Starting"
+  - npm install -g @vue/cli
+before_script:
+  - export FRONTEND=mooving
+  - ./create_frontend.sh
 script:
-- ./build_frontend.sh
+  - ./build_frontend.sh
+after_script:
+  - ./move_frontend.sh
 branches:
   only:
   - main
   - develop
-  - TR6T1_CD
+  - TD6T1_BreakTravisBuilt
 before_deploy:
   - cd flaskProject
   - heroku 
@@ -24,5 +29,5 @@ deploy:
   app:
     main: mooving
     develop: mooving-develop
-    TR6T1_CD: provant999
+    TD6T1_BreakTravisBuilt: provant999
   run: ./server_create_db.sh

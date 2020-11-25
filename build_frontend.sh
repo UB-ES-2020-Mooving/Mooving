@@ -1,21 +1,10 @@
 #!/bin/sh
 
-#Script designed for the creation and build of the frontend on server (ONLY) 
+#Script to build the frontend
+#Variable FRONTEND must exist and Vue must be installed
 
-FRONTEND=mooving
-npm install -g @vue/cli
-#Create vue project
-echo $FRONTEND
-vue create --preset preset_v1.json $FRONTEND
-sed -i 's/"rules": {}/"rules": {\n\t\t\t"no-unused-vars": "off",\n\t\t\t"no-multiple-empty-lines": "off"\n\t\t\t}/' $FRONTEND/package.json
-#copy frontend source files
-\cp -r frontend/bootstrap frontend/src frontend/tests frontend/vue.config.js frontend/public/index.html $FRONTEND
-#copy env files
-\cp frontend/.env.devops frontend/.env.production frontend/.env.staging frontend/.env.personal $FRONTEND 
-#install depencies
 cd $FRONTEND
-npm install --save axios bootstrap-vue vuelidate vue-router
-#build depending on branch
+#build specification depending on branch pushed
 case $BRANCH in
     DEVOPS)
         ./node_modules/.bin/vue-cli-service build --mode devops
@@ -30,11 +19,4 @@ case $BRANCH in
         ./node_modules/.bin/vue-cli-service build --mode personal
         ;;
 esac
-#move build files
-cd ..
-\cp -r $FRONTEND/dist/static flaskProject
-\cp $FRONTEND/dist/favicon.ico flaskProject/static
-mkdir flaskProject/templates
-\cp $FRONTEND/dist/index.html flaskProject/templates
-#Done
-echo "Success"
+
