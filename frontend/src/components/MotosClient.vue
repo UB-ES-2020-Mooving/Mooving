@@ -65,7 +65,7 @@ export default {
       this.$router.push({ path: '/clientMoto', query: { id: id, email: this.email } })
     },
     getAvailableMotos () {
-      const path = process.env.VUE_APP_CALL_PATH + '/motos'
+      const path = process.env.VUE_APP_CALL_PATH+'/motos'
       axios.get(path)
         .then((res) => {
           this.available_motos = res.data.motos
