@@ -11,7 +11,7 @@ before_script:
   - ./create_frontend.sh
 script:
   - ./build_frontend.sh
-after_script:
+after_success:
   - ./move_frontend.sh
 branches:
   only:
