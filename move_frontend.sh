@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set -ev
 #Script to move the frontend
 #Variable FRONTEND must exist and Vue must be installed
 

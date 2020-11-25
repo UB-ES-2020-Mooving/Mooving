@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set -ev
 # Script to create a Vue project
 #A variable FRONTEND must exit in the working environment and vue must be installed 
 
