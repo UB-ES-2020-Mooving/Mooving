@@ -73,8 +73,10 @@
       <!-- final del id prof -->
       <!-- boton para reservar -->
       <div>
-        <button id="reserveButton"
+        <button class="btn"
+                id="reserveButton"
                 v-if="!is_reserved"
+                :disabled=!can_reserve
                 type="button"
                 @click="reserveMoto()"
                 style="margin-left: 20px;margin-top: 20px;border-radius: 12px;
@@ -85,10 +87,10 @@
       <!-- boton para cancelar la reserva -->
       <div class="row" style="margin-top: 20px;margin-bottom: 20px">
         <div style="position: absolute; left: 20px">
-          <button id="cancelButton"
+          <button class="btn"
+                  id="cancelButton"
                   v-if="is_reserved"
                   type="button"
-                  class="float-left"
                   style="border-radius: 12px;
                 background-color: #ff6961;color: #ffffff">
             Cancel
@@ -96,10 +98,10 @@
         </div>
         <div style="position: absolute; right: 20px">
           <!-- boton para aceptar la reserva -->
-          <button id="startButton"
+          <button class="btn"
+                  id="startButton"
                   v-if="is_reserved"
                   type="button"
-                  class="float-right"
                   style="border-radius: 12px;
                 background-color: #343a40;color: #42b983">
             Start
@@ -125,13 +127,24 @@ export default {
         address: '',
         distance: 0
       },
-      is_reserved: false
+      is_reserved: false,
+      is_running_another_moto: false, // if client is running a moto
+      is_another_moto_reserved: false, // if another moto is reserved
+      can_reserve: true // client can reserve a moto
     }
   },
   created () {
     this.email = this.$route.query.email
     this.id = this.$route.query.id
     this.getMotoInfo()
+    this.getReservedMoto() // Gets the moto reserved by this user
+    this.getRunningMoto() // Gets the moto running by this user
+    if (!this.is_running_another_moto && !this.is_another_moto_reserved) {
+      this.can_reserve = true
+    } else {
+      this.can_reserve = false
+      alert('No puede reservar')
+    }
   },
   methods: {
     getMotoInfo () {
@@ -156,6 +169,21 @@ export default {
       // Llamada a la api para poner la moto a reservada
       // Se cambia la visibilidad de los botones
       this.is_reserved = true
+      // alert('Reserved was clicked! We will call to the API and the state will change to reserved')
+    },
+    getReservedMoto () {
+      // Call to the api GET to obtain the reserved motos
+      // is_another_moto_reserved true si hay
+      // si hay moto, actualizar moto_reserved
+      // si no, revisar que no pete
+      // Si el ID de esta moto, es el mismo que el de la reservada, mostrar los botones Cancel y Start
+      // Si no, el boton de Reserve aparecerá no cliclable
+      this.is_another_moto_reserved = false
+      // alert('Si hay motos reservadas')
+    },
+    getRunningMoto () {
+      // Call to the api GET to obtain the running motos by this user
+      this.is_running_another_moto = false
     }
   }
 }
@@ -176,6 +204,7 @@ li {
 a {
   color: #42b983;
 }
+
 #prof {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

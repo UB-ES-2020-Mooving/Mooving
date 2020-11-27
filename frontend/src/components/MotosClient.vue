@@ -108,6 +108,8 @@ export default {
       // is_moto_reserved true si hay
       // si hay moto, actualizar moto_reserved
       // si no, revisar que no pete
+      this.is_moto_reserved = true
+      // alert('Si hay motos reservadas')
     }
   }
 }
