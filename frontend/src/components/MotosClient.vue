@@ -21,6 +21,12 @@
     </div>
     <!-- Title of the page -->
     <h1> {{ name }} </h1>
+    <!-- Checkboxes to filter moto's type -->
+    <h5>Filter type/s of motorbikes: </h5>
+    <input type="checkbox" id="checkboxBasic" v-model="basic" @change="getAvailableMotos()">
+    <label for="checkboxBasic">Basic </label>
+    <input type="checkbox" id="checkboxPremium" v-model="premium" @change="getAvailableMotos()">
+    <label for="checkboxPremium">Premium</label>
     <!-- Lista de motos para el cliente-->
     <div class="list-group" v-if="is_client">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
@@ -52,7 +58,11 @@ export default {
         items: []
       },
       message_no_motos_available: 'There are no motos available',
-      is_client: true
+      is_client: true,
+      basic: true,
+      premium: true,
+      model_generic: 'all',
+      more_km_restantes: 0
     }
   },
   created () {
@@ -64,9 +74,33 @@ export default {
       // Nos lleva a otra pagina donde se ve la info especifica de la moto
       this.$router.push({ path: '/clientMoto', query: { id: id, email: this.email } })
     },
+    filterMotoList () {
+      if (this.basic && this.premium) {
+        this.model_generic = 'all'
+        this.more_km_restantes = 0
+        // TODO: more_km_restantes hay que coger de sliders
+      } else if (this.basic) {
+        this.model_generic = 'basic'
+        this.more_km_restantes = 0
+        // TODO: more_km_restantes hay que coger de sliders
+      } else if (this.premium) {
+        this.model_generic = 'premium'
+        this.more_km_restantes = 0
+        // TODO: more_km_restantes hay que coger de sliders
+      } else {
+        this.model_generic = 'all'
+        this.more_km_restantes = 0
+      }
+    },
     getAvailableMotos () {
+      this.filterMotoList()
       const path = process.env.VUE_APP_CALL_PATH + '/motos'
-      axios.get(path)
+      axios.get(path, {
+        params: {
+          model_generic: this.model_generic,
+          more_km_restantes: this.more_km_restantes
+        }
+      })
         .then((res) => {
           this.available_motos = res.data.motos
           console.log(res.data.motos)
