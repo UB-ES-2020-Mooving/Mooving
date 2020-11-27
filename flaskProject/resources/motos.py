@@ -95,7 +95,7 @@ class ClientMotosList(Resource):
 
         # Para el cliente siempre queremos las ACTIVE
         # (creo que se tiene que cambiar por AVAILABLE en algun momento)
-        list_and.append(MotoModel.state == "ACTIVE")
+        list_and.append(MotoModel.state == "AVAILABLE")
 
         # El caso sin filtro es data["more_km_restantes"]==0
         if data["more_km_restantes"] > 0:
