@@ -84,15 +84,20 @@
           Reserve
         </button>
       </div>
-      <!-- boton para cancelar la reserva -->
+      <!-- mensaje de hasta que hora puede recogerla-->
+      <div v-if="is_reserved" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
+        <p style="font-weight: bold;">{{this.time_pick_up}}</p>
+      </div>
+      <!-- divisor de opciones-->
       <div class="row" style="margin-top: 20px;margin-bottom: 20px">
         <div style="position: absolute; left: 20px">
+          <!-- boton para cancelar la reserva -->
           <button class="btn"
                   id="cancelButton"
                   v-if="is_reserved"
                   type="button"
                   style="border-radius: 12px;
-                background-color: #ff6961;color: #ffffff">
+                background-color: #ff6961;color: #ffffff; width: 150px">
             Cancel
           </button>
         </div>
@@ -103,7 +108,7 @@
                   v-if="is_reserved"
                   type="button"
                   style="border-radius: 12px;
-                background-color: #343a40;color: #42b983">
+                background-color: #343a40;color: #42b983; width: 150px" >
             Start
           </button>
         </div>
@@ -130,7 +135,8 @@ export default {
       is_reserved: false,
       is_running_another_moto: false, // if client is running a moto
       is_another_moto_reserved: false, // if another moto is reserved
-      can_reserve: true // client can reserve a moto
+      can_reserve: true, // client can reserve a moto
+      time_pick_up: 'You have until XX:XX to pick up the motorbike'
     }
   },
   created () {
@@ -169,6 +175,7 @@ export default {
       // Llamada a la api para poner la moto a reservada
       // Se cambia la visibilidad de los botones
       this.is_reserved = true
+      // update the visibility of the message this.time_pick_up
       // alert('Reserved was clicked! We will call to the API and the state will change to reserved')
     },
     getReservedMoto () {
@@ -204,7 +211,6 @@ li {
 a {
   color: #42b983;
 }
-
 #prof {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
