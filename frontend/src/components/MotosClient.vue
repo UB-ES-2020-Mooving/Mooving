@@ -1,7 +1,7 @@
 <template>
   <div id="app" style="margin-top: 0">
     <div>
-      <b-navbar toggleable type="dark" variant="dark" v-if="available_motos.length>0">
+      <b-navbar toggleable type="dark" variant="dark">
         <b-navbar-brand href="#">
           <img src="./Images/moovingLogoBlanco.png" alt= "Logo" style= "width:100px;">
         </b-navbar-brand>
@@ -25,7 +25,7 @@
     <div class="list-group" v-if="is_client">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
       <div id="lista_motos_client" v-if="available_motos.length>0" class="center-screen">
-        <button v-for="item in available_motos" :key="item.matricula" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto()">
+        <button v-for="item in available_motos" :key="item.matricula" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto(item.id)">
           <div class="row">
             <div class="col-sm" style="font-weight: bold;">{{item.matricula}}</div>
             <div class="col-sm">Distance: {{item.distance}}m</div>
@@ -60,8 +60,9 @@ export default {
     this.email = this.$route.query.email // si la extension es @mooving.com es un mecanico
   },
   methods: {
-    reserveMoto () {
+    reserveMoto (id) {
       // Nos lleva a otra pagina donde se ve la info especifica de la moto
+      this.$router.push({ path: '/clientMoto', query: { id: id, email: this.email } })
     },
     getAvailableMotos () {
       const path = process.env.VUE_APP_CALL_PATH + '/motos'
