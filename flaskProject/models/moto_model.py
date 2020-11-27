@@ -137,6 +137,30 @@ class MotoModel(db.Model):
         }
         return data
 
+    def json_mechanicMoto(self):
+        date_format = "%d/%m/%Y"
+        date_last_check = datetime.strptime(self.date_last_check, date_format)
+        today = datetime.strptime(datetime.now().strftime(date_format), date_format)
+        time_since_last_check = (today - date_last_check).days
+
+        date_estreno = datetime.strptime(self.date_estreno, date_format)
+        time_total = (today - date_estreno).days
+
+        data = {
+            'id': self.id,
+            'matricula': self.matricula,
+            'state': self.state,
+            'km_total': self.km_totales,  # km since added to the system
+            'time_total': time_total,  # days since added to the system: date_estreno - date_actual
+            'time_since_last_check': time_since_last_check,  # days since last check
+            'km_since_last_check': self.km_totales - self.km_last_check,  # km since last check
+            'km_restantes': self.km_restantes,
+            'last_coordinate_latitude': self.last_coordinate_latitude,
+            'last_coordinate_longitude': self.last_coordinate_longitude,
+            'address': self.address
+        }
+        return data
+
 
     def get_last_coordinate_latitude(self):
         return self.last_coordinate_latitude
