@@ -24,7 +24,7 @@
       <h1> {{ name_reserved_motos }} </h1>
       <div class="list-group" style="margin-bottom: 20px">
         <div class="center-screen">
-          <button type="button" class="list-group-item list-group-item-action">
+          <button type="button" class="list-group-item list-group-item-action" @click="reserveMoto(moto_reserved.id)">
             <div class="row">
               <div class="col-sm" style="font-weight: bold;">{{moto_reserved.matricula}}</div>
               <div class="col-sm">Distance: {{moto_reserved.distance}}m</div>
@@ -75,6 +75,7 @@ export default {
       is_client: true,
       is_moto_reserved: true,
       moto_reserved: {
+        id: 1,
         matricula: 'ASD',
         distance: 0,
         model_generic: 'PATATAS'
