@@ -20,8 +20,8 @@
       </b-navbar>
     </div>
     <!-- Lista de motos reservadas -->
-    <div id="motosReserved" v-if="is_moto_reserved">
-      <h1> {{ name_reserved_motos }} </h1>
+    <div id="motosReserved" v-if="is_moto_reserved" style="margin-top: 20px">
+      <h2>{{ name_reserved_motos }}</h2>
       <div class="list-group" style="margin-bottom: 20px">
         <div class="center-screen">
           <button type="button" class="list-group-item list-group-item-action" @click="reserveMoto(moto_reserved.id)">
@@ -34,12 +34,13 @@
         </div>
       </div>
       <!-- Show divider between lists-->
-      <div class="h-divider">
+      <div class="h-divider" style="margin-bottom: 20px;">
+        <!-- div class="text2"><img src="./Images/MotodivisorRightWhite.png" style= "width:100%;"/></div -->
         <hr class="gradient-line" />
       </div>
     </div>
     <!-- Title of the page: Motorbikes for the client -->
-    <h1> {{ name }} </h1>
+    <h2>{{ name }}</h2>
     <!-- Lista de motos para el cliente-->
     <div class="list-group" v-if="is_client">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
@@ -56,6 +57,10 @@
       <div id="no_motos_client" v-if="available_motos.length===0" class="center-screen">
         <p>{{ message_no_motos_available }}</p>
       </div>
+    </div>
+    <!-- Show divider between lists-->
+    <div class="h-divider" style="width: 90%;margin-top: 0; height: 7px">
+      <div class="text2"><img src="./Images/MotodivisorRightWhite.png" style= "width:100%;height: 100%;"/></div>
     </div>
   </div>
 </template>
@@ -117,8 +122,9 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h1, h2 {
+  h1, h2, h3 {
     font-weight: normal;
+    text-align: center;
   }
   ul {
     list-style-type: none;
@@ -134,13 +140,15 @@ export default {
   .h-divider {
     margin: auto;
     margin-top: 40px;
-    margin-bottom: 40px;
-    width: 80%;
+    width: 90%;
     position: relative;
     background: #343a40;
   }
+  .h-divider .text2 {
+    background: #343a40;
+  }
   .gradient-line{
-    margin: 0 0 50px 0;
+    margin: 0 0 0 0;
     display: block;
     border: none;
     height: 10px;
