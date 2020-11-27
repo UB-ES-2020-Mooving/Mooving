@@ -2,7 +2,11 @@ from db import db
 from models.constantes import *
 from datetime import datetime
 from geopy.distance import distance
+
+from sqlalchemy import and_, or_
+
 from geopy.geocoders import Nominatim
+
 
 class MotoModel(db.Model):
     __tablename__ = 'motos'
@@ -187,6 +191,7 @@ class MotoModel(db.Model):
     @classmethod
     def get_all(cls):
         return MotoModel.query.all()
+
     @classmethod
     def compute_distance(cls, motos, coord, key_name, max_dist=float("inf")):
         # Este bloque es para comprobar que la key_name no coincida con otra key del diccionario y falle.
@@ -209,5 +214,15 @@ class MotoModel(db.Model):
 
         return data
 
+    
     def set_state(self, state):
         self.state = state
+
+    @classmethod
+    def condiciones_AND(cls, lista):
+        cond = and_()
+        for c in lista:
+            cond = and_(cond, c)
+        return cond
+
+
