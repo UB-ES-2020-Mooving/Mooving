@@ -79,8 +79,8 @@
                 :disabled=!can_reserve
                 type="button"
                 @click="reserveMoto()"
-                style="margin-left: 20px;margin-top: 20px;border-radius: 12px;
-                background-color: #343a40;color: #42b983">
+                style="margin-top: 20px;margin-left: 20px;border-radius: 12px;
+                background-color: #343a40;color: #42b983;width: 150px">
           Reserve
         </button>
       </div>
