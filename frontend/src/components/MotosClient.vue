@@ -20,16 +20,22 @@
       </b-navbar>
     </div>
     <!-- Lista de motos reservadas -->
-    <h1 v-if="is_moto_reserved"> {{ name_reserved_motos }} </h1>
-    <div class="list-group" v-if="is_moto_reserved" style="margin-bottom: 20px">
-      <div class="center-screen">
-        <button type="button" class="list-group-item list-group-item-action">
-          <div class="row">
-            <div class="col-sm" style="font-weight: bold;">{{moto_reserved.matricula}}</div>
-            <div class="col-sm">Distance: {{moto_reserved.distance}}m</div>
-            <div class="col-sm">Type: {{moto_reserved.model_generic}}</div>
-          </div>
-        </button>
+    <div id="motosReserved" v-if="is_moto_reserved">
+      <h1> {{ name_reserved_motos }} </h1>
+      <div class="list-group" style="margin-bottom: 20px">
+        <div class="center-screen">
+          <button type="button" class="list-group-item list-group-item-action">
+            <div class="row">
+              <div class="col-sm" style="font-weight: bold;">{{moto_reserved.matricula}}</div>
+              <div class="col-sm">Distance: {{moto_reserved.distance}}m</div>
+              <div class="col-sm">Type: {{moto_reserved.model_generic}}</div>
+            </div>
+          </button>
+        </div>
+      </div>
+      <!-- Show divider between lists-->
+      <div class="h-divider">
+        <hr class="gradient-line" />
       </div>
     </div>
     <!-- Title of the page: Motorbikes for the client -->
@@ -121,6 +127,22 @@ export default {
   }
   a {
     color: #42b983;
+  }
+  .h-divider {
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 80%;
+    position: relative;
+    background: #343a40;
+  }
+  .gradient-line{
+    margin: 0 0 50px 0;
+    display: block;
+    border: none;
+    height: 10px;
+    background: #0071B9;
+    background: linear-gradient(to right, #42b983, #343a40, #343a40, #343a40, #42b983);
   }
 </style>
 
