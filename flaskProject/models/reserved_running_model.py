@@ -24,21 +24,32 @@ class ReservedRunningModel(db.Model):
         self.dateTimeReserved = datetime.now()
         self.kmStart = moto.km_totales
 
-    def json(self):
+    def json_reserved(self):
         data = {
             'id': self.rr_id,
             'client': self.client.json(),
             'moto': self.moto.json(),
             'dataTimeReserved': self.convert_date_to_string(self.dateTimeReserved),
-            'dataTimeStart': self.dateTimeStart,
             'kmStart': self.kmStart
         }
         return data
 
-    """
-    Metodo que permite convertir el formato DateTime en formato String
-    """
+    def json_start(self):
+        data = {
+            'id': self.rr_id,
+            'client': self.client.json(),
+            'moto': self.moto.json(),
+            'dataTimeReserved': self.convert_date_to_string(self.dateTimeReserved),
+            'dataTimeStart': self.convert_date_to_string(self.dateTimeStart),
+            'kmStart': self.kmStart
+        }
+        return data
+
+
     def convert_date_to_string(self, dateTime):
+        """
+        Metodo que permite convertir el formato DateTime en formato String
+        """
         data_time = str(dateTime.day) + "/" \
                     + str(dateTime.month) + "/" \
                     + str(dateTime.year) + " " \
@@ -47,10 +58,10 @@ class ReservedRunningModel(db.Model):
                     + str(dateTime.second)
         return data_time
 
-    """
-    Metodo que permite hacer el put de star en reserved
-    """
     def make_star_moto(self):
+        """
+        Metodo que permite hacer el put de star en reserved
+        """
         self.dateTimeStart = datetime.now()
         db.session.commit()
 
@@ -74,16 +85,16 @@ class ReservedRunningModel(db.Model):
     def find_by_client_moto(cls, client_id, moto_id):
         return ReservedRunningModel.query.filter_by(clientId=client_id).filter_by(motoId=moto_id).first()
 
-    """
-    Metodo que permite actualizar el estado de la moto y ponerlo a 'RESERVED'
-    """
     def update_state_reserved(self):
+        """
+        Metodo que permite actualizar el estado de la moto y ponerlo a 'RESERVED'
+        """
         self.moto.set_state('RESERVED')
         db.session.commit()
 
-    """
-    Metodo que permite actualizar el estado de la moto y ponerlo a 'ACTIVE'
-    """
-    def update_state_active(self):
+    def update_state_start(self):
+        """
+        Metodo que permite actualizar el estado de la moto y ponerlo a 'ACTIVE'
+        """
         self.moto.set_state('ACTIVE')
         db.session.commit()
