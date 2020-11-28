@@ -15,4 +15,4 @@ vue create --preset preset_v1.json $FRONTEND
 cd $FRONTEND
 npm install --save axios bootstrap-vue vuelidate vue-router
 #add testing with jest
-vue add unit-jest
+#vue add unit-jest
