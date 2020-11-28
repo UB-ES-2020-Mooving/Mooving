@@ -73,7 +73,7 @@ api.add_resource(Login, '/login')
 api.add_resource(Mechanic, "/mechanic/<int:id>", "/mechanic")
 api.add_resource(MechanicList, '/mechanics')
 
-api.add_resource(Reserved, "/reserved/<string:client_email>", "/reserved/<string:client_email>/<int:moto_id>")
+api.add_resource(Reserved, "/reserve/<string:client_email>", "/reserve/<string:client_email>/<int:moto_id>")
 api.add_resource(Start, "/start/<string:client_email>", "/start/<string:client_email>/<int:moto_id>")
 
 

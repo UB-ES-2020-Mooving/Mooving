@@ -1,5 +1,5 @@
 from db import db
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class ReservedRunningModel(db.Model):
@@ -42,6 +42,18 @@ class ReservedRunningModel(db.Model):
             'dataTimeReserved': self.convert_date_to_string(self.dateTimeReserved),
             'dataTimeStart': self.convert_date_to_string(self.dateTimeStart),
             'kmStart': self.kmStart
+        }
+        return data
+
+    def json_prueba(self):
+        data = {
+            'id': self.id,
+            'matricula': self.matricula,
+            'model_generic': self.model_generic,
+            'km_restantes': self.km_restantes,
+            'address': self.address,
+            'last_coordinate_latitude': self.last_coordinate_latitude,
+            'last_coordinate_longitude': self.last_coordinate_longitude
         }
         return data
 
@@ -104,3 +116,38 @@ class ReservedRunningModel(db.Model):
 
     def isActive(self):
         return self.moto.state == "ACTIVE"
+
+    def make_remaining_time(self):
+        """
+        Metodo que permite crear el tiempo limite para start moto desde la reserva
+        """
+
+        """
+        Codigo real para la web
+        time_min = 10
+
+        ten_min_more = self.dateTimeReserved + timedelta(minutes=time_min)
+
+        return mas10min
+        """
+
+        # Este tiempo es solo para la demo
+        time_sg = 30
+
+        mas10min = self.dateTimeReserved + timedelta(seconds=time_sg)
+
+        return mas10min
+
+    def check_remaining_time(self):
+        """
+        Metodo que permite comprobar si no se ha superado el tiempo limite para start moto (True) o si se ha superado (False)
+        """
+        # Si el tiempo reservado es menor al tiempo limite
+        return datetime.now() <= self.make_remaining_time()
+
+    def update_state_available(self):
+        """
+        Metodo que permite actualizar el estado de la moto y ponerlo a 'AVAILABLE'
+        """
+        self.moto.set_state('AVAILABLE')
+        db.session.commit()
