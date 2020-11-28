@@ -10,8 +10,10 @@ before_script:
   - export FRONTEND=mooving
   - ./create_frontend.sh
 script:
-  - ./build_frontend.sh
+  - cd $FRONTEND
   - npm run test:unit
+  - cd ..
+  - ./build_frontend.sh
 after_success:
   - ./move_frontend.sh
 branches:
