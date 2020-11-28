@@ -12,7 +12,7 @@
         "@vue/cli-plugin-unit-jest": {}
     },
     "configs":{
-        "eslintCongif": {
+        "eslintConfig": {
             "rules": {
                 "no-unused-vars": "off",
                 "no-multiple-empty-lines": "off"
