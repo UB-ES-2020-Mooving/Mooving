@@ -156,7 +156,7 @@ def init_db():
     new_mechanic = MechanicModel(
         name="Jose",
         subname="De carglass",
-        dni="11111111J",
+        dni="11111112J",
         password="123456",
         date_registration="23/02/2020")
     db.session.add(new_mechanic)
@@ -179,5 +179,5 @@ def init_db():
 
 
 #Si usa script --> deja la linea de abajo descomentada
-init_db()
+#init_db()
 
