@@ -98,3 +98,9 @@ class ReservedRunningModel(db.Model):
         """
         self.moto.set_state('ACTIVE')
         db.session.commit()
+
+    def isReserved(self):
+        return self.moto.state == "RESERVED"
+
+    def isActive(self):
+        return self.moto.state == "ACTIVE"

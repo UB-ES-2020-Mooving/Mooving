@@ -5,10 +5,21 @@ from models.moto_model import MotoModel
 
 
 class Reserved(Resource):
-    def get(self, id):
+    def get(self, client_email):
         try:
-            rr = ReservedRunningModel.find_by_id(id)
-            return {'reserved_moto': rr.json_reserved()}, 200
+            client = ClientModel.find_by_email(client_email)
+            if client is not None:
+                rr = ReservedRunningModel.find_by_client(client.client_id)
+                if rr is not None:
+                    if rr.isReserved():
+                        return {'reserved_moto': rr.json_reserved()}, 200
+                    else:
+                        return {"message": "Error Moto state isn't reserved"}, 500
+                else:
+                    return {'message': "Error Client haven't reserved moto"}, 404
+            else:
+                return {'message': "Error Client Not Found"}, 404
+
         except:
             return {"message": "Error Get Reserved Moto"}, 500
 
@@ -38,10 +49,20 @@ class Reserved(Resource):
 
 
 class Start(Resource):
-    def get(self, id):
+    def get(self, client_email):
         try:
-            rr = ReservedRunningModel.find_by_id(id)
-            return {'start_moto': rr.json_start()}, 200
+            client = ClientModel.find_by_email(client_email)
+            if client is not None:
+                rr = ReservedRunningModel.find_by_client(client.client_id)
+                if rr is not None:
+                    if rr.isActive():
+                        return {'start_moto': rr.json_start()}, 200
+                    else:
+                        return {"message": "Error Moto state isn't active"}, 500
+                else:
+                    return {'message': "Error Client haven't start moto"}, 404
+            else:
+                return {'message': "Error Client Not Found"}, 404
         except:
             return {"message": "Error Get Start Moto"}, 500
 
