@@ -5,6 +5,7 @@ set -ev
 
 echo $FRONTEND
 vue create --preset preset_v1.json $FRONTEND
+#introduce relaxes rules for lint
 sed -i 's/"rules": {}/"rules": {\n\t\t\t"no-unused-vars": "off",\n\t\t\t"no-multiple-empty-lines": "off"\n\t\t\t}/' $FRONTEND/package.json
 #copy frontend source files
 \cp -r frontend/bootstrap frontend/src frontend/tests frontend/vue.config.js frontend/public/index.html $FRONTEND
@@ -13,3 +14,5 @@ sed -i 's/"rules": {}/"rules": {\n\t\t\t"no-unused-vars": "off",\n\t\t\t"no-mult
 #install depencies
 cd $FRONTEND
 npm install --save axios bootstrap-vue vuelidate vue-router
+#add testing with jest
+vue add unit-jest
