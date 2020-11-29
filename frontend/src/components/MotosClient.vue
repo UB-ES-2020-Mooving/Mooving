@@ -19,8 +19,28 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <!-- Title of the page -->
-    <h1> {{ name }} </h1>
+    <!-- Lista de motos reservadas -->
+    <div id="motosReserved" v-if="is_moto_reserved" style="margin-top: 20px">
+      <h2>{{ name_reserved_motos }}</h2>
+      <div class="list-group" style="margin-bottom: 20px">
+        <div class="center-screen">
+          <button type="button" class="list-group-item list-group-item-action" @click="reserveMoto(moto_reserved.id)">
+            <div class="row">
+              <div class="col-sm" style="font-weight: bold;">{{moto_reserved.matricula}}</div>
+              <div class="col-sm">Distance: {{moto_reserved.distance}}m</div>
+              <div class="col-sm">Type: {{moto_reserved.model_generic}}</div>
+            </div>
+          </button>
+        </div>
+      </div>
+      <!-- Show divider between lists-->
+      <div class="h-divider" style="margin-bottom: 20px;">
+        <!-- div class="text2"><img src="./Images/MotodivisorRightWhite.png" style= "width:100%;"/></div -->
+        <hr class="gradient-line" />
+      </div>
+    </div>
+    <!-- Title of the page: Motorbikes for the client -->
+    <h2>{{ name }}</h2>
     <!-- Lista de motos para el cliente-->
     <div class="list-group" v-if="is_client">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
@@ -38,6 +58,10 @@
         <p>{{ message_no_motos_available }}</p>
       </div>
     </div>
+    <!-- Show divider between lists-->
+    <div class="h-divider" style="width: 100%;margin-top: 0; height: 7px">
+      <div class="text2"><img src="./Images/MotodivisorRightWhite.png" style= "width:90%;height: 100%;"/></div>
+    </div>
   </div>
 </template>
 
@@ -47,16 +71,25 @@ export default {
   data () {
     return {
       name: 'Available Motorbikes',
+      name_reserved_motos: 'Reserved Motorbike',
       email: '',
       available_motos: {
         items: []
       },
       message_no_motos_available: 'There are no motos available',
-      is_client: true
+      is_client: true,
+      is_moto_reserved: true,
+      moto_reserved: {
+        id: 1,
+        matricula: 'ASD',
+        distance: 0,
+        model_generic: 'PATATAS'
+      }
     }
   },
   created () {
     this.getAvailableMotos() // Gets the motos that are available for the client to use
+    this.getReservedMoto() // Gets the moto reserved by this user
     this.email = this.$route.query.email // si la extension es @mooving.com es un mecanico
   },
   methods: {
@@ -75,14 +108,23 @@ export default {
           console.error(error)
           alert(error)
         })
+    },
+    getReservedMoto () {
+      // Call to the api GET to obtain the reserved motos
+      // is_moto_reserved true si hay
+      // si hay moto, actualizar moto_reserved
+      // si no, revisar que no pete
+      this.is_moto_reserved = true
+      // alert('Si hay motos reservadas')
     }
   }
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h1, h2 {
+  h1, h2, h3 {
     font-weight: normal;
+    text-align: center;
   }
   ul {
     list-style-type: none;
@@ -94,6 +136,24 @@ export default {
   }
   a {
     color: #42b983;
+  }
+  .h-divider {
+    margin: auto;
+    margin-top: 40px;
+    width: 90%;
+    position: relative;
+    background: #343a40;
+  }
+  .h-divider .text2 {
+    background: #343a40;
+  }
+  .gradient-line{
+    margin: 0 0 0 0;
+    display: block;
+    border: none;
+    height: 10px;
+    background: #0071B9;
+    background: linear-gradient(to right, #42b983, #343a40, #343a40, #343a40, #42b983);
   }
 </style>
 
