@@ -18,6 +18,7 @@ def test_jsonMotoPageMechanic():
     assert 'id' in json_fields
     assert 'matricula' in json_fields
     assert 'state' in json_fields
+    assert 'type' in json_fields
     assert 'km_total' in json_fields
     assert 'time_total' in json_fields
     assert 'time_since_last_check' in json_fields

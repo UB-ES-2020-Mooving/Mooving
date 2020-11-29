@@ -150,6 +150,7 @@ class MotoModel(db.Model):
             'id': self.id,
             'matricula': self.matricula,
             'state': self.state,
+            'type': self.model_generic,
             'km_total': self.km_totales,  # km since added to the system
             'time_total': time_total,  # days since added to the system: date_estreno - date_actual
             'time_since_last_check': time_since_last_check,  # days since last check
