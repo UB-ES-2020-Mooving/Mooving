@@ -87,7 +87,7 @@ export default {
       basic: true,
       premium: true,
       model_generic: 'all',
-      more_km_restantes: 0
+      more_km_restantes: 0,
       is_moto_reserved: true,
       moto_reserved: {
         id: 1,
