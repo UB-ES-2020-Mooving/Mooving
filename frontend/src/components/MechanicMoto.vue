@@ -13,9 +13,9 @@
       <div class="row text-center" style="margin-top: 20px;">
         <div class="col-sm-6 sm-4">
           <img class="rounded z-depth-2" alt="100x200" src="./Images/iconPremium.png"
-               data-holder-rendered="true" v-if="this.moto.model_generic === 'premium'">
+               data-holder-rendered="true" v-if="this.moto.type === 'premium'">
           <img class="rounded z-depth-2" alt="100x200" src="./Images/iconNormal.png"
-               data-holder-rendered="true" v-else-if="this.moto.model_generic === 'basic'">
+               data-holder-rendered="true" v-else-if="this.moto.type === 'basic'">
           <b-button disabled size="lg" style="margin-left: 60px;">ID: #{{this.id}}</b-button>
         </div>
       </div>
@@ -37,7 +37,7 @@
                   <h6 class="mb-0"><strong>State</strong></h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  <strong>XXXX</strong>
+                  <strong>{{ this.moto.state }}</strong>
                 </div>
               </div>
               <hr>
@@ -46,7 +46,7 @@
                   <h6 class="mb-0">Time since last revision</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  XXXX
+                  {{ this.moto.time_since_last_check }}
                 </div>
               </div>
               <hr>
@@ -55,7 +55,7 @@
                   <h6 class="mb-0">Total km</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  XXXX
+                  {{ this.moto.km_total }}
                 </div>
               </div>
               <hr>
@@ -64,7 +64,7 @@
                   <h6 class="mb-0">Total time</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  XXXX
+                  {{ this.moto.time_total }}
                 </div>
               </div>
               <hr>
@@ -73,7 +73,7 @@
                   <h6 class="mb-0">Type</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{ this.moto.model_generic }}
+                  {{ this.moto.type }}
                 </div>
               </div>
               <hr>
@@ -84,15 +84,24 @@
                 <div class="col-sm-9 text-secondary">
                   {{ this.moto.km_restantes }} km
                 </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Distance</h6>
                 </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Street<b-icon icon="geo-alt-fill"></b-icon></h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    {{ this.moto.address }}
-                  </div>
+                <div class="col-sm-9 text-secondary">
+                  {{ this.moto.distance }}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Street<b-icon icon="geo-alt-fill"></b-icon></h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {{ this.moto.address }}
+                </div>
               </div>
             </div>
           </div>
@@ -112,7 +121,11 @@ export default {
       id: 0,
       moto: {
         matricula: '',
-        model_generic: '',
+        state: '',
+        time_since_last_check: 0,
+        km_total: 0,
+        time_total: 0,
+        type: '',
         km_restantes: 0.0,
         address: ''
       }
@@ -125,13 +138,18 @@ export default {
   },
   methods: {
     getMotoInfo () {
-      const path = process.env.VUE_APP_CALL_PATH + '/MechanicMoto' + '/' + this.id
-      console.log(process.env.VUE_APP_CALL_PATH + '/MechanicMoto' + '/' + this.id)
+      const path = process.env.VUE_APP_CALL_PATH + '/mechanicMoto' + '/' + this.id
+      console.log(process.env.VUE_APP_CALL_PATH + '/mechanicMoto' + '/' + this.id)
       axios.get(path)
         .then((res) => {
           this.moto.matricula = res.data.mechanic_moto.matricula
-          this.moto.model_generic = res.data.mechanic_moto.model_generic
+          this.moto.state = res.data.mechanic_moto.state
+          this.moto.time_since_last_check = res.data.mechanic_moto.time_since_last_check
+          this.moto.km_total = res.data.mechanic_moto.km_total
+          this.moto.time_total = res.data.mechanic_moto.time_total
+          this.moto.type = res.data.mechanic_moto.type
           this.moto.km_restantes = res.data.mechanic_moto.km_restantes
+          this.moto.distance = res.data.mechanic_moto.distance
           this.moto.address = res.data.mechanic_moto.address
           console.log(res.data.mechanic_moto)
         })
