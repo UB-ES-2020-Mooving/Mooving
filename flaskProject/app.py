@@ -10,7 +10,7 @@ from resources.article import ArticlesList
 from resources.mechanic import Mechanic, MechanicList
 
 from resources.client import Client, ClientsList, Profile
-from resources.motos import Moto, ClientMotosList, MechanicMotosList, ClientMoto
+from resources.motos import Moto, ClientMotosList, MechanicMotosList, ClientMoto, MechanicMoto
 from resources.login import Login
 
 # App configuration
@@ -65,6 +65,7 @@ api.add_resource(ClientMotosList, '/motos')
 api.add_resource(MechanicMotosList, '/mechanicMotos')
 
 api.add_resource(ClientMoto,'/clientMoto/<int:id>') #para mostrar al cliente informacion de un moto en concreto
+api.add_resource(MechanicMoto,'/mechanicMoto/<int:id>') #para mostrar al mechanic informacion de un moto en concreto
 
 
 api.add_resource(Login, '/login')
