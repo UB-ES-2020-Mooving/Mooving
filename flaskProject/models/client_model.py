@@ -27,12 +27,13 @@ class ClientModel(db.Model):
     motos = db.relationship('MotoModel', secondary=relations_table,
                             backref=db.backref('clients', lazy='dynamic'))
 
+    rr = db.relationship('ReservedRunningModel', backref='client', uselist=False)
+
     def __init__(self, nombre, iban, dni_nie, email, password):
         self.nombre = nombre
         self.email = email
         self.iban = iban
         self.password = password
-
         self.dni_nie = dni_nie
 
     def json(self):

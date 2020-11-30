@@ -7,6 +7,7 @@ import Login from '@/components/Login.vue'
 import Profile from '@/components/Profile.vue'
 import MotosClient from '@/components/MotosClient'
 import clientMoto from '../components/clientMoto'
+import mechanicMoto from '../components/MechanicMoto'
 
 Vue.use(Router)
 
@@ -48,6 +49,11 @@ export default new Router({
       path: '/clientMoto',
       name: 'clientMoto',
       component: clientMoto
+    },
+    {
+      path: '/mechanicMoto',
+      name: 'mechanicMoto',
+      component: mechanicMoto
     }
   ]
 })

@@ -145,3 +145,19 @@ class ClientMoto(Resource):
         except:
             return {"message": "Error Get Moto"}, 500
 
+
+
+#informacion de un moto en concreto para mechanic
+class MechanicMoto(Resource):
+    def get(self, id):
+        coord_mechanic = (23.44333, 23.4433)
+        try:
+            moto = MotoModel.find_by_id(id)
+            moto_json = [moto.json_mechanicMoto()]
+            result = MotoModel.compute_distance(moto_json, coord_mechanic, "distance")
+            #los cambios de keyname de jsons es para coordinar con frontend
+            return {'mechanic_moto': result['motos'][0]}, 200
+        except:
+            return {"message": "Error Get Moto"}, 500
+
+

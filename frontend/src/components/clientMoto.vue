@@ -36,7 +36,7 @@
                   <h6 class="mb-0">Distance</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{ this.moto.distance }}
+                  {{ this.moto.distance }} m
                 </div>
               </div>
               <hr>
@@ -70,6 +70,49 @@
           </div>
         </div>
       </div>
+      <!-- final del id prof -->
+      <!-- boton para reservar -->
+      <div>
+        <button class="btn"
+                id="reserveButton"
+                v-if="!is_reserved"
+                :disabled=!can_reserve
+                type="button"
+                @click="reserveMoto()"
+                style="margin-top: 20px;margin-left: 20px;border-radius: 12px;
+                background-color: #343a40;color: #42b983;width: 150px">
+          Reserve
+        </button>
+      </div>
+      <!-- mensaje de hasta que hora puede recogerla-->
+      <div v-if="is_reserved" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
+        <p style="font-weight: bold;">{{this.time_pick_up}}</p>
+      </div>
+      <!-- divisor de opciones-->
+      <div class="row" style="margin-top: 20px;margin-bottom: 20px">
+        <div style="position: absolute; left: 20px">
+          <!-- boton para cancelar la reserva -->
+          <button class="btn"
+                  id="cancelButton"
+                  v-if="is_reserved"
+                  type="button"
+                  style="border-radius: 12px;
+                background-color: #ff6961;color: #ffffff; width: 150px">
+            Cancel
+          </button>
+        </div>
+        <div style="position: absolute; right: 20px">
+          <!-- boton para aceptar la reserva -->
+          <button class="btn"
+                  id="startButton"
+                  v-if="is_reserved"
+                  type="button"
+                  style="border-radius: 12px;
+                background-color: #343a40;color: #42b983; width: 150px" >
+            Start
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -88,13 +131,26 @@ export default {
         km_restantes: 0.0,
         address: '',
         distance: 0
-      }
+      },
+      is_reserved: false,
+      is_running_another_moto: false, // if client is running a moto
+      is_another_moto_reserved: false, // if another moto is reserved
+      can_reserve: true, // client can reserve a moto
+      time_pick_up: 'You have until XX:XX to pick up the motorbike'
     }
   },
   created () {
     this.email = this.$route.query.email
     this.id = this.$route.query.id
     this.getMotoInfo()
+    this.getReservedMoto() // Gets the moto reserved by this user
+    this.getRunningMoto() // Gets the moto running by this user
+    if (!this.is_running_another_moto && !this.is_another_moto_reserved) {
+      this.can_reserve = true
+    } else {
+      this.can_reserve = false
+      alert('No puede reservar')
+    }
   },
   methods: {
     getMotoInfo () {
@@ -113,6 +169,28 @@ export default {
           console.error(error)
           alert(error)
         })
+    },
+    reserveMoto () {
+      // Client reserves a moto
+      // Llamada a la api para poner la moto a reservada
+      // Se cambia la visibilidad de los botones
+      this.is_reserved = true
+      // update the visibility of the message this.time_pick_up
+      // alert('Reserved was clicked! We will call to the API and the state will change to reserved')
+    },
+    getReservedMoto () {
+      // Call to the api GET to obtain the reserved motos
+      // is_another_moto_reserved true si hay
+      // si hay moto, actualizar moto_reserved
+      // si no, revisar que no pete
+      // Si el ID de esta moto, es el mismo que el de la reservada, mostrar los botones Cancel y Start
+      // Si no, el boton de Reserve aparecerá no cliclable
+      this.is_another_moto_reserved = false
+      // alert('Si hay motos reservadas')
+    },
+    getRunningMoto () {
+      // Call to the api GET to obtain the running motos by this user
+      this.is_running_another_moto = false
     }
   }
 }
