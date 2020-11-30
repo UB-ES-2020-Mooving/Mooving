@@ -5,8 +5,8 @@ from decouple import config
 from models.article_model import ArticleModel
 from models.moto_model import MotoModel
 from models.client_model import ClientModel
-
 from models.mechanic_model import MechanicModel
+from models.reserved_running_model import ReservedRunningModel
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -20,54 +20,54 @@ db = SQLAlchemy(app)
 def init_db():
     db.drop_all()
     db.create_all()
-    new_moto = MotoModel(
-        state="ACTIVE",
+    new_moto1 = MotoModel(
+        state="RESERVED",
         matricula="1111-MMM",
         date_estreno="28/10/2020",
         model_generic="basic",
         last_coordinate_latitude=23.4433,
         last_coordinate_longitude=23.4432,
         km_restantes=80.0,
-        km_totales=0.0,
+        km_totales=300.0,
         date_last_check="18/10/2020",
         km_last_check=0.0)
-    db.session.add(new_moto)
+    db.session.add(new_moto1)
 
-    new_moto = MotoModel(
-        state="ACTIVE",
+    new_moto2 = MotoModel(
+        state="AVAILABLE",
         matricula="2222-MMM",
         date_estreno="28/10/2020",
         model_generic="basic",
         last_coordinate_latitude=23.4431,
         last_coordinate_longitude=23.4433,
         km_restantes=80.0,
-        km_totales=0.0,
+        km_totales=23.0,
         date_last_check="18/10/2020",
         km_last_check=0.0)
-    db.session.add(new_moto)
+    db.session.add(new_moto2)
 
-    new_moto = MotoModel(
-        state="ACTIVE",
+    new_moto3 = MotoModel(
+        state="AVAILABLE",
         matricula="3333-MMM",
         date_estreno="28/10/2020",
         model_generic="premium",
         last_coordinate_latitude=23.4434,
         last_coordinate_longitude=23.4433,
         km_restantes=120.0,
-        km_totales=0.0,
+        km_totales=500.0,
         date_last_check="18/10/2020",
         km_last_check=0.0)
-    db.session.add(new_moto)
+    db.session.add(new_moto3)
 
     new_moto = MotoModel(
-        state="ACTIVE",
+        state="AVAILABLE",
         matricula="4444-MMM",
         date_estreno="28/10/2020",
         model_generic="premium",
         last_coordinate_latitude=23.4431,
         last_coordinate_longitude=23.4432,
         km_restantes=120.0,
-        km_totales=0.0,
+        km_totales=203.0,
         date_last_check="18/10/2020",
         km_last_check=0.0)
     db.session.add(new_moto)
@@ -98,16 +98,16 @@ def init_db():
         km_last_check=100.0)
     db.session.add(new_moto)
 
-    client = ClientModel(
+    client1 = ClientModel(
         nombre = "Juana",
         iban = "2223462362665251w",
         dni_nie = "11111111J",
         email = "juanita@gmail.com",
         password = "123456"
     )
-    db.session.add(client)
+    db.session.add(client1)
 
-    client = ClientModel(
+    client2 = ClientModel(
         nombre="Camila",
         iban="22462362665251w",
         dni_nie="14441111J",
@@ -115,16 +115,16 @@ def init_db():
         password="123456"
 
     )
-    db.session.add(client)
+    db.session.add(client2)
 
-    client = ClientModel(
+    client3 = ClientModel(
         nombre="Sofia",
         iban="2223332362665251w",
         dni_nie="11188881J",
         email="sofia@gmail.com",
         password="123456"
     )
-    db.session.add(client)
+    db.session.add(client3)
 
     client = ClientModel(
         nombre="Ramona",
@@ -169,6 +169,11 @@ def init_db():
         date_registration="24/02/2020")
     db.session.add(new_mechanic)
 
+    new_rr = ReservedRunningModel(
+        client=client1,
+        moto=new_moto1)
+    db.session.add(new_rr)
+
     db.session.commit()
     print('Success in adding items to database')
 
@@ -176,4 +181,5 @@ def init_db():
 #Si usa script --> deja la linea de abajo descomentada
 
 #init_db()
+
 
