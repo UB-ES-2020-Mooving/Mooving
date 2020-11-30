@@ -45,6 +45,8 @@ class MotoModel(db.Model):
     # Atributo km recorrido en ultima revision (para los nuevos seran 0km)
     km_last_check = db.Column(db.Float, nullable=False)
 
+    rr = db.relationship('ReservedRunningModel', backref='moto', uselist=False)
+
     def __init__(self, state, matricula, date_estreno, model_generic, last_coordinate_latitude,
                  last_coordinate_longitude, km_restantes, km_totales, date_last_check, km_last_check):
         self.state = state
@@ -237,10 +239,15 @@ class MotoModel(db.Model):
 
         return data
 
+    
+    def set_state(self, state):
+        self.state = state
+
     @classmethod
     def condiciones_AND(cls, lista):
         cond = and_()
         for c in lista:
             cond = and_(cond, c)
         return cond
+
 
