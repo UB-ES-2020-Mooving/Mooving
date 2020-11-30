@@ -50,7 +50,7 @@
     <br>
     <!-- Slider to filter moto's remaining km -->
     <h5>Range of remaining battery: </h5>
-    <custom-slider :values="sliderValues" v-model="slider_km_restantes" @change=filterMotoListByKmRestantes() />
+    <custom-slider :values="sliderValues" id="sliderKmRestantes" v-model="slider_km_restantes" @change=filterMotoListByKmRestantes() />
     <!-- Lista de motos para el cliente-->
     <div class="list-group" v-if="is_client">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
