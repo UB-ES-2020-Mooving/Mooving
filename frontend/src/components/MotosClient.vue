@@ -43,10 +43,14 @@
     <h2>{{ name }}</h2>
     <!-- Checkboxes to filter moto's type -->
     <h5>Filter type/s of motorbikes: </h5>
-    <input type="checkbox" id="checkboxBasic" v-model="basic" @change="getAvailableMotos()">
+    <input type="checkbox" id="checkboxBasic" v-model="basic" @change="filterMotoListByType()">
     <label for="checkboxBasic">Basic </label>
-    <input type="checkbox" id="checkboxPremium" v-model="premium" @change="getAvailableMotos()">
+    <input type="checkbox" id="checkboxPremium" v-model="premium" @change="filterMotoListByType()">
     <label for="checkboxPremium">Premium</label>
+    <br>
+    <!-- Slider to filter moto's remaining km -->
+    <h5>Range of remaining battery: </h5>
+    <custom-slider :values="sliderValues" v-model="slider_km_restantes" @change=filterMotoListByKmRestantes() />
     <!-- Lista de motos para el cliente-->
     <div class="list-group" v-if="is_client">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
@@ -73,7 +77,11 @@
 
 <script>
 import axios from 'axios'
+import CustomSlider from 'vue-custom-range-slider'
 export default {
+  components: {
+    CustomSlider
+  },
   data () {
     return {
       name: 'Available Motorbikes',
@@ -87,14 +95,57 @@ export default {
       basic: true,
       premium: true,
       model_generic: 'all',
-      more_km_restantes: 0,
+      more_km_restantes: 5,
       is_moto_reserved: true,
       moto_reserved: {
         id: 1,
         matricula: 'ASD',
         distance: 0,
         model_generic: 'PATATAS'
-      }
+      },
+      slider_km_restantes: '5',
+      sliderValues: [
+        {
+          label: '50km+',
+          value: '50'
+        },
+        {
+          label: '45km',
+          value: '45'
+        },
+        {
+          label: '40km',
+          value: '40'
+        },
+        {
+          label: '35km',
+          value: '35'
+        },
+        {
+          label: '30km',
+          value: '30'
+        },
+        {
+          label: '25km',
+          value: '25'
+        },
+        {
+          label: '20km',
+          value: '20'
+        },
+        {
+          label: '15km',
+          value: '15'
+        },
+        {
+          label: '10km',
+          value: '10'
+        },
+        {
+          label: '5km',
+          value: '5'
+        }
+      ]
     }
   },
   created () {
@@ -107,26 +158,23 @@ export default {
       // Nos lleva a otra pagina donde se ve la info especifica de la moto
       this.$router.push({ path: '/clientMoto', query: { id: id, email: this.email } })
     },
-    filterMotoList () {
+    filterMotoListByType () {
       if (this.basic && this.premium) {
         this.model_generic = 'all'
-        this.more_km_restantes = 0
-        // TODO: more_km_restantes hay que coger de sliders
       } else if (this.basic) {
         this.model_generic = 'basic'
-        this.more_km_restantes = 0
-        // TODO: more_km_restantes hay que coger de sliders
       } else if (this.premium) {
         this.model_generic = 'premium'
-        this.more_km_restantes = 0
-        // TODO: more_km_restantes hay que coger de sliders
       } else {
         this.model_generic = 'all'
-        this.more_km_restantes = 0
       }
+      this.getAvailableMotos()
+    },
+    filterMotoListByKmRestantes () {
+      this.more_km_restantes = parseInt(this.slider_km_restantes, 10)
+      this.getAvailableMotos()
     },
     getAvailableMotos () {
-      this.filterMotoList()
       const path = process.env.VUE_APP_CALL_PATH + '/motos'
       axios.get(path, {
         params: {
