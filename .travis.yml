@@ -10,6 +10,9 @@ before_script:
   - export FRONTEND=mooving
   - ./create_frontend.sh
 script:
+  - cd $FRONTEND
+  - npm run test:unit
+  - cd ..
   - ./build_frontend.sh
 after_success:
   - ./move_frontend.sh
@@ -17,7 +20,7 @@ branches:
   only:
   - main
   - develop
-  - TD6T1_BreakTravisBuilt
+  - TR8T1_CTVue
 before_deploy:
   - cd flaskProject
   - heroku 
@@ -29,5 +32,5 @@ deploy:
   app:
     main: mooving
     develop: mooving-develop
-    TD6T1_BreakTravisBuilt: provant999
+    TR8T1_CTVue: provant999
   run: ./server_create_db.sh
