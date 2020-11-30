@@ -17,7 +17,7 @@ if config('PRODUCTION', cast=bool, default=False):
 
 db = SQLAlchemy(app)
 
-def init_db():
+def init_db_tests():
     db.drop_all()
     db.create_all()
     new_moto1 = MotoModel(
@@ -176,10 +176,5 @@ def init_db():
 
     db.session.commit()
     print('Success in adding items to database')
-
-
-#Si usa script --> deja la linea de abajo descomentada
-
-init_db()
 
 
