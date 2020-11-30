@@ -46,7 +46,16 @@
                   <h6 class="mb-0">Time since last revision</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{ this.moto.time_since_last_check }}
+                  {{ this.moto.time_since_last_check }} days
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">km since last revision</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  {{ this.moto.km_since_last_check }} km
                 </div>
               </div>
               <hr>
@@ -55,7 +64,7 @@
                   <h6 class="mb-0">Total km</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{ this.moto.km_total }}
+                  {{ this.moto.km_total }} km
                 </div>
               </div>
               <hr>
@@ -64,7 +73,7 @@
                   <h6 class="mb-0">Total time</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{ this.moto.time_total }}
+                  {{ this.moto.time_total }} days
                 </div>
               </div>
               <hr>
@@ -91,7 +100,7 @@
                   <h6 class="mb-0">Distance</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{ this.moto.distance }}
+                  {{ this.moto.distance }} m
                 </div>
               </div>
               <hr>
@@ -123,6 +132,7 @@ export default {
         matricula: '',
         state: '',
         time_since_last_check: 0,
+        km_since_last_check: 0,
         km_total: 0,
         time_total: 0,
         type: '',
@@ -145,6 +155,7 @@ export default {
           this.moto.matricula = res.data.mechanic_moto.matricula
           this.moto.state = res.data.mechanic_moto.state
           this.moto.time_since_last_check = res.data.mechanic_moto.time_since_last_check
+          this.moto.km_since_last_check = res.data.mechanic_moto.km_since_last_check
           this.moto.km_total = res.data.mechanic_moto.km_total
           this.moto.time_total = res.data.mechanic_moto.time_total
           this.moto.type = res.data.mechanic_moto.type
