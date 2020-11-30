@@ -1,4 +1,4 @@
-from tests.test_config import *
+from tests.tests_auto.config_tests import *
 
 
 

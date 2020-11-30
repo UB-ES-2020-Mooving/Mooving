@@ -1,6 +1,6 @@
 from models.moto_model import MotoModel
-import requests
-
+#import requests
+from tests.config_tests import *
 
 def test_street_variable():
     """

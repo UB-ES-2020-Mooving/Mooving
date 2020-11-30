@@ -3,7 +3,7 @@ import tempfile
 
 import pytest
 
-from add_data import init_db
+from add_data_tests import init_db_tests
 from app import app
 from flask import request, jsonify
 
@@ -16,7 +16,7 @@ def client():
 
     with app.test_client() as client:
         with app.app_context():
-            init_db()
+            init_db_tests()
         yield client
 
     os.close(db_fd)
