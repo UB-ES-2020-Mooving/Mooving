@@ -16,7 +16,7 @@
         <b-collapse id="navbar-toggle-collapse" is-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item v-if="!this.email.includes('@mooving.com')"><router-link :to="{path: '/motospageclient', query: { email: email } }">Motorbikes</router-link></b-nav-item>
-            <b-nav-item v-if="this.email.includes('@mooving.com')"><router-link :to="{path: '/motospagemechanic', query: { email: email } }">Motos</router-link></b-nav-item>
+            <b-nav-item v-if="this.email.includes('@mooving.com')"><router-link :to="{path: '/motospagemechanic', query: { email: email } }">Motorbikes</router-link></b-nav-item>
             <b-nav-item><router-link :to="{path: '/profile', query: { email: email } }">Personal Info</router-link></b-nav-item>
           </b-navbar-nav>
         </b-collapse>

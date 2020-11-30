@@ -13,7 +13,7 @@
     <div class="list-group" v-if="is_mechanic">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
       <div id="lista_motos_mechanic" v-if="motorbikes.length>0" class="center-screen">
-        <button v-for="item in motorbikes" :key="item.license_plate" type="button" class="list-group-item list-group-item-action" @click="checkMoto()">
+        <button v-for="item in motorbikes" :key="item.license_plate" type="button" class="list-group-item list-group-item-action" @click="checkMoto(item.id)">
           <div class="row">
             <div class="col-sm" style="font-weight: bold;">{{item.license_plate}}</div>
             <div class="col-sm" style="font-weight: bold;">State: {{item.state}}</div>
@@ -50,8 +50,9 @@ export default {
     this.email = this.$route.query.email
   },
   methods: {
-    checkMoto () {
+    checkMoto (id) {
       // El mecanico accede a una pagina con mas info de la moto
+      this.$router.push({ path: '/mechanicMoto', query: { id: id, email: this.email } })
     },
     getMotosToCheck () {
       const path = process.env.VUE_APP_CALL_PATH + '/mechanicMotos'

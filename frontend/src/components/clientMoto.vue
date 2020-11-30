@@ -36,7 +36,7 @@
                   <h6 class="mb-0">Distance</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{ this.moto.distance }}
+                  {{ this.moto.distance }} m
                 </div>
               </div>
               <hr>
