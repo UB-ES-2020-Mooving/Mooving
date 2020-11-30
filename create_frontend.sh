@@ -13,6 +13,4 @@ vue create --preset preset_v1.json $FRONTEND
 \cp frontend/.env.devops frontend/.env.production frontend/.env.staging frontend/.env.personal $FRONTEND 
 #install depencies
 cd $FRONTEND
-npm install --save axios bootstrap-vue vuelidate vue-router
-#add testing with jest
-#vue add unit-jest
+npm install --save axios bootstrap-vue vuelidate vue-router flush-promises
