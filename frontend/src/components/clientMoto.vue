@@ -138,6 +138,7 @@ export default {
       is_another_moto_reserved: false, // if another moto is reserved
       can_reserve: true, // client can reserve a moto
       time_pick_up: 'You have until XX:XX to pick up the motorbike',
+      cancel_message: '',
       moto_reserved: {
         matricula: ''
       },
@@ -209,7 +210,16 @@ export default {
       // Client cancel the reserve
       // Llamada a la api para poner la moto en available
       // Se cambia la visibilidad de los botones
-      this.is_reserved = false
+      const path = process.env.VUE_APP_CALL_PATH + '/reserve' + '/' + this.email + '/' + this.id
+      axios.delete(path)
+        .then((res) => {
+          this.is_reserved = false // Se cambia la visibilidad de los botones
+          this.cancel_message = res.data.message
+          alert(res.data.message)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     },
     getReservedMoto () {
       // Call to the api GET to obtain the reserved motos
