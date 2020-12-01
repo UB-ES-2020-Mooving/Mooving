@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 if [ -e "migrations" ]; then
     rm -r "migrations"

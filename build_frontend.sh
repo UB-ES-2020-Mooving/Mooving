@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 #Script to build the frontend
 #Variable FRONTEND must exist and Vue must be installed
