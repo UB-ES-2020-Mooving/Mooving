@@ -18,9 +18,12 @@ case $TEST_BACKEND in
     ENDPOINTS)
         python -m pytest tests/tests_endpoints
         ;;
-    ALMOST_ALL)
+    AUTO)
+        cd ..
+        ./local_create_db.sh
+        cd flaskProject
+        python add_data.py
         python -m pytest tests/tests_auto
-        python -m pytest tests/tests_secondary
         ;;
     *)
         python -m pytest tests/
