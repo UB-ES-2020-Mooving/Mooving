@@ -135,7 +135,7 @@ export default {
       is_reserved: false,
       is_running_another_moto: false, // if client is running a moto
       is_another_moto_reserved: false, // if another moto is reserved
-      can_reserve: false, // client can reserve a moto
+      can_reserve: true, // client can reserve a moto
       time_pick_up: 'You have until XX:XX to pick up the motorbike',
       moto_reserved: {
         matricula: ''
