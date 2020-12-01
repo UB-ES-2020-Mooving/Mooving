@@ -94,7 +94,7 @@
       </div>
       <!-- mensaje si esta runeando esta moto-->
       <div v-if="is_running" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
-        <p>{{this.message_running}}</p>
+        <p style="font-weight: bold;">{{this.message_running}}</p>
       </div>
       <!-- divisor de opciones-->
       <div class="row" style="margin-top: 20px;margin-bottom: 20px">
