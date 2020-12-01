@@ -1,8 +1,5 @@
 from tests.tests_auto.config_tests import *
 
-
-
-
 def test_ejemplo():
     # Se utiliza la keyword "with" porque es más seguro trabajar con recursos de esa
     # manera. Al fin y al cabo es una asignación pero se asegura de una correcta
@@ -84,6 +81,7 @@ def test_ejemplo():
 # ejecutan ambos si ejecutas pytest, aunque puedes ejecutarlos por separado
 # si haces uso de los botones de play que salen a la izquierda de los
 # nombres.
+
 def test_ejemplo2():
     with app.test_client() as c:
         path = '/clients'
