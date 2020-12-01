@@ -1,37 +1,37 @@
 os:
-  - linux
+- linux
 language:
-  - node_js
+- node_js
 node_js:
-  - 15.0.1
+- 15.0.1
 python:
-  - 3.8.6
+- 3.8.6
 install:
-  - npm install -g @vue/cli
+- npm install -g @vue/cli
 before_script:
-  - export FRONTEND=mooving
-  - ./create_frontend.sh
+- export FRONTEND=mooving
+- "./create_frontend.sh"
 script:
-  - ./test_frontend.sh
-  - ./test_backend.sh
-  - ./build_frontend.sh
+- "./test_frontend.sh"
+- "./test_backend.sh"
+- "./build_frontend.sh"
 after_success:
-  - ./move_frontend.sh
+- "./move_frontend.sh"
 branches:
   only:
   - main
   - develop
   - TR8T2_CTFlask
 before_deploy:
-  - cd flaskProject
-  - heroku 
+- cd flaskProject
+- heroku
 deploy:
   skip_cleanup: true
   provider: heroku
   api_key:
-    secure: cEQKjP0/iwu1w0pejwgucUD4oRHDBErb3iQbYPlV6ARxDcQFa/d6FfBu/UkhwqH09msfVnEwmF0XRgU54C3fPl3v4oZrT/vHnRm/yihXaqkm8PWBdStFC8WPTIX9KJjpx6eol4G3dLl0joNjN5eq3OfH3hjfpHzjfOZls12sVJ5LdjfaXoFpv5vI4o00GD84yP3Ttlnhs31R6hbNodc2LliqjRjHHka0NMGm/7ZPBtb+BHCzePly0r7VRf+8VstqbaPZSktBHMkm9wYhXrTd0u/4BdFvlNk40guWoGKjdJb0AW12IRiRoOdKel+m0YBEABHu9TF3fAz+la32SBsisPeyHA5IRpxdtn/OkheInQ7EFZ08RhmvSqRGnt52+Qd+IqXJu3005lYWanxdy0YOP07XbD2LejfdbvQnV98ukT6jEvNJrzWFHFMYUw5yYxnXLKRqAT/LkKdmspNnHEnUlNwx3NG47BpKRh6DNDK6fQmFef6p24ogwDMJOUkuRToZu7YDBn9jjg3WcsinxYA+HNYQEb60oh5dDrkFdyBlW9Yil3KXVR0KN6kzzxKAYBmcWmE9Gflo0j7OXfsz0CzDGnu07kipuVu2L1KR78VLc3n7WoES3JoAS0Q1DvFfMW/3h/Pl8Czjb2pU9n6K2/x0Wr0AHOv9ZMDCHbKL0gKGgEo=
+    secure: Bq1sR26v8sRx/5DLtLVFMdUQr8lC+++WosbyHUV7SZn9DGqvjW56kk0uagWTRNHiAfo5iRRJ34nP1iejsJIUGcPF+WvAEFyfif8sqsEqgRWFX0ksHBxY/SWjsqGPf4KenOtRkSC9ItBNmrISx8gcNekdTEmzh7Z6CRlH7RMnmYodbGPgGj+CAl2B78V/yJzKYPhQjiuGKA2l1bRGUg47I/NYUW4rnB34wwnlOxBqdstNZLGJZx7BZNIMvYVP7/7VMsK0HfVUBvxk9dXlWx9fjVYITQDcI+KyTUwZ1O1GtOKsCKShcC6NtIE5DWgEDy0sMoBdfzSYLxtH4t4ej2QEu+V0y8EGNTLSdIwoAK7dzfO+fSI3tQOXC11Rb4szpiBO1NIJo5k+JZXljHo4P+ES+Ck883i/6eAddZfRsvg/61JACDh6DEzPcagf2ynbCvw2FDGJktkccKvgiSyRHKFd5UQPIoJGwYxKQ+EA3BkgkT8cSQbDTCrPp28a97MK8JT+1veLA88pPvPEQyuTnyVPbc6f500O+eO0Qkir75+TZhnX1hE6Zg/aPgmcFOSwJ9wFifSe+zlyS3op8nMpLeisv9K1JUFOhmTt1dnA4/XIAwz6FZoR7gdUkP91mPNArxWrpUtWWSVgRgpBeZ3h8PG8nzpmhWNWcp8uaQMztopdBZA=
   app:
     main: mooving
     develop: mooving-develop
     TR8T2_CTFlask: provant999
-  run: ./server_create_db.sh
+  run: "./server_create_db.sh"
