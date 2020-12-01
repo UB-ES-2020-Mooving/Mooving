@@ -8,6 +8,7 @@ fi
 
 cd flaskProject
 echo "Installing depencies"
+pip install --upgrade pip
 pip install -r requirements.txt
 echo "Running tests..."
 case $TEST_BACKEND in
