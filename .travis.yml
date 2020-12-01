@@ -4,15 +4,16 @@ language:
   - node_js
 node_js:
   - 15.0.1
+python:
+  - 3.8.6
 install:
   - npm install -g @vue/cli
 before_script:
   - export FRONTEND=mooving
   - ./create_frontend.sh
 script:
-  - cd $FRONTEND
-  - npm run test:unit
-  - cd ..
+  - ./test_frontend.sh
+  - ./test_backend.sh
   - ./build_frontend.sh
 after_success:
   - ./move_frontend.sh
@@ -20,7 +21,7 @@ branches:
   only:
   - main
   - develop
-  - TR8T1_CTVue
+  - TR8T2_CTFlask
 before_deploy:
   - cd flaskProject
   - heroku 
@@ -32,5 +33,5 @@ deploy:
   app:
     main: mooving
     develop: mooving-develop
-    TR8T1_CTVue: provant999
+    TR8T2_CTFlask: provant999
   run: ./server_create_db.sh
