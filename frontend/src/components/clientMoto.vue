@@ -135,8 +135,11 @@ export default {
       is_reserved: false,
       is_running_another_moto: false, // if client is running a moto
       is_another_moto_reserved: false, // if another moto is reserved
-      can_reserve: true, // client can reserve a moto
-      time_pick_up: 'You have until XX:XX to pick up the motorbike'
+      can_reserve: false, // client can reserve a moto
+      time_pick_up: 'You have until XX:XX to pick up the motorbike',
+      moto_reserved: {
+        matricula: ''
+      }
     }
   },
   created () {
@@ -145,11 +148,14 @@ export default {
     this.getMotoInfo()
     this.getReservedMoto() // Gets the moto reserved by this user
     this.getRunningMoto() // Gets the moto running by this user
+    // Si no está runeando otra moto y no está reservando otra moto, puede reservarla
     if (!this.is_running_another_moto && !this.is_another_moto_reserved) {
       this.can_reserve = true
+      // alert('puede reservar')
+      // alert(!this.is_running_another_moto && !this.is_another_moto_reserved)
     } else {
       this.can_reserve = false
-      alert('No puede reservar')
+      // alert('No puede reservar')
     }
   },
   methods: {
@@ -172,21 +178,61 @@ export default {
     },
     reserveMoto () {
       // Client reserves a moto
-      // Llamada a la api para poner la moto a reservada
-      // Se cambia la visibilidad de los botones
-      this.is_reserved = true
-      // update the visibility of the message this.time_pick_up
-      // alert('Reserved was clicked! We will call to the API and the state will change to reserved')
+      // Llamada a la api método POST para poner la moto a reservada
+      //  reserve/string:client_email/int:moto_id
+      const parameters = {
+        client_email: this.email,
+        id_motorbike: this.id
+      }
+      // alert(this.email)
+      // alert(this.id)
+      const path = process.env.VUE_APP_CALL_PATH + '/reserve' + '/' + this.email + '/' + this.id
+      // console.log(process.env.VUE_APP_CALL_PATH + '/reserve')
+      axios.post(path)
+        .then((res) => {
+          this.is_reserved = true // Se cambia la visibilidad de los botones
+          this.time_pick_up = res.data.message // update the visibility of the message this.time_pick_up
+          // alert('Motorbike reserved on success')
+          // alert('Reserved was clicked! We will call to the API and the state will change to reserved')
+        })
+        .catch((error) => {
+          console.error(error)
+          // alert(error)
+          // alert('Motorbike not reserved')
+        })
     },
     getReservedMoto () {
       // Call to the api GET to obtain the reserved motos
-      // is_another_moto_reserved true si hay
-      // si hay moto, actualizar moto_reserved
-      // si no, revisar que no pete
-      // Si el ID de esta moto, es el mismo que el de la reservada, mostrar los botones Cancel y Start
-      // Si no, el boton de Reserve aparecerá no cliclable
-      this.is_another_moto_reserved = false
-      // alert('Si hay motos reservadas')
+      const path = process.env.VUE_APP_CALL_PATH + '/reserve' + '/' + this.email
+      console.log(process.env.VUE_APP_CALL_PATH + '/reserve' + '/' + this.email)
+      axios.get(path)
+        .then((res) => {
+          // alert('Obtenidas las motos reservadas')
+          // alert('La moto reservada tiene matricula')
+          // alert(res.data.reserved_moto.matricula)
+          console.log(res.data.reserved_moto)
+          this.moto_reserved.matricula = res.data.reserved_moto.matricula
+          // Si la moto reservada es la misma
+          if (this.moto_reserved.matricula === this.moto.matricula) {
+            this.is_another_moto_reserved = false
+            this.is_reserved = true
+            // this.time_pick_up = res.data.message
+          }
+          // Aqui tenemos una moto reservada, entonces, si son diferentes, no debe poder reservarla
+          if (this.moto_reserved.matricula !== this.moto.matricula) {
+            // alert('la matricula de la moto reservada es diferente')
+            this.can_reserve = false
+            // alert('can reserve false')
+            // alert(this.moto_reserved.matricula)
+            this.is_another_moto_reserved = true
+          }
+        })
+        .catch((error) => {
+          // Si no hay moto reservada, saltara un error
+          this.is_another_moto_reserved = false
+          console.error(error)
+          // alert(error.response.status)
+        })
     },
     getRunningMoto () {
       // Call to the api GET to obtain the running motos by this user
