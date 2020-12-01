@@ -75,7 +75,7 @@
       <div>
         <button class="btn"
                 id="reserveButton"
-                v-if="!is_reserved"
+                v-if="!is_reserved&&!is_running"
                 :disabled=!can_reserve
                 type="button"
                 @click="reserveMoto()"
@@ -151,7 +151,8 @@ export default {
         matricula: ''
       },
       is_near_the_moto: false,
-      message_closer: 'You need to be closer to the motorbike!'
+      message_closer: 'You need to be closer to the motorbike!',
+      is_running: false
     }
   },
   created () {
@@ -204,7 +205,7 @@ export default {
       // alert(this.email)
       // alert(this.id)
       const path = process.env.VUE_APP_CALL_PATH + '/reserve'
-      // console.log(process.env.VUE_APP_CALL_PATH + '/reserve')
+      console.log(process.env.VUE_APP_CALL_PATH + '/reserve')
       axios.post(path, parameters)
         .then((res) => {
           this.is_reserved = true // Se cambia la visibilidad de los botones
@@ -226,6 +227,22 @@ export default {
     },
     startMoto () {
       // Client starts the moto
+      // Llamada a la api método POST para poner la moto a brum brum brrummm
+      const parameters = {
+        client_email: this.email,
+        moto_id: this.id
+      }
+      const path = process.env.VUE_APP_CALL_PATH + '/start'
+      console.log(process.env.VUE_APP_CALL_PATH + '/start')
+      axios.post(path, parameters)
+        .then((res) => {
+          this.is_running = true // Se cambia la visibilidad de los botones
+          alert('Motorbike running on success')
+        })
+        .catch((error) => {
+          console.error(error)
+          alert('Motorbike not running')
+        })
     },
     getReservedMoto () {
       // Call to the api GET to obtain the reserved motos
