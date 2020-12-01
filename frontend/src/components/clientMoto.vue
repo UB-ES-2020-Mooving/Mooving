@@ -94,7 +94,7 @@
       </div>
       <!-- mensaje si esta runeando esta moto-->
       <div v-if="is_running" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
-        <p style="font-weight: bold;">{{this.message_running}}</p>
+        <p style="font-weight: bold;">{{this.message_running}}<br> Enjoy cowboy!</p>
       </div>
       <!-- divisor de opciones-->
       <div class="row" style="margin-top: 20px;margin-bottom: 20px">
@@ -157,7 +157,7 @@ export default {
       is_near_the_moto: false,
       message_closer: 'Too far to run, cowboy',
       is_running: false,
-      message_running: 'You are running this motorbike. Enjoy cowboy!'
+      message_running: 'You are running this motorbike.'
     }
   },
   created () {
