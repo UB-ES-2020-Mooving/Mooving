@@ -182,13 +182,13 @@ export default {
       //  reserve/string:client_email/int:moto_id
       const parameters = {
         client_email: this.email,
-        id_motorbike: this.id
+        moto_id: this.id
       }
       // alert(this.email)
       // alert(this.id)
-      const path = process.env.VUE_APP_CALL_PATH + '/reserve' + '/' + this.email + '/' + this.id
+      const path = process.env.VUE_APP_CALL_PATH + '/reserve'
       // console.log(process.env.VUE_APP_CALL_PATH + '/reserve')
-      axios.post(path)
+      axios.post(path, parameters)
         .then((res) => {
           this.is_reserved = true // Se cambia la visibilidad de los botones
           this.time_pick_up = res.data.message // update the visibility of the message this.time_pick_up
@@ -216,7 +216,7 @@ export default {
           if (this.moto_reserved.matricula === this.moto.matricula) {
             this.is_another_moto_reserved = false
             this.is_reserved = true
-            // this.time_pick_up = res.data.message
+            this.time_pick_up = res.data.message
           }
           // Aqui tenemos una moto reservada, entonces, si son diferentes, no debe poder reservarla
           if (this.moto_reserved.matricula !== this.moto.matricula) {
