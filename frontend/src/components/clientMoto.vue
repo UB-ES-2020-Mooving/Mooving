@@ -96,6 +96,7 @@
                   id="cancelButton"
                   v-if="is_reserved"
                   type="button"
+                  @click="cancelReserve()"
                   style="border-radius: 12px;
                 background-color: #ff6961;color: #ffffff; width: 150px">
             Cancel
@@ -177,6 +178,12 @@ export default {
       this.is_reserved = true
       // update the visibility of the message this.time_pick_up
       // alert('Reserved was clicked! We will call to the API and the state will change to reserved')
+    },
+    cancelReserve () {
+      // Client cancel the reserve
+      // Llamada a la api para poner la moto en available
+      // Se cambia la visibilidad de los botones
+      this.is_reserved = false
     },
     getReservedMoto () {
       // Call to the api GET to obtain the reserved motos
