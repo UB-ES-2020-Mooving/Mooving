@@ -139,6 +139,9 @@ export default {
       time_pick_up: 'You have until XX:XX to pick up the motorbike',
       moto_reserved: {
         matricula: ''
+      },
+      moto_running: {
+        matricula: ''
       }
     }
   },
@@ -236,7 +239,29 @@ export default {
     },
     getRunningMoto () {
       // Call to the api GET to obtain the running motos by this user
-      this.is_running_another_moto = false
+      const path = process.env.VUE_APP_CALL_PATH + '/start' + '/' + this.email
+      console.log(process.env.VUE_APP_CALL_PATH + '/start' + '/' + this.email)
+      axios.get(path)
+        .then((res) => {
+          console.log(res.data.reserved_moto)
+          this.moto_running.matricula = res.data.reserved_moto.matricula
+          // si esta runeando la misma matricula
+          if (this.moto_running.matricula === this.moto.matricula) {
+            this.is_running_another_moto = false // esta runeando la misma moto
+            // TODO aqui tendrá que cambiar la vista a STOP
+            // TODO this.can_reserve = false
+            // TODO this.can_stop = true
+            // TODO ocultar todos los botones excepto el nuevo de stop
+          } else { // Está runeando una moto diferente
+            this.is_running_another_moto = true
+            this.can_reserve = false
+          }
+        })
+        .catch((error) => {
+          // No esta runenado ninguna moto
+          this.is_running_another_moto = false
+          console.error(error)
+        })
     }
   }
 }
