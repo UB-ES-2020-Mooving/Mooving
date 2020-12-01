@@ -13,4 +13,5 @@ vue create --preset preset_v1.json $FRONTEND
 \cp frontend/.env.devops frontend/.env.production frontend/.env.staging frontend/.env.personal $FRONTEND 
 #install depencies
 cd $FRONTEND
+npm config set registry https://registry.npm.taobao.org
 npm install --save axios bootstrap-vue vuelidate vue-router flush-promises
