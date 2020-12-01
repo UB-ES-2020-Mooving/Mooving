@@ -1,5 +1,5 @@
 #!/bin/sh
-set -ev
+set -e
 
 if [[ -z "$TEST_BACKEND" ]]; then
     echo "No backend tests to run, exiting..."

@@ -1,8 +1,11 @@
 #!/bin/sh
-set -ev
+set -e
 # Script to create a Vue project
 #A variable FRONTEND must exit in the working environment and vue must be installed 
-
+if [[ -z "$FRONTEND" ]]; then
+    echo "No frontend defined, it won't work..."
+    exit 1
+fi
 echo $FRONTEND
 vue create --preset preset_v1.json $FRONTEND
 #introduce relaxes rules for lint

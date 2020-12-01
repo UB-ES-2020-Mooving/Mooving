@@ -1,5 +1,5 @@
 #!/bin/sh
-set -ev
+set -e
 
 if [[ -z "$TEST_FRONTEND" ]]; then
     echo "No frontend tests to run, exiting..."
