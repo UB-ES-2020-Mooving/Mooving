@@ -202,16 +202,18 @@ export default {
       axios.get(path)
         .then((res) => {
           console.log(res.data.reserved_moto)
-          this.moto_running.matricula = res.data.reserved_moto.matricula
-          this.moto_running.distance = res.data.reserved_moto.distance
-          this.moto_running.id = res.data.reserved_moto.id
-          this.moto_running.model_generic = res.data.reserved_moto.model_generic
+          this.moto_running.matricula = res.data.start_moto.matricula
+          this.moto_running.distance = res.data.start_moto.distance
+          this.moto_running.id = res.data.start_moto.id
+          this.moto_running.model_generic = res.data.start_moto.model_generic
           this.is_moto_running = true
+          // alert('Hay moto runeando!')
         })
         .catch((error) => {
           // No esta runeando ninguna moto
           this.is_moto_running = false
           console.error(error)
+          // alert('No hay moto runeando!!!')
         })
     }
   }
