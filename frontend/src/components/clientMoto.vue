@@ -88,6 +88,10 @@
       <div v-if="is_reserved" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
         <p style="font-weight: bold;">{{this.time_pick_up}}</p>
       </div>
+      <!-- mensaje de que necesita estar mas cerca para recogerla-->
+      <div v-if="is_reserved&&!is_near_the_moto" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
+        <p style="color: red">{{this.message_closer}}</p>
+      </div>
       <!-- divisor de opciones-->
       <div class="row" style="margin-top: 20px;margin-bottom: 20px">
         <div style="position: absolute; left: 20px">
@@ -107,7 +111,9 @@
           <button class="btn"
                   id="startButton"
                   v-if="is_reserved"
+                  :disabled=!is_near_the_moto
                   type="button"
+                  @click="startMoto()"
                   style="border-radius: 12px;
                 background-color: #343a40;color: #42b983; width: 150px" >
             Start
@@ -143,7 +149,9 @@ export default {
       },
       moto_running: {
         matricula: ''
-      }
+      },
+      is_near_the_moto: false,
+      message_closer: 'You need to be closer to the motorbike!'
     }
   },
   created () {
@@ -174,6 +182,11 @@ export default {
           this.moto.address = res.data.client_moto.address
           this.moto.distance = res.data.client_moto.distance
           console.log(res.data.client_moto)
+          if (this.moto.distance <= 5) {
+            this.is_near_the_moto = true
+          } else {
+            this.is_near_the_moto = false
+          }
         })
         .catch((error) => {
           console.error(error)
@@ -210,6 +223,9 @@ export default {
       // Llamada a la api para poner la moto en available
       // Se cambia la visibilidad de los botones
       this.is_reserved = false
+    },
+    startMoto () {
+      // Client starts the moto
     },
     getReservedMoto () {
       // Call to the api GET to obtain the reserved motos
