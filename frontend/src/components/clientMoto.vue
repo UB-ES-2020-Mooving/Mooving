@@ -85,12 +85,16 @@
         </button>
       </div>
       <!-- mensaje de hasta que hora puede recogerla-->
-      <div v-if="is_reserved" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
+      <div v-if="is_reserved&&!is_running" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
         <p style="font-weight: bold;">{{this.time_pick_up}}</p>
       </div>
       <!-- mensaje de que necesita estar mas cerca para recogerla-->
       <div v-if="is_reserved&&!is_near_the_moto" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
         <p style="color: red">{{this.message_closer}}</p>
+      </div>
+      <!-- mensaje si esta runeando esta moto-->
+      <div v-if="is_running" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
+        <p>{{this.message_running}}</p>
       </div>
       <!-- divisor de opciones-->
       <div class="row" style="margin-top: 20px;margin-bottom: 20px">
@@ -98,7 +102,7 @@
           <!-- boton para cancelar la reserva -->
           <button class="btn"
                   id="cancelButton"
-                  v-if="is_reserved"
+                  v-if="is_reserved&&!is_running"
                   type="button"
                   @click="cancelReserve()"
                   style="border-radius: 12px;
@@ -110,7 +114,7 @@
           <!-- boton para aceptar la reserva -->
           <button class="btn"
                   id="startButton"
-                  v-if="is_reserved"
+                  v-if="is_reserved&&!is_running"
                   :disabled=!is_near_the_moto
                   type="button"
                   @click="startMoto()"
@@ -151,8 +155,9 @@ export default {
         matricula: ''
       },
       is_near_the_moto: false,
-      message_closer: 'You need to be closer to the motorbike!',
-      is_running: false
+      message_closer: 'Too far to run, cowboy',
+      is_running: false,
+      message_running: 'You are running this motorbike. Enjoy cowboy!'
     }
   },
   created () {
@@ -237,11 +242,11 @@ export default {
       axios.post(path, parameters)
         .then((res) => {
           this.is_running = true // Se cambia la visibilidad de los botones
-          alert('Motorbike running on success')
+          // alert('Motorbike running on success')
         })
         .catch((error) => {
           console.error(error)
-          alert('Motorbike not running')
+          // alert('Motorbike not running')
         })
     },
     getReservedMoto () {
@@ -283,8 +288,8 @@ export default {
       console.log(process.env.VUE_APP_CALL_PATH + '/start' + '/' + this.email)
       axios.get(path)
         .then((res) => {
-          console.log(res.data.reserved_moto)
-          this.moto_running.matricula = res.data.reserved_moto.matricula
+          console.log(res.data.start_moto)
+          this.moto_running.matricula = res.data.start_moto.matricula
           // si esta runeando la misma matricula
           if (this.moto_running.matricula === this.moto.matricula) {
             this.is_running_another_moto = false // esta runeando la misma moto
@@ -292,15 +297,18 @@ export default {
             // TODO this.can_reserve = false
             // TODO this.can_stop = true
             // TODO ocultar todos los botones excepto el nuevo de stop
+            this.is_running = true
           } else { // Está runeando una moto diferente
             this.is_running_another_moto = true
             this.can_reserve = false
           }
+          // alert('Hay moto runenado!')
         })
         .catch((error) => {
           // No esta runenado ninguna moto
           this.is_running_another_moto = false
           console.error(error)
+          // alert('No hay moto runeando!')
         })
     }
   }
