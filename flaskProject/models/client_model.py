@@ -34,7 +34,6 @@ class ClientModel(db.Model):
         self.email = email
         self.iban = iban
         self.password = password
-
         self.dni_nie = dni_nie
 
     def json(self):

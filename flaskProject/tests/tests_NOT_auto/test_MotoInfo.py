@@ -1,5 +1,5 @@
 from models.moto_model import MotoModel
-import requests
+#import requests
 
 
 def test_street_variable():

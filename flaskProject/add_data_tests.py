@@ -17,7 +17,7 @@ if config('PRODUCTION', cast=bool, default=False):
 
 db = SQLAlchemy(app)
 
-def init_db():
+def init_db_tests():
     db.drop_all()
     db.create_all()
     new_moto1 = MotoModel(
@@ -94,32 +94,6 @@ def init_db():
         last_coordinate_longitude=23.4431,
         km_restantes=30.0,
         km_totales=100.0,
-        date_last_check="18/10/2020",
-        km_last_check=100.0)
-    db.session.add(new_moto)
-
-    new_moto = MotoModel(
-        state="AVAILABLE",
-        matricula="7777-MMM",
-        date_estreno="28/10/2020",
-        model_generic="premium",
-        last_coordinate_latitude=23.4431,
-        last_coordinate_longitude=23.4432,
-        km_restantes=40.0,
-        km_totales=203.0,
-        date_last_check="18/10/2020",
-        km_last_check=0.0)
-    db.session.add(new_moto)
-
-    new_moto = MotoModel(
-        state="AVAILABLE",
-        matricula="8888-MMM",
-        date_estreno="28/10/2020",
-        model_generic="basic",
-        last_coordinate_latitude=23.4431,
-        last_coordinate_longitude=23.4432,
-        km_restantes=35.0,
-        km_totales=203.0,
         date_last_check="18/10/2020",
         km_last_check=100.0)
     db.session.add(new_moto)
@@ -202,10 +176,5 @@ def init_db():
 
     db.session.commit()
     print('Success in adding items to database')
-
-
-#Si usa script --> deja la linea de abajo descomentada
-
-init_db()
 
 
