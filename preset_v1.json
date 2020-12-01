@@ -3,15 +3,19 @@
     "plugins": {
         "@vue/cli-plugin-babel": {},
         "@vue/cli-plugin-router": {
-        "historyMode": true
+            "historyMode": true
         },
         "@vue/cli-plugin-eslint": {
-        "config": "standard",
-        "lintOn": [
-            "save"
-        ],
-        "rules": {
-            "no-unused-vars": "off"
+            "config": "standard",
+            "lintOn": ["save"]
+        },
+        "@vue/cli-plugin-unit-jest": {}
+    },
+    "configs":{
+        "eslintConfig": {
+            "rules": {
+                "no-unused-vars": "off",
+                "no-multiple-empty-lines": "off"
             }
         }
     },

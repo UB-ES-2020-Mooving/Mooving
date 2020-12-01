@@ -10,7 +10,7 @@ from resources.article import ArticlesList
 from resources.mechanic import Mechanic, MechanicList
 
 from resources.client import Client, ClientsList, Profile
-from resources.motos import Moto, ClientMotosList, MechanicMotosList, ClientMoto
+from resources.motos import Moto, ClientMotosList, MechanicMotosList, ClientMoto, MechanicMoto
 from resources.login import Login
 from resources.reserved_start import Reserved, Start
 
@@ -66,6 +66,7 @@ api.add_resource(ClientMotosList, '/motos')
 api.add_resource(MechanicMotosList, '/mechanicMotos')
 
 api.add_resource(ClientMoto,'/clientMoto/<int:id>') #para mostrar al cliente informacion de un moto en concreto
+api.add_resource(MechanicMoto,'/mechanicMoto/<int:id>') #para mostrar al mechanic informacion de un moto en concreto
 
 
 api.add_resource(Login, '/login')
@@ -73,8 +74,8 @@ api.add_resource(Login, '/login')
 api.add_resource(Mechanic, "/mechanic/<int:id>", "/mechanic")
 api.add_resource(MechanicList, '/mechanics')
 
-api.add_resource(Reserved, "/reserved/<int:id>", "/reserved/<string:client_email>/<int:moto_id>")
-api.add_resource(Start, "/start/<int:id>", "/start/<string:client_email>/<int:moto_id>")
+api.add_resource(Reserved, "/reserve/<string:client_email>", "/reserve")
+api.add_resource(Start, "/start/<string:client_email>", "/start")
 
 
 
