@@ -79,8 +79,8 @@ class Moto(Resource):
 class ClientMotosList(Resource):
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('model_generic', type=str)
-        parser.add_argument('more_km_restantes', type=int)
+        parser.add_argument('model_generic', type=str, required=True,help="This field cannot be left blank")
+        parser.add_argument('more_km_restantes', type=int, required=True,help="This field cannot be left blank")
 
         # Parámetros que pueden ser útiles en el futuro:
         # parser.add_argument('client_coordinate_latitude', type=float, required=True,help="This field cannot be left blank")
