@@ -1,7 +1,7 @@
 os:
 - linux
 language:
-- node_js
+- python
 node_js:
 - 15.0.1
 python:
