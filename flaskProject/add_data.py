@@ -64,7 +64,7 @@ def init_db():
         matricula="4444-MMM",
         date_estreno="28/10/2020",
         model_generic="premium",
-        last_coordinate_latitude=23.4431,
+        last_coordinate_latitude=23.4433,
         last_coordinate_longitude=23.4432,
         km_restantes=45.0,
         km_totales=203.0,
