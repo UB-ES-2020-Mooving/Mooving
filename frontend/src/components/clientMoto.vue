@@ -215,7 +215,7 @@ export default {
         .then((res) => {
           this.is_reserved = false // Se cambia la visibilidad de los botones
           this.cancel_message = res.data.message
-          alert(res.data.message)
+          alert('Until the next rodeo, cowboy!')
         })
         .catch((error) => {
           console.error(error)
