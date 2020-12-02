@@ -39,6 +39,26 @@
         <hr class="gradient-line" />
       </div>
     </div>
+    <!-- Lista de motos runeando -->
+    <div id="motosRunning" v-if="is_moto_running" style="margin-top: 20px">
+      <h2>{{ name_running_motos }}</h2>
+      <div class="list-group" style="margin-bottom: 20px">
+        <div class="center-screen">
+          <button type="button" class="list-group-item list-group-item-action" @click="startedMoto(moto_running.id)">
+            <div class="row">
+              <div class="col-sm" style="font-weight: bold;">{{moto_running.matricula}}</div>
+              <div class="col-sm">Distance: {{moto_running.distance}}m</div>
+              <div class="col-sm">Type: {{moto_running.model_generic}}</div>
+            </div>
+          </button>
+        </div>
+      </div>
+      <!-- Show divider between lists-->
+      <div class="h-divider" style="margin-bottom: 20px;">
+        <!-- div class="text2"><img src="./Images/MotodivisorRightWhite.png" style= "width:100%;"/></div -->
+        <hr class="gradient-line" />
+      </div>
+    </div>
     <!-- Title of the page: Motorbikes for the client -->
     <h2>{{ name }}</h2>
     <!-- Checkboxes to filter moto's type -->
@@ -78,6 +98,7 @@ export default {
     return {
       name: 'Available Motorbikes',
       name_reserved_motos: 'Reserved Motorbike',
+      name_running_motos: 'Running Motorbike',
       email: '',
       available_motos: {
         items: []
@@ -94,6 +115,13 @@ export default {
         matricula: 'ASD',
         distance: 0,
         model_generic: 'PATATAS'
+      },
+      is_moto_running: false,
+      moto_running: {
+        id: 7,
+        matricula: 'ASDJ',
+        distance: 0,
+        model_generic: 'PATATAS'
       }
     }
   },
@@ -101,9 +129,14 @@ export default {
     this.getAvailableMotos() // Gets the motos that are available for the client to use
     this.email = this.$route.query.email // si la extension es @mooving.com es un mecanico
     this.getReservedMoto() // Gets the moto reserved by this user
+    this.getRunningMoto() //  Gets the moto that is being run by this user
   },
   methods: {
     reserveMoto (id) {
+      // Nos lleva a otra pagina donde se ve la info especifica de la moto
+      this.$router.push({ path: '/clientMoto', query: { id: id, email: this.email } })
+    },
+    startedMoto (id) {
       // Nos lleva a otra pagina donde se ve la info especifica de la moto
       this.$router.push({ path: '/clientMoto', query: { id: id, email: this.email } })
     },
@@ -160,6 +193,27 @@ export default {
           // Si no hay moto reservada, saltara un error
           this.is_moto_reserved = false
           console.error(error)
+        })
+    },
+    getRunningMoto () {
+      // Call to the api GET to obtain the running motos by this user
+      const path = process.env.VUE_APP_CALL_PATH + '/start' + '/' + this.email
+      console.log(process.env.VUE_APP_CALL_PATH + '/start' + '/' + this.email)
+      axios.get(path)
+        .then((res) => {
+          console.log(res.data.reserved_moto)
+          this.moto_running.matricula = res.data.start_moto.matricula
+          this.moto_running.distance = res.data.start_moto.distance
+          this.moto_running.id = res.data.start_moto.id
+          this.moto_running.model_generic = res.data.start_moto.model_generic
+          this.is_moto_running = true
+          // alert('Hay moto runeando!')
+        })
+        .catch((error) => {
+          // No esta runeando ninguna moto
+          this.is_moto_running = false
+          console.error(error)
+          // alert('No hay moto runeando!!!')
         })
     }
   }
