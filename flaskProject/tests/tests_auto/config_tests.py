@@ -9,6 +9,8 @@ from flask import request, jsonify
 
 # No es client de cliente de la aplicación sinó en el sentido
 # de cliente en el contexto de APIs, Responses etc...
+
+
 @pytest.fixture
 def client():
     db_fd, app.config['DATABASE'] = tempfile.mkstemp()

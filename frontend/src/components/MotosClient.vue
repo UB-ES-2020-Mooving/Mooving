@@ -39,14 +39,38 @@
         <hr class="gradient-line" />
       </div>
     </div>
+    <!-- Lista de motos runeando -->
+    <div id="motosRunning" v-if="is_moto_running" style="margin-top: 20px">
+      <h2>{{ name_running_motos }}</h2>
+      <div class="list-group" style="margin-bottom: 20px">
+        <div class="center-screen">
+          <button type="button" class="list-group-item list-group-item-action" @click="startedMoto(moto_running.id)">
+            <div class="row">
+              <div class="col-sm" style="font-weight: bold;">{{moto_running.matricula}}</div>
+              <div class="col-sm">Distance: {{moto_running.distance}}m</div>
+              <div class="col-sm">Type: {{moto_running.model_generic}}</div>
+            </div>
+          </button>
+        </div>
+      </div>
+      <!-- Show divider between lists-->
+      <div class="h-divider" style="margin-bottom: 20px;">
+        <!-- div class="text2"><img src="./Images/MotodivisorRightWhite.png" style= "width:100%;"/></div -->
+        <hr class="gradient-line" />
+      </div>
+    </div>
     <!-- Title of the page: Motorbikes for the client -->
     <h2>{{ name }}</h2>
     <!-- Checkboxes to filter moto's type -->
     <h5>Filter type/s of motorbikes: </h5>
-    <input type="checkbox" id="checkboxBasic" v-model="basic" @change="getAvailableMotos()">
+    <input type="checkbox" id="checkboxBasic" v-model="basic" @change="filterMotoListByType()">
     <label for="checkboxBasic">Basic </label>
-    <input type="checkbox" id="checkboxPremium" v-model="premium" @change="getAvailableMotos()">
+    <input type="checkbox" id="checkboxPremium" v-model="premium" @change="filterMotoListByType()">
     <label for="checkboxPremium">Premium</label>
+    <br>
+    <!-- Slider to filter moto's remaining km -->
+    <h5>Range of remaining battery: </h5>
+    <custom-slider :values="sliderValues" id="sliderKmRestantes" v-model="slider_km_restantes" @change=filterMotoListByKmRestantes() />
     <!-- Lista de motos para el cliente-->
     <div class="list-group" v-if="is_client">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
@@ -64,20 +88,21 @@
         <p>{{ message_no_motos_available }}</p>
       </div>
     </div>
-    <!-- Show divider between lists-->
-    <div class="h-divider" style="width: 100%;margin-top: 0; height: 7px">
-      <div class="text2"><img src="./Images/MotodivisorRightWhite.png" style= "width:90%;height: 100%;"/></div>
-    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import CustomSlider from 'vue-custom-range-slider'
 export default {
+  components: {
+    CustomSlider
+  },
   data () {
     return {
       name: 'Available Motorbikes',
       name_reserved_motos: 'Reserved Motorbike',
+      name_running_motos: 'Running Motorbike',
       email: '',
       available_motos: {
         items: []
@@ -87,11 +112,61 @@ export default {
       basic: true,
       premium: true,
       model_generic: 'all',
-      more_km_restantes: 0,
+      more_km_restantes: 5,
       is_moto_reserved: false,
       moto_reserved: {
         id: 1,
         matricula: 'ASD',
+        distance: 0,
+        model_generic: 'PATATAS'
+      },
+      slider_km_restantes: '5',
+      sliderValues: [
+        {
+          label: '50km+',
+          value: '50'
+        },
+        {
+          label: '45km',
+          value: '45'
+        },
+        {
+          label: '40km',
+          value: '40'
+        },
+        {
+          label: '35km',
+          value: '35'
+        },
+        {
+          label: '30km',
+          value: '30'
+        },
+        {
+          label: '25km',
+          value: '25'
+        },
+        {
+          label: '20km',
+          value: '20'
+        },
+        {
+          label: '15km',
+          value: '15'
+        },
+        {
+          label: '10km',
+          value: '10'
+        },
+        {
+          label: '5km',
+          value: '5'
+        }
+      ],
+      is_moto_running: false,
+      moto_running: {
+        id: 7,
+        matricula: 'ASDJ',
         distance: 0,
         model_generic: 'PATATAS'
       }
@@ -101,32 +176,34 @@ export default {
     this.getAvailableMotos() // Gets the motos that are available for the client to use
     this.email = this.$route.query.email // si la extension es @mooving.com es un mecanico
     this.getReservedMoto() // Gets the moto reserved by this user
+    this.getRunningMoto() //  Gets the moto that is being run by this user
   },
   methods: {
     reserveMoto (id) {
       // Nos lleva a otra pagina donde se ve la info especifica de la moto
       this.$router.push({ path: '/clientMoto', query: { id: id, email: this.email } })
     },
-    filterMotoList () {
+    startedMoto (id) {
+      // Nos lleva a otra pagina donde se ve la info especifica de la moto
+      this.$router.push({ path: '/clientMoto', query: { id: id, email: this.email } })
+    },
+    filterMotoListByType () {
       if (this.basic && this.premium) {
         this.model_generic = 'all'
-        this.more_km_restantes = 0
-        // TODO: more_km_restantes hay que coger de sliders
       } else if (this.basic) {
         this.model_generic = 'basic'
-        this.more_km_restantes = 0
-        // TODO: more_km_restantes hay que coger de sliders
       } else if (this.premium) {
         this.model_generic = 'premium'
-        this.more_km_restantes = 0
-        // TODO: more_km_restantes hay que coger de sliders
       } else {
         this.model_generic = 'all'
-        this.more_km_restantes = 0
       }
+      this.getAvailableMotos()
+    },
+    filterMotoListByKmRestantes () {
+      this.more_km_restantes = parseInt(this.slider_km_restantes, 10)
+      this.getAvailableMotos()
     },
     getAvailableMotos () {
-      this.filterMotoList()
       const path = process.env.VUE_APP_CALL_PATH + '/motos'
       axios.get(path, {
         params: {
@@ -160,6 +237,27 @@ export default {
           // Si no hay moto reservada, saltara un error
           this.is_moto_reserved = false
           console.error(error)
+        })
+    },
+    getRunningMoto () {
+      // Call to the api GET to obtain the running motos by this user
+      const path = process.env.VUE_APP_CALL_PATH + '/start' + '/' + this.email
+      console.log(process.env.VUE_APP_CALL_PATH + '/start' + '/' + this.email)
+      axios.get(path)
+        .then((res) => {
+          console.log(res.data.reserved_moto)
+          this.moto_running.matricula = res.data.start_moto.matricula
+          this.moto_running.distance = res.data.start_moto.distance
+          this.moto_running.id = res.data.start_moto.id
+          this.moto_running.model_generic = res.data.start_moto.model_generic
+          this.is_moto_running = true
+          // alert('Hay moto runeando!')
+        })
+        .catch((error) => {
+          // No esta runeando ninguna moto
+          this.is_moto_running = false
+          console.error(error)
+          // alert('No hay moto runeando!!!')
         })
     }
   }

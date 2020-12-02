@@ -12,9 +12,9 @@ class ReservedRunningModel(db.Model):
     motoId = db.Column(db.Integer, db.ForeignKey('motos.id'), unique=True)
 
     # Atributo fecha y hora de la reserva. Formato DD/MM/YYYY HH:MM:SS
-    dateTimeReserved = db.Column(db.DATETIME)
+    dateTimeReserved = db.Column(db.TIMESTAMP)
     # Atributo fecha y hora del running(start). Formato DD/MM/YYYY HH:MM:SS
-    dateTimeStart = db.Column(db.DATETIME)
+    dateTimeStart = db.Column(db.TIMESTAMP)
     # Atributo kilometros de la moto antes de hacer el start
     kmStart = db.Column(db.Float)
 
