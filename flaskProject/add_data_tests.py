@@ -21,7 +21,7 @@ def init_db_tests():
     db.drop_all()
     db.create_all()
     new_moto1 = MotoModel(
-        state="RESERVED",
+        state="AVAILABLE",
         matricula="1111-MMM",
         date_estreno="28/10/2020",
         model_generic="basic",
@@ -168,11 +168,6 @@ def init_db_tests():
         password="123456",
         date_registration="24/02/2020")
     db.session.add(new_mechanic)
-
-    new_rr = ReservedRunningModel(
-        client=client1,
-        moto=new_moto1)
-    db.session.add(new_rr)
 
     db.session.commit()
     print('Success in adding items to database')
