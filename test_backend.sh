@@ -8,8 +8,8 @@ fi
 
 cd flaskProject
 echo "Installing depencies"
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+python -m pip install --user --upgrade pip
+python -m pip install --user -r requirements.txt
 echo "Running tests..."
 case $TEST_BACKEND in
     SECONDARY)
