@@ -88,7 +88,7 @@ export default {
       premium: true,
       model_generic: 'all',
       more_km_restantes: 0,
-      is_moto_reserved: true,
+      is_moto_reserved: false,
       moto_reserved: {
         id: 1,
         matricula: 'ASD',
@@ -99,8 +99,8 @@ export default {
   },
   created () {
     this.getAvailableMotos() // Gets the motos that are available for the client to use
-    this.getReservedMoto() // Gets the moto reserved by this user
     this.email = this.$route.query.email // si la extension es @mooving.com es un mecanico
+    this.getReservedMoto() // Gets the moto reserved by this user
   },
   methods: {
     reserveMoto (id) {
@@ -145,11 +145,22 @@ export default {
     },
     getReservedMoto () {
       // Call to the api GET to obtain the reserved motos
-      // is_moto_reserved true si hay
-      // si hay moto, actualizar moto_reserved
-      // si no, revisar que no pete
-      this.is_moto_reserved = true
-      // alert('Si hay motos reservadas')
+      const path = process.env.VUE_APP_CALL_PATH + '/reserve' + '/' + this.email
+      console.log(process.env.VUE_APP_CALL_PATH + '/reserve' + '/' + this.email)
+      axios.get(path)
+        .then((res) => {
+          this.is_moto_reserved = true
+          // si hay moto, actualizar moto_reserved
+          this.moto_reserved.matricula = res.data.reserved_moto.matricula
+          this.moto_reserved.distance = res.data.reserved_moto.distance
+          this.moto_reserved.id = res.data.reserved_moto.id
+          this.moto_reserved.model_generic = res.data.reserved_moto.model_generic
+        })
+        .catch((error) => {
+          // Si no hay moto reservada, saltara un error
+          this.is_moto_reserved = false
+          console.error(error)
+        })
     }
   }
 }
