@@ -6,6 +6,8 @@ node_js:
 - 15.0.1
 python:
 - 3.8.6
+before_install:
+- nvm install node --reinstall-packages-from=node
 install:
 - npm install -g @vue/cli
 before_script:
