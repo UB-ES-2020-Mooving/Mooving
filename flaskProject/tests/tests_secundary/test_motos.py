@@ -3,6 +3,8 @@ import math
 import app
 from models.moto_model import MotoModel
 
+# Test
+
 m1 = MotoModel(
     state="ACTIVE",
     matricula="3333-MMM",
@@ -114,3 +116,23 @@ def test_ClientMotoList4_EntradaVacia():
     assert "motos" in respuesta.keys()
     #esperamos una lista vacía, dado que la distancia es menor que la mínima
     assert len(respuesta["motos"]) == 0
+
+def test_street_variable():
+    """
+    GIVEN a MotoModel model
+    WHEN a new MotoModel is created
+    THEN check the address field is defined correctly
+    """
+    new_moto = MotoModel(
+        state="ACTIVE",
+        matricula="1234-MMM",
+        date_estreno="24/11/2020",
+        model_generic="premium",
+        last_coordinate_latitude=23.4434,
+        last_coordinate_longitude=23.4433,
+        km_restantes=120.0,
+        km_totales=0.0,
+        date_last_check="24/11/2020",
+        km_last_check=0.0)
+
+    assert new_moto.address == "Al Kufrah, Libia"

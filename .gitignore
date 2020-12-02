@@ -83,3 +83,4 @@ nbbuild/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+flaskProject/data.db

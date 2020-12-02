@@ -10,8 +10,9 @@ from resources.article import ArticlesList
 from resources.mechanic import Mechanic, MechanicList
 
 from resources.client import Client, ClientsList, Profile
-from resources.motos import Moto, ClientMotosList, MechanicMotosList
+from resources.motos import Moto, ClientMotosList, MechanicMotosList, ClientMoto, MechanicMoto
 from resources.login import Login
+from resources.reserved_start import Reserved, Start
 
 # App configuration
 from decouple import config
@@ -57,17 +58,26 @@ Para volver a crear la base de datos:
 api.add_resource(ArticlesList, "/articles")
 
 api.add_resource(Client, "/client/<int:client_id>", "/client")
-api.add_resource(Profile, "/client/profile/<string:email>")
+api.add_resource(Profile, "/profile/<string:email>")
 api.add_resource(ClientsList, '/clients')
 
 api.add_resource(Moto, "/moto/<int:id>", "/moto")
 api.add_resource(ClientMotosList, '/motos')
 api.add_resource(MechanicMotosList, '/mechanicMotos')
 
+api.add_resource(ClientMoto,'/clientMoto/<int:id>') #para mostrar al cliente informacion de un moto en concreto
+api.add_resource(MechanicMoto,'/mechanicMoto/<int:id>') #para mostrar al mechanic informacion de un moto en concreto
+
+
 api.add_resource(Login, '/login')
 
 api.add_resource(Mechanic, "/mechanic/<int:id>", "/mechanic")
 api.add_resource(MechanicList, '/mechanics')
+
+api.add_resource(Reserved, "/reserve/<string:client_email>", "/reserve","/reserve/<string:client_email>/<int:moto_id>")
+api.add_resource(Start, "/start/<string:client_email>", "/start")
+
+
 
 
 @app.route('/')

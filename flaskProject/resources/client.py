@@ -80,7 +80,7 @@ class Profile(Resource):
     def get(self, email):
         try:
             client = ClientModel.find_by_email(email)
-            return {'client profile': client.json_profile()}, 200
+            return {'client_profile': client.json_profile()}, 200
         except:
             return {"message": "Error Get Client Pofile"}, 500
 
