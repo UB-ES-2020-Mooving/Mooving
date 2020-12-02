@@ -5,7 +5,7 @@ language:
 node_js:
 - 15.0.1
 python:
-- 3.8.6
+- 3.5.1
 install:
 - npm install -g @vue/cli
 before_script:
