@@ -75,7 +75,7 @@
       <div>
         <button class="btn"
                 id="reserveButton"
-                v-if="!is_reserved"
+                v-if="!is_reserved&&!is_running"
                 :disabled=!can_reserve
                 type="button"
                 @click="reserveMoto()"
@@ -85,8 +85,16 @@
         </button>
       </div>
       <!-- mensaje de hasta que hora puede recogerla-->
-      <div v-if="is_reserved" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
+      <div v-if="is_reserved&&!is_running" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
         <p style="font-weight: bold;">{{this.time_pick_up}}</p>
+      </div>
+      <!-- mensaje de que necesita estar mas cerca para recogerla-->
+      <div v-if="is_reserved&&!is_near_the_moto" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
+        <p style="color: red">{{this.message_closer}}</p>
+      </div>
+      <!-- mensaje si esta runeando esta moto-->
+      <div v-if="is_running" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
+        <p style="font-weight: bold;">{{this.message_running}}<br> Enjoy cowboy!</p>
       </div>
       <!-- divisor de opciones-->
       <div class="row" style="margin-top: 20px;margin-bottom: 20px">
@@ -94,7 +102,7 @@
           <!-- boton para cancelar la reserva -->
           <button class="btn"
                   id="cancelButton"
-                  v-if="is_reserved"
+                  v-if="is_reserved&&!is_running"
                   type="button"
                   @click="cancelReserve()"
                   style="border-radius: 12px;
@@ -106,8 +114,10 @@
           <!-- boton para aceptar la reserva -->
           <button class="btn"
                   id="startButton"
-                  v-if="is_reserved"
+                  v-if="is_reserved&&!is_running"
+                  :disabled=!is_near_the_moto
                   type="button"
+                  @click="startMoto()"
                   style="border-radius: 12px;
                 background-color: #343a40;color: #42b983; width: 150px" >
             Start
@@ -143,7 +153,11 @@ export default {
       },
       moto_running: {
         matricula: ''
-      }
+      },
+      is_near_the_moto: false,
+      message_closer: 'Too far to run, cowboy',
+      is_running: false,
+      message_running: 'You are running this motorbike.'
     }
   },
   created () {
@@ -174,6 +188,11 @@ export default {
           this.moto.address = res.data.client_moto.address
           this.moto.distance = res.data.client_moto.distance
           console.log(res.data.client_moto)
+          if (this.moto.distance <= 5) {
+            this.is_near_the_moto = true
+          } else {
+            this.is_near_the_moto = false
+          }
         })
         .catch((error) => {
           console.error(error)
@@ -191,7 +210,7 @@ export default {
       // alert(this.email)
       // alert(this.id)
       const path = process.env.VUE_APP_CALL_PATH + '/reserve'
-      // console.log(process.env.VUE_APP_CALL_PATH + '/reserve')
+      console.log(process.env.VUE_APP_CALL_PATH + '/reserve')
       axios.post(path, parameters)
         .then((res) => {
           this.is_reserved = true // Se cambia la visibilidad de los botones
@@ -210,6 +229,25 @@ export default {
       // Llamada a la api para poner la moto en available
       // Se cambia la visibilidad de los botones
       this.is_reserved = false
+    },
+    startMoto () {
+      // Client starts the moto
+      // Llamada a la api método POST para poner la moto a brum brum brrummm
+      const parameters = {
+        client_email: this.email,
+        moto_id: this.id
+      }
+      const path = process.env.VUE_APP_CALL_PATH + '/start'
+      console.log(process.env.VUE_APP_CALL_PATH + '/start')
+      axios.post(path, parameters)
+        .then((res) => {
+          this.is_running = true // Se cambia la visibilidad de los botones
+          // alert('Motorbike running on success')
+        })
+        .catch((error) => {
+          console.error(error)
+          // alert('Motorbike not running')
+        })
     },
     getReservedMoto () {
       // Call to the api GET to obtain the reserved motos
@@ -250,8 +288,8 @@ export default {
       console.log(process.env.VUE_APP_CALL_PATH + '/start' + '/' + this.email)
       axios.get(path)
         .then((res) => {
-          console.log(res.data.reserved_moto)
-          this.moto_running.matricula = res.data.reserved_moto.matricula
+          console.log(res.data.start_moto)
+          this.moto_running.matricula = res.data.start_moto.matricula
           // si esta runeando la misma matricula
           if (this.moto_running.matricula === this.moto.matricula) {
             this.is_running_another_moto = false // esta runeando la misma moto
@@ -259,15 +297,18 @@ export default {
             // TODO this.can_reserve = false
             // TODO this.can_stop = true
             // TODO ocultar todos los botones excepto el nuevo de stop
+            this.is_running = true
           } else { // Está runeando una moto diferente
             this.is_running_another_moto = true
             this.can_reserve = false
           }
+          // alert('Hay moto runenado!')
         })
         .catch((error) => {
           // No esta runenado ninguna moto
           this.is_running_another_moto = false
           console.error(error)
+          // alert('No hay moto runeando!')
         })
     }
   }
