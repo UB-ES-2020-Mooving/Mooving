@@ -7,7 +7,7 @@ class ReservedRunningModel(db.Model):
 
     rr_id = db.Column(db.Integer, primary_key=True, nullable=False)
     # Atributo relacion con la tabla clients
-    clientId = db.Column(db.String(50), db.ForeignKey('clients.client_id'), unique=True)
+    clientId = db.Column(db.Integer, db.ForeignKey('clients.client_id'), unique=True)
     # Atributo relacion con la tabla motos
     motoId = db.Column(db.Integer, db.ForeignKey('motos.id'), unique=True)
 
