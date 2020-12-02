@@ -88,10 +88,6 @@
         <p>{{ message_no_motos_available }}</p>
       </div>
     </div>
-    <!-- Show divider between lists-->
-    <div class="h-divider" style="width: 100%;margin-top: 0; height: 7px">
-      <div class="text2"><img src="./Images/MotodivisorRightWhite.png" style= "width:90%;height: 100%;"/></div>
-    </div>
   </div>
 </template>
 
