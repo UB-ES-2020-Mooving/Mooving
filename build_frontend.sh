@@ -1,8 +1,11 @@
-#!/bin/sh
-set -ev
+#!/bin/bash
+set -e
 #Script to build the frontend
 #Variable FRONTEND must exist and Vue must be installed
-
+if [[ -z "$FRONTEND" ]]; then
+    echo "No frontend defined, it won't work..."
+    exit 1
+fi
 cd $FRONTEND
 #build specification depending on branch pushed
 case $BRANCH in

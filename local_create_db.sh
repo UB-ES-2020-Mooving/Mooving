@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 cd flaskProject
 if [ -e "migrations" ]; then
     rm -r "migrations"
