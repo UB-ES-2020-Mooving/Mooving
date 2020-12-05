@@ -52,10 +52,10 @@
               <hr>
               <div class="row">
                 <div class="col-sm-3">
-                  <h6 class="mb-0">km since last revision</h6>
+                  <h6 class="mb-0">Km since last revision</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{ this.moto.km_since_last_check }} KM
+                  {{ this.moto.km_since_last_check }} km
                 </div>
               </div>
               <hr>
@@ -64,7 +64,7 @@
                   <h6 class="mb-0">Total km</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{ this.moto.km_total }} KM
+                  {{ this.moto.km_total }} km
                 </div>
               </div>
               <hr>
@@ -91,7 +91,7 @@
                   <h6 class="mb-0">Fuel/Battery</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{ this.moto.km_restantes }} KM
+                  {{ this.moto.km_restantes }} km
                 </div>
               </div>
               <hr>

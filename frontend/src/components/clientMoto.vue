@@ -54,7 +54,7 @@
                   <h6 class="mb-0">Fuel/Battery</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
-                  {{ this.moto.km_restantes }} KM
+                  {{ this.moto.km_restantes }} km
                 </div>
                 </div>
                 <hr>
