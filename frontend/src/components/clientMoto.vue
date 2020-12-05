@@ -10,11 +10,11 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-      <div class="row text-center" style="margin-top: 20px;">
+      <div class="row text-center" style="margin-top: 20px; margin-left: 15px; margin-right: 15px;" >
         <div class="col-sm-6 sm-4">
-          <img class="rounded z-depth-2" alt="100x200" src="./Images/iconPremium.png"
+          <img class="rounded z-depth-2" width="97" height="88" alt="100x200" src="./Images/iconPremium.png"
                data-holder-rendered="true" v-if="this.moto.model_generic === 'premium'">
-          <img class="rounded z-depth-2" alt="100x200" src="./Images/iconNormal.png"
+          <img class="rounded z-depth-2" width="97" height="88" alt="100x200" src="./Images/iconNormal.png"
                data-holder-rendered="true" v-else-if="this.moto.model_generic === 'basic'">
         </div>
       </div>
