@@ -15,6 +15,17 @@
                 </div>
               </div>
               <div class="form-group">
+                <label for="type">Type</label>
+                <select v-model="moto.type" id="type" name="type" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.type.$error }" >
+                  <option disabled value="">Select type</option>
+                  <option>Basic</option>
+                  <option>Premium</option>
+                </select>
+                <div v-if="submitted && $v.moto.type.$error" class="invalid-feedback">
+                  <span v-if="!$v.moto.type.required">Type is required</span>
+                </div>
+              </div>
+              <div class="form-group">
                 <button class="btn"
                     id="cancelButton"
                     type="button"
@@ -44,13 +55,15 @@ export default {
       email: '',
       moto: {
         licensePlate: '',
+        type: ''
       },
       submitted: false
     }
   },
   validations: {
     moto: {
-      licensePlate: { required, minLength: minLength(8) }
+      licensePlate: { required, minLength: minLength(8) },
+      type: { required }
     }
   },
   created () {
