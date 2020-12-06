@@ -276,6 +276,7 @@ export default {
       // Here we call to the API to stop the motorbike
       // If everything was okay and the motorbike was stoped, we change the visibility of the buttons
       this.is_running = false
+      this.is_reserved = false
     },
     getReservedMoto () {
       // Call to the api GET to obtain the reserved motos
