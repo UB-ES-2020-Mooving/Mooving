@@ -61,16 +61,24 @@
     </div>
     <!-- Title of the page: Motorbikes for the client -->
     <h2>{{ name }}</h2>
-    <!-- Checkboxes to filter moto's type -->
-    <h5>Filter type/s of motorbikes: </h5>
-    <input type="checkbox" id="checkboxBasic" v-model="basic" @change="filterMotoListByType()">
-    <label for="checkboxBasic">Basic </label>
-    <input type="checkbox" id="checkboxPremium" v-model="premium" @change="filterMotoListByType()">
-    <label for="checkboxPremium">Premium</label>
-    <br>
-    <!-- Slider to filter moto's remaining km -->
-    <h5>Range of remaining battery: </h5>
-    <custom-slider :values="sliderValues" id="sliderKmRestantes" v-model="slider_km_restantes" @change=filterMotoListByKmRestantes() />
+    <!-- Filters -->
+    <div class="text-center" style="margin-left: 50px; margin-top: 20px;margin-right: 50px">
+      <!-- Checkboxes to filter moto's type -->
+      <h6 class="text-left" style="margin-left: 10px;font-weight: bold;">Filter types of motorbikes: </h6>
+      <div class="row" style="margin-left: 40px">
+        <div style="margin-right: 20px;">
+          <input type="checkbox" id="checkboxBasic" v-model="basic" @change="filterMotoListByType()">
+          <label for="checkboxBasic">Basic </label>
+        </div>
+        <div>
+          <input type="checkbox" id="checkboxPremium" v-model="premium" @change="filterMotoListByType()">
+          <label for="checkboxPremium">Premium</label>
+        </div>
+      </div>
+      <!-- Slider to filter moto's remaining km -->
+      <h6 class="text-left" style="margin-left: 10px;font-weight: bold;">Range of remaining battery: </h6>
+      <custom-slider :values="sliderValues" id="sliderKmRestantes" v-model="slider_km_restantes" @change=filterMotoListByKmRestantes() />
+      </div>
     <!-- Lista de motos para el cliente-->
     <div class="list-group" v-if="is_client">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
