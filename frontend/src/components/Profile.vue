@@ -64,6 +64,20 @@
           </div>
         </div>
       </div>
+      <!-- actions divisor-->
+      <div id="profile-actions" class="row" style="margin-top: 20px;margin-bottom: 20px">
+        <div style="position: absolute; left: 20px">
+          <!-- button to delete the account -->
+          <button class="btn"
+                  id="deleteAccountButton"
+                  type="button"
+                  @click="deleteAccountConfirmation()"
+                  style="border-radius: 12px;
+                background-color: #ff6961;color: #ffffff; width: 150px">
+            Delete Account
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -106,7 +120,13 @@ export default {
           console.error(error)
           alert(error)
         })
+    },
+    deleteAccountConfirmation () {
+      console.log('patata')
+      this.$router.push({ path: '/confirmDeleteAccount', query: { email: this.email } })
     }
+
+
   }
 }
 </script>

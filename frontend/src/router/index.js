@@ -8,6 +8,7 @@ import Profile from '@/components/Profile.vue'
 import MotosClient from '@/components/MotosClient'
 import clientMoto from '../components/clientMoto'
 import mechanicMoto from '../components/MechanicMoto'
+import ConfirmDeleteAccountDialog from '@/components/ConfirmDeleteAccountDialog.vue'
 
 Vue.use(Router)
 
@@ -54,6 +55,11 @@ export default new Router({
       path: '/mechanicMoto',
       name: 'mechanicMoto',
       component: mechanicMoto
+    },
+    {
+      path: '/confirmDeleteAccount',
+      name: 'confirmDeleteAccount',
+      component: ConfirmDeleteAccountDialog
     }
   ]
 })
