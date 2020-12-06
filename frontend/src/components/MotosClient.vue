@@ -62,23 +62,40 @@
     <!-- Title of the page: Motorbikes for the client -->
     <h2>{{ name }}</h2>
     <!-- Filters -->
-    <div class="text-center" style="margin-left: 50px; margin-top: 20px;margin-right: 50px">
-      <!-- Checkboxes to filter moto's type -->
-      <h6 class="text-left" style="margin-left: 10px;font-weight: bold;">Filter types of motorbikes: </h6>
-      <div class="row" style="margin-left: 40px">
-        <div style="margin-right: 20px;">
-          <input type="checkbox" id="checkboxBasic" v-model="basic" @change="filterMotoListByType()">
-          <label for="checkboxBasic">Basic </label>
-        </div>
-        <div>
-          <input type="checkbox" id="checkboxPremium" v-model="premium" @change="filterMotoListByType()">
-          <label for="checkboxPremium">Premium</label>
-        </div>
-      </div>
-      <!-- Slider to filter moto's remaining km -->
-      <h6 class="text-left" style="margin-left: 10px;font-weight: bold;">Range of remaining battery: </h6>
-      <custom-slider :values="sliderValues" id="sliderKmRestantes" v-model="slider_km_restantes" @change=filterMotoListByKmRestantes() />
-      </div>
+    <div style="position: center">
+      <b-navbar toggleable>
+        <b-navbar-brand style="margin-left: 40px">
+          <p style="font-size: large;margin-top: 15px;color: #495057;font-weight: bold;">Filters</p>
+        </b-navbar-brand>
+        <b-navbar-toggle target="navbar-toggle-collapse-filters">
+          <template #default="{ expanded }">
+            <b-icon v-if="expanded" icon="chevron-bar-up" size="sm"></b-icon>
+            <b-icon v-else icon="chevron-bar-down" size="sm"></b-icon>
+          </template>
+        </b-navbar-toggle>
+        <b-collapse id="navbar-toggle-collapse-filters" is-nav>
+          <b-navbar-nav class="ml-auto">
+            <div class="text-center">
+              <!-- Checkboxes to filter moto's type -->
+              <h6 class="text-left" style="margin-left: 40px;font-weight: bold;color: #495057">Filter types of motorbikes: </h6>
+              <div class="row" style="margin-left: 80px">
+                <div style="margin-right: 20px;">
+                  <input type="checkbox" id="checkboxBasic" v-model="basic" @change="filterMotoListByType()">
+                  <label for="checkboxBasic" style="color: #495057">Basic </label>
+                </div>
+                <div>
+                  <input type="checkbox" id="checkboxPremium" v-model="premium" @change="filterMotoListByType()">
+                  <label for="checkboxPremium" style="color: #495057">Premium</label>
+                </div>
+              </div>
+              <!-- Slider to filter moto's remaining km -->
+              <h6 class="text-left" style="margin-left: 40px;font-weight: bold;color: #495057">Range of remaining battery: </h6>
+              <custom-slider :values="sliderValues" id="sliderKmRestantes" v-model="slider_km_restantes" style="color: #495057;position: center" @change=filterMotoListByKmRestantes() />
+            </div>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
     <!-- Lista de motos para el cliente-->
     <div class="list-group" v-if="is_client">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
