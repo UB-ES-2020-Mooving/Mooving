@@ -71,16 +71,28 @@
         </div>
       </div>
       <!-- final del id prof -->
-      <!-- boton para reservar -->
-      <div>
+      <div class="row" style="margin-top: 20px;margin-bottom: 20px; margin-left: 15px; margin-right: 15px" v-if='true'>
+        <!--button to alert-->
+        <button class="btn"
+                id="alertButton"
+                type="button"
+                v-if='true'
+                @click="sendAlert()"
+                style="border-radius: 12px;
+                background-color: #ff6961;color: #ffffff; width: 150px;
+                margin-left: 0px; margin-right: 10px">
+          Alert
+        </button>
+        <!--boton para reservar-->
         <button class="btn"
                 id="reserveButton"
                 v-if="!is_reserved&&!is_running"
                 :disabled=!can_reserve
                 type="button"
                 @click="reserveMoto()"
-                style="margin-top: 20px;margin-left: 20px;border-radius: 12px;
-                background-color: #343a40;color: #42b983;width: 150px">
+                style="border-radius: 12px;
+                background-color: #343a40;color: #42b983; width: 150px;
+                margin-right: 0px; margin-left: 18px">
           Reserve
         </button>
       </div>
@@ -339,6 +351,10 @@ export default {
           console.error(error)
           // alert('No hay moto runeando!')
         })
+    },
+    sendAlert () {
+      // API call
+      console.log('Api call')
     }
   }
 }
