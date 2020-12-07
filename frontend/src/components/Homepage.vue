@@ -26,6 +26,9 @@
         <li class="nav-item">
           <router-link to="/userregister">Sign up</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/map">Map</router-link>
+        </li>
       </ul>
     </nav>
     <!-- Carousel -->

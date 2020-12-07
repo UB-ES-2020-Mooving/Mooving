@@ -17,4 +17,4 @@ vue create --preset preset_v1.json $FRONTEND
 #install depencies
 cd $FRONTEND
 npm config set registry https://registry.npm.taobao.org
-npm install --save axios bootstrap-vue vuelidate vue-router flush-promises vue-custom-range-slider
+npm install --save axios bootstrap-vue vuelidate vue-router flush-promises vue-custom-range-slider vue-browser-geolocation vue2-google-maps
