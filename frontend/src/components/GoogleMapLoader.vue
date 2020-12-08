@@ -47,7 +47,7 @@
         </GmapMarker>
         <GmapMarker
           :position="{lat: myCoordinates.lat, lng: myCoordinates.lng}"
-          :icon="{ url: require('./Images/purple-dot.png')}"
+          :icon="{ url: require('./Images/blue-dot.png')}"
           :clickable="true">
         </GmapMarker>
       </GmapMap>
