@@ -15,6 +15,30 @@
                 </div>
               </div>
               <div class="form-group">
+                <label for="battery">Battery</label>
+                <input type="text" v-model="moto.battery" id="battery" name="battery" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.battery.$error }" />
+                <div v-if="submitted && $v.moto.battery.$error" class="invalid-feedback">
+                  <span v-if="!$v.moto.battery.required">Battery is required </span>
+                  <span v-if="!$v.moto.battery.minLength">Battery must be a positive integer (included 0)</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="state">State</label>
+                <select v-model="moto.state" id="state" name="state" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.state.$error }" >
+                  <option disabled value="">Select State</option>
+                  <option>AVAILABLE</option>
+                  <option>RESERVED</option>
+                  <option>REPAIRING</option>
+                  <option>LOW_BATTERY_FUEL</option>
+                  <option>UNREPAIRABLE</option>
+                  <option>UNCHECKED</option>
+                  <option>ACCIDENT</option>
+                </select>
+                <div v-if="submitted && $v.moto.state.$error" class="invalid-feedback">
+                  <span v-if="!$v.moto.state.required">State is required</span>
+                </div>
+              </div>
+              <div class="form-group">
                 <button class="btn"
                         id="cancelButton"
                         type="button"
@@ -34,7 +58,7 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators'
+import { required, minLength, integer, minValue } from 'vuelidate/lib/validators'
 import axios from 'axios'
 export default {
   name: 'ModifyMotoForm',
@@ -43,17 +67,18 @@ export default {
       email: '',
       id: 0,
       moto: {
-        licensePlate: ''
+        licensePlate: '',
+        state: '',
+        battery: null
       },
       submitted: false
     }
   },
   validations: {
     moto: {
-      licensePlate: {
-        required,
-        minLength: minLength(8)
-      }
+      licensePlate: { required, minLength: minLength(8) },
+      state: { required },
+      battery: { required, integer, minValue: minValue(0) }
     }
   },
   created () {
