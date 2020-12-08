@@ -87,7 +87,7 @@ export default {
       }
       this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
     },
-    cancel(){
+    cancel () {
       this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
     }
   }
