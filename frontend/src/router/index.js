@@ -59,9 +59,9 @@ export default new Router({
       component: mechanicMoto
     },
     {
-        path: '/motoForm',
-        name: 'motoForm',
-        component: motoForm
+      path: '/motoForm',
+      name: 'motoForm',
+      component: motoForm
     },
     {
       path: '/confirmDeleteAccount',
