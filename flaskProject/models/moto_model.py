@@ -4,7 +4,7 @@ from datetime import datetime
 from geopy.distance import distance
 
 from sqlalchemy import and_, or_
-
+import random
 from geopy.geocoders import Nominatim
 
 
@@ -34,7 +34,7 @@ class MotoModel(db.Model):
     # Atributo last_coordinate_longitude, ultima coordenada longitud de la moto
     last_coordinate_longitude = db.Column(db.Float, nullable=False)
     # Atributo address, direccion de la ultima aparcamiento de la moto
-    address = db.Column(db.String(150),nullable=False)
+    address = db.Column(db.String(150), nullable=False)
 
     # Atributo km_restantes de la moto para que se le acabe la bateria
     km_restantes = db.Column(db.Float, nullable=False)
@@ -63,14 +63,14 @@ class MotoModel(db.Model):
             self.battery_autonomy = moto_model_premium["battery_autonomy"]
         self.last_coordinate_latitude = last_coordinate_latitude
         self.last_coordinate_longitude = last_coordinate_longitude
-        self.address = self.obtainAddressFromCoordinates(last_coordinate_latitude,last_coordinate_longitude)
+        self.address = self.obtainAddressFromCoordinates(last_coordinate_latitude, last_coordinate_longitude)
         self.km_restantes = km_restantes
         self.km_totales = km_totales
         self.date_last_check = date_last_check
         self.km_last_check = km_last_check
 
-    def obtainAddressFromCoordinates(self, last_coordinate_latitude,last_coordinate_longitude):
-        geolocator = Nominatim(user_agent = "Mooving")
+    def obtainAddressFromCoordinates(self, last_coordinate_latitude, last_coordinate_longitude):
+        geolocator = Nominatim(user_agent="Mooving")
         location = geolocator.reverse(str(last_coordinate_latitude) + ',' + str(last_coordinate_longitude),
                                       language="es")
         return location.address
@@ -118,8 +118,6 @@ class MotoModel(db.Model):
         }
         return data
 
-
-
     def json_mechaniclistmotos(self):
         date_format = "%d/%m/%Y"
         date_last_check = datetime.strptime(self.date_last_check, date_format)
@@ -132,12 +130,12 @@ class MotoModel(db.Model):
         data = {
             'license_plate': self.matricula,
             'state': self.state,
-            'type': self.model_generic, #type of moto (basic, premium)
-            'km_total': self.km_totales, #km since added to the system
-            'time_total': time_total, #days since added to the system: date_estreno - date_actual
+            'type': self.model_generic,  # type of moto (basic, premium)
+            'km_total': self.km_totales,  # km since added to the system
+            'time_total': time_total,  # days since added to the system: date_estreno - date_actual
             'id': self.id,
-            'time_since_last_check': time_since_last_check , #days since last check
-            'km_since_last_check': self.km_totales - self.km_last_check , #km since last check
+            'time_since_last_check': time_since_last_check,  # days since last check
+            'km_since_last_check': self.km_totales - self.km_last_check,  # km since last check
             'last_coordinate_latitude': self.last_coordinate_latitude,
             'last_coordinate_longitude': self.last_coordinate_longitude,
         }
@@ -168,7 +166,6 @@ class MotoModel(db.Model):
         }
         return data
 
-
     def get_last_coordinate_latitude(self):
         return self.last_coordinate_latitude
 
@@ -184,7 +181,7 @@ class MotoModel(db.Model):
         db.session.commit()
 
     def set_moto(self, state, matricula, date_estreno, model_generic, last_coordinate_latitude,
-                 last_coordinate_longitude, km_restantes, km_totales, date_last_check,km_last_check):
+                 last_coordinate_longitude, km_restantes, km_totales, date_last_check, km_last_check):
         self.state = state
         self.matricula = matricula
         self.date_estreno = date_estreno
@@ -199,7 +196,7 @@ class MotoModel(db.Model):
             self.battery_autonomy = moto_model_premium["battery_autonomy"]
         self.last_coordinate_latitude = last_coordinate_latitude
         self.last_coordinate_longitude = last_coordinate_longitude
-        self.address = self.obtainAddressFromCoordinates(last_coordinate_latitude,last_coordinate_longitude)
+        self.address = self.obtainAddressFromCoordinates(last_coordinate_latitude, last_coordinate_longitude)
         self.km_restantes = km_restantes
         self.km_totales = km_totales
         self.date_last_check = date_last_check
@@ -239,7 +236,6 @@ class MotoModel(db.Model):
 
         return data
 
-    
     def set_state(self, state):
         self.state = state
 
@@ -250,4 +246,25 @@ class MotoModel(db.Model):
             cond = and_(cond, c)
         return cond
 
+    @classmethod
+    def is_license_plate(cls, s):
+        if len(s) != 8:
+            return False
+        # Comprueba que la matrícula tenga el formato adecuado.
+        # Ejemplo de matrícula: "1234-ABC"
+        return s[:4].isnumeric() and s[4] == "-" and s[5:].isalpha()
 
+    @classmethod
+    def get_random_coordinates(cls, coord=(41.40426366, 02.16256839), std_deviation=0.005):
+        # Las coordenadas por defecto están en Barcelona cerca de Gracia
+        # de esta manera queda todó dentro de BCN y no se salen por el mar ni nada.
+
+        # Esto de aquí genera unas coordenadas con ruido gausiano.
+        # Con la cifra de desviación típica por defecto muy rara vez
+        # se alejan más de 1500 metros de la localización inicial.
+
+        latt, long = coord
+        latt += random.gauss(0, std_deviation)
+        long += random.gauss(0, std_deviation)
+
+        return (latt, long)
