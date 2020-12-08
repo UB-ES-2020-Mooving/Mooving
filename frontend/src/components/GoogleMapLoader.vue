@@ -10,13 +10,13 @@
           :zoom="12"
           style="width:640px; height:360px; margin: 32px auto;">
         <GmapMarker
-          :key="index"
-          v-for="(pin, index) in markers"
-          :position="pin.position"
-          :icon="{ url: require('./Images/orange-dot.png')}"
+          :key="item.matricula"
+          v-for="item in this.available_motos"
+          :position="{lat: item.last_coordinate_latitude, lng: item.last_coordinate_longitude}"
+          :icon="{ url: require('./Images/green-dot.png')}"
           :clickable="true"
           :draggable="true"
-          @click="center=pin.position"> //:icon="{ url: require('./Images/iconNormal.png')}"
+          @click="reserveMoto(item.id)"> //:icon="{ url: require('./Images/iconNormal.png')}"
         </GmapMarker>
         <GmapMarker
           :key="index"
@@ -34,7 +34,7 @@
           :icon="{ url: require('./Images/purple-dot.png')}"
           :clickable="true"
           :draggable="true"
-          @click="center=pin.position">
+          @click="hola">
         </GmapMarker>
       </GmapMap>
     </div>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 const home = { lat: 41.417988, lng: 2.185246 };
 const home2 = { lat: 41.41793, lng: 2.18523 };
 export default {
@@ -59,18 +61,25 @@ export default {
           lat: 0,
           ln: 0
       },
-      m: true
+      m: true,
+      available_motos: {
+        items: []
+      },
+      model_generic: 'all',
+      more_km_restantes: 5,
     };
   },
   mounted() {
     this.geolocate();
   },
   created() {
+    this.email = this.$route.query.email
     this.$getLocation({})
         .then(coordinates => {
           this.myCoordinates = coordinates;
         })
         .catch( error => alert(error));
+    this.getAvailableMotos() // Gets the motos that are available for the client to use
     this.drawDirection()
   },
   methods: {
@@ -78,13 +87,31 @@ export default {
     setPlace(place) {
       this.currentPlace = place;
     },
+    reserveMoto (id) {
+      // Nos lleva a otra pagina donde se ve la info especifica de la moto
+      this.$router.push({ path: '/clientMoto', query: { id: id, email: this.email } })
+    },
+    getAvailableMotos () {
+      const path = process.env.VUE_APP_CALL_PATH + '/motos'
+      axios.get(path, {
+        params: {
+          model_generic: this.model_generic,
+          more_km_restantes: this.more_km_restantes
+        }
+      })
+        .then((res) => {
+          this.available_motos = res.data.motos
+          console.log(res.data.motos)
+        })
+        .catch((error) => {
+          console.error(error)
+          alert(error)
+        })
+    },
     drawDirection() {
         this.markers = [
           {
-            position: home,
-          },
-          {
-            position: {lat: 41.43, lng: 2.186}
+            position: home
           }
         ],
         this.markers2 = [
