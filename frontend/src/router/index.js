@@ -7,7 +7,7 @@ import Login from '@/components/Login.vue'
 import Profile from '@/components/Profile.vue'
 import MotosClient from '@/components/MotosClient'
 import clientMoto from '../components/clientMoto'
-import mechanicMoto from '../components/MechanicMoto
+import mechanicMoto from '../components/MechanicMoto'
 import motoForm from '../components/AddMotoForm'
 import ConfirmDeleteAccountDialog from '@/components/ConfirmDeleteAccountDialog.vue'
 
