@@ -98,12 +98,32 @@ export default {
     },
     handleSubmit (e) {
       this.submitted = true
-      alert('ha entrado')
       // stop here if form is invalid
       this.$v.$touch()
       if (this.$v.$invalid) {
-        alert('ERROR')
+        return
       }
+
+      const path = process.env.VUE_APP_CALL_PATH + '/moto' + '/' + this.id
+      console.log(path)
+
+      const parameters = {
+        matricula: this.moto.licensePlate,
+        // parse to floating number with precision 2
+        km_restantes: parseFloat(this.moto.battery).toFixed(2),
+        state: this.moto.state
+      }
+      if (parameters.state === 'LOW BATTERY') {
+        parameters.state = 'LOW_BATTERY_FUEL'
+      }
+      axios.put(path, parameters)
+        .then((res) => {
+          // route to reloaded motorbike info page:
+          this.$router.push({ path: '/mechanicMoto', query: { id: this.id, email: this.email } })
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   }
 }
