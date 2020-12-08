@@ -149,6 +149,8 @@ export default {
           this.moto_reserved.distance = res.data.reserved_moto.distance
           this.moto_reserved.id = res.data.reserved_moto.id
           this.moto_reserved.model_generic = res.data.reserved_moto.model_generic
+          this.moto_reserved.last_coordinate_latitude = res.data.reserved_moto.last_coordinate_latitude
+          this.moto_reserved.last_coordinate_longitude = res.data.reserved_moto.last_coordinate_longitude
         })
         .catch((error) => {
           // Si no hay moto reservada, saltara un error
@@ -167,6 +169,8 @@ export default {
           this.moto_running.distance = res.data.start_moto.distance
           this.moto_running.id = res.data.start_moto.id
           this.moto_running.model_generic = res.data.start_moto.model_generic
+          this.moto_running.last_coordinate_latitude = res.data.start_moto.last_coordinate_latitude
+          this.moto_running.last_coordinate_longitude = res.data.start_moto.last_coordinate_longitude
           this.is_moto_running = true
           // alert('Hay moto runeando!')
         })
