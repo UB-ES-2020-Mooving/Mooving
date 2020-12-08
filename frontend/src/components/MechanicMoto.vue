@@ -116,6 +116,17 @@
           </div>
         </div>
       </div>
+      <!-- btn para modificar la moto -->
+      <div class="text-sm-center" style="margin-top: 20px; margin-right: 10px; margin-left: 10px; margin-bottom: 20px;">
+        <button class="btn"
+                id="modifyButton"
+                type="button"
+                @click="modifyMotorbikeForm()"
+                style="margin-top: 20px;margin-left: 20px;border-radius: 12px;
+                background-color: #343a40;color: #42b983; width: 150px">
+          Modify
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -168,6 +179,10 @@ export default {
           console.error(error)
           alert(error)
         })
+    },
+    modifyMotorbikeForm () {
+      // El mecanico accede a un formulario para modificar la moto
+      this.$router.push({ path: '/modifyMotoForm', query: { email: this.email, id: this.id } })
     }
   }
 }
