@@ -87,7 +87,6 @@ export default {
   },
   methods: {
     cancel () {
-      alert('cancel')
       this.$router.push({ path: '/mechanicMoto', query: { id: this.id, email: this.email } })
     },
     handleSubmit (e) {

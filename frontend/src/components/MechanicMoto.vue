@@ -120,6 +120,7 @@
       <div class="text-sm-center" style="margin-top: 20px; margin-right: 10px; margin-left: 10px; margin-bottom: 20px;">
         <button class="btn"
                 id="modifyButton"
+                :disabled=active
                 type="button"
                 @click="modifyMotorbikeForm()"
                 style="margin-top: 20px;margin-left: 20px;border-radius: 12px;
@@ -139,6 +140,7 @@ export default {
     return {
       email: '',
       id: 0,
+      active: false,
       moto: {
         matricula: '',
         state: '',
@@ -173,6 +175,7 @@ export default {
           this.moto.km_restantes = res.data.mechanic_moto.km_restantes
           this.moto.distance = res.data.mechanic_moto.distance
           this.moto.address = res.data.mechanic_moto.address
+          this.active = this.moto.state === 'ACTIVE'
           console.log(res.data.mechanic_moto)
         })
         .catch((error) => {
