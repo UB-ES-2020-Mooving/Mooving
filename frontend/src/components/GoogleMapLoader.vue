@@ -98,14 +98,14 @@ export default {
     }
   },
   mounted () {
-    this.geolocate();
+    this.geolocate()
   },
   created () {
     this.email = this.$route.query.email
     this.$getLocation({})
       .then(coordinates => {
         this.myCoordinates = coordinates
-    })
+      })
       .catch(error => alert(error))
     this.getAvailableMotos() // Gets the motos that are available for the client to use
     this.getReservedMoto() // Gets the moto reserved by this user
