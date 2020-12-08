@@ -71,7 +71,7 @@
         </div>
       </div>
       <!-- final del id prof -->
-      <div class="row" style="margin-top: 20px;margin-bottom: 20px; margin-left: 15px; margin-right: 15px" v-if='true'>
+      <div class="row" style="margin-top: 20px;margin-bottom: 20px; margin-left: 16px; margin-right: 15px" v-if='true'>
         <!--button to alert-->
         <button class="btn"
                 id="alertButton"
@@ -81,7 +81,7 @@
                 style="border-radius: 12px;
                 background-color: #ff6961;color: #ffffff; width: 150px;
                 margin-left: 0px; margin-right: 10px">
-          Alert
+          Notify Error
         </button>
         <!--boton para reservar-->
         <button class="btn"
@@ -109,8 +109,8 @@
         <p style="font-weight: bold;">{{this.message_running}}<br> Enjoy cowboy!</p>
       </div>
       <!-- divisor de opciones-->
-      <div class="row" style="margin-top: 20px;margin-bottom: 20px">
-        <div style="position: absolute; left: 20px">
+      <div class="row" style="margin-top: 20px;margin-bottom: 20px; margin-left: 16px; margin-right: 15px">
+        <div style="margin-left: 0px; margin-right: 10px">
           <!-- boton para cancelar la reserva -->
           <button class="btn"
                   id="cancelButton"
@@ -122,7 +122,7 @@
             Cancel
           </button>
         </div>
-        <div style="position: absolute; right: 20px">
+        <div style="margin-right: 0px; margin-left: 18px">
           <!-- boton para aceptar la reserva -->
           <button class="btn"
                   id="startButton"
@@ -137,7 +137,7 @@
         </div>
       </div>
       <!-- divisor para parar la moto -->
-      <div v-if="is_running" style="margin-left: 20px">
+      <div class="row" style="margin-top: 20px;margin-bottom: 20px; margin-left: 16px; margin-right: 15px" v-if="is_running">
         <!-- boton para parar la reserva -->
         <button class="btn"
                 id="stopButton"
@@ -145,7 +145,8 @@
                 type="button"
                 @click="stopMotorbike()"
                 style="border-radius: 12px;
-                background-color: #ff6961;color: #ffffff; width: 150px">
+                background-color: #ff6961;color: #ffffff; width: 150px
+                margin-left: 0px; margin-right: 10px">
           Stop
         </button>
       </div>
