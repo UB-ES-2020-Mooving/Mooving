@@ -74,6 +74,7 @@ export default {
       available_motos: {
         items: []
       },
+      email: '',
       model_generic: 'all',
       more_km_restantes: 5,
       moto_running: {
