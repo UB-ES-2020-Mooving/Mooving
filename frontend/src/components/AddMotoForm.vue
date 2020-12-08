@@ -85,6 +85,7 @@ export default {
       if (this.$v.$invalid) {
         return
       }
+      this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
     },
     cancel(){
       this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
