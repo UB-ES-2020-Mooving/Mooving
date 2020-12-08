@@ -77,7 +77,7 @@ export default {
           alert(error)
         })
     },
-    motoForm(){
+    motoForm () {
       // El mecanico accede a un formulario para añadir una moto
       this.$router.push({ path: '/motoForm', query: { email: this.email } })
     }
