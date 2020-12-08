@@ -10,11 +10,11 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-      <div class="row text-center" style="margin-top: 20px;">
+      <div class="row text-center" style="margin-top: 20px; margin-left: 10px; margin-right: 10px;" >
         <div class="col-sm-6 sm-4">
-          <img class="rounded z-depth-2" alt="100x200" src="./Images/iconPremium.png"
+          <img class="rounded z-depth-2" width="97" height="88" alt="100x200" src="./Images/iconPremium.png"
                data-holder-rendered="true" v-if="this.moto.model_generic === 'premium'">
-          <img class="rounded z-depth-2" alt="100x200" src="./Images/iconNormal.png"
+          <img class="rounded z-depth-2" width="97" height="88" alt="100x200" src="./Images/iconNormal.png"
                data-holder-rendered="true" v-else-if="this.moto.model_generic === 'basic'">
         </div>
       </div>
@@ -123,6 +123,19 @@
             Start
           </button>
         </div>
+      </div>
+      <!-- divisor para parar la moto -->
+      <div v-if="is_running" style="margin-left: 20px">
+        <!-- boton para parar la reserva -->
+        <button class="btn"
+                id="stopButton"
+                v-if="is_running"
+                type="button"
+                @click="stopMotorbike()"
+                style="border-radius: 12px;
+                background-color: #ff6961;color: #ffffff; width: 150px">
+          Stop
+        </button>
       </div>
     </div>
   </div>
@@ -258,6 +271,12 @@ export default {
           console.error(error)
           // alert('Motorbike not running')
         })
+    },
+    stopMotorbike () {
+      // Here we call to the API to stop the motorbike
+      // If everything was okay and the motorbike was stoped, we change the visibility of the buttons
+      this.is_running = false
+      this.is_reserved = false
     },
     getReservedMoto () {
       // Call to the api GET to obtain the reserved motos

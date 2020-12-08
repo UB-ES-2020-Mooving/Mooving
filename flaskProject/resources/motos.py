@@ -50,30 +50,21 @@ class Moto(Resource):
 
     def put(self, id):
         parser = reqparse.RequestParser()
-        parser.add_argument('state', type=str, required=True, help="This field cannot be left blank")
         parser.add_argument('matricula', type=str, required=True, help="This field cannot be left blank")
-        parser.add_argument('date_estreno', type=str, required=True, help="This field cannot be left blank")
-        parser.add_argument('model_generic', type=str, required=True, help="This field cannot be left blank")
-        parser.add_argument('last_coordinate_latitude', type=float, required=True,
-                            help="This field cannot be left blank")
-        parser.add_argument('last_coordinate_longitude', type=float, required=True,
-                            help="This field cannot be left blank")
         parser.add_argument('km_restantes', type=float, required=True, help="This field cannot be left blank")
-        parser.add_argument('km_totales', type=float, required=True, help="This field cannot be left blank")
-        parser.add_argument('date_last_check', type=str, required=True, help="This field cannot be left blank")
-        parser.add_argument('km_last_check', type=float, required=True, help="This field cannot be left blank")
+        parser.add_argument('state', type=str, required=True, help="This field cannot be left blank")
         data = parser.parse_args()
 
-        try:
-            moto = MotoModel.find_by_id(id)
-            moto.set_moto(data['state'], data['matricula'], data['date_estreno'], data['model_generic'],
-                          data['last_coordinate_latitude'],
-                          data['last_coordinate_longitude'], data['km_restantes'], data['km_totales'],
-                          data['date_last_check'], data['km_last_check'])
-            MotoModel.save_to_db(moto)
-            return {"message": "Moto modified successfully"}, 200
-        except:
-            return {"message": "Error Put Moto"}, 500
+        moto = MotoModel.find_by_id(id)
+        if (moto):
+            try:
+                moto.set_moto(data['matricula'],data['km_restantes'],data['state'])
+                MotoModel.save_to_db(moto)
+                return {"message": "Motorbike modified successfully"}, 200
+            except:
+                return {"message": "Error while trying to modify motorbike with id [{}]".format(id)}, 500
+        else:
+            return {'message': "Motorbike with id [{}] Not Found".format(id)}, 404
 
 
 class ClientMotosList(Resource):
