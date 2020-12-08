@@ -56,19 +56,19 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 
-const home = { lat: 41.417988, lng: 2.185246 };
-const home2 = { lat: 41.41793, lng: 2.18523 };
+const home = { lat: 41.417988, lng: 2.185246 }
+const home2 = { lat: 41.41793, lng: 2.18523 }
 export default {
-  data() {
+  data () {
     return {
       center: { lat: 45.508, lng: -73.587 },
       places: [],
       currentPlace: null,
       myCoordinates: {
-          lat: 0,
-          ln: 0
+        lat: 0,
+        ln: 0
       },
       m: true,
       available_motos: {
@@ -90,23 +90,23 @@ export default {
         matricula: 'ASD',
         distance: 0,
         model_generic: 'PATATAS',
-        last_coordinate_latitude: 41.417983 ,
+        last_coordinate_latitude: 41.417983,
         last_coordinate_longitude: 2.185244
       },
       is_moto_reserved: false,
-      is_moto_running:false
-    };
+      is_moto_running: false
+    }
   },
-  mounted() {
+  mounted () {
     this.geolocate();
   },
-  created() {
+  created () {
     this.email = this.$route.query.email
     this.$getLocation({})
-        .then(coordinates => {
-          this.myCoordinates = coordinates;
-        })
-        .catch( error => alert(error));
+      .then(coordinates => {
+        this.myCoordinates = coordinates
+    })
+      .catch(error => alert(error))
     this.getAvailableMotos() // Gets the motos that are available for the client to use
     this.getReservedMoto() // Gets the moto reserved by this user
     this.getRunningMoto() //  Gets the moto that is being run by this user
@@ -114,8 +114,8 @@ export default {
   },
   methods: {
     // receives a place object via the autocomplete component
-    setPlace(place) {
-      this.currentPlace = place;
+    setPlace (place) {
+      this.currentPlace = place
     },
     reserveMoto (id) {
       // Nos lleva a otra pagina donde se ve la info especifica de la moto
@@ -182,16 +182,16 @@ export default {
           // alert('No hay moto runeando!!!')
         })
     },
-    geolocate: function() {
+    geolocate: function () {
       navigator.geolocation.getCurrentPosition(position => {
         this.center = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
-        };
-      });
+        }
+      })
     }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

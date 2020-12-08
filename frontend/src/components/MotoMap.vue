@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import GoogleMap from "../components/GoogleMapLoader";
+import GoogleMap from '../components/GoogleMapLoader'
 
 export default {
   components: {
-    GoogleMap,
+    GoogleMap
   }
 }
 </script>
