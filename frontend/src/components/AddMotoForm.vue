@@ -18,6 +18,7 @@
                   <div v-if="submitted && $v.moto.licensePlate.$error" class="invalid-feedback">
                     <span v-if="!$v.moto.licensePlate.required">Please, complete the form</span>
                     <span v-if="!$v.moto.licensePlate.minLength">License Plate must be at least 8 characters</span>
+                    <span v-if="!$v.moto.licensePlate.maxLength">License Plate must be no more than 8 characters</span>
                   </div>
                 </div>
                 <div class="form-group">
@@ -69,7 +70,7 @@ export default {
   },
   validations: {
     moto: {
-      licensePlate: { required, minLength: minLength(8) },
+      licensePlate: { required, minLength: minLength(8), maxLength: maxLength(8) },
       type: { required }
     }
   },
