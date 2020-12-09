@@ -53,7 +53,7 @@
                       background-color: #ff6961;color: #ffffff; width: 140px">
                     Cancel
                   </button>
-                  <button class="btn btn-primary" style="margin-top: 20px;margin-left: 5px;border-radius: 12px; background-color: #343a40;color: #42b983; width: 140px">Save</button>
+                  <button class="btn btn-primary" id="saveButton" style="margin-top: 20px;margin-left: 5px;border-radius: 12px; background-color: #343a40;color: #42b983; width: 140px">Save</button>
                 </div>
               </form>
             </div>
@@ -123,6 +123,7 @@ export default {
         })
         .catch((error) => {
           console.error(error)
+          alert('Error modifying: please check that license plate is not equal to another moto or that the moto exists')
         })
     }
   }
