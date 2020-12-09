@@ -58,10 +58,20 @@
                     <span v-if="!$v.user.dniNie.minLength">DNI/NIE must be at least 8 characters</span>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-row flex-nowrap" style="margin-top: 20px;margin-bottom: 20px; margin-left: 16px; margin-right: 15px">
+                  <button class="btn"
+                    id="cancelModifyAccount"
+                    type="button"
+                    @click="cancelModifyAccount()"
+                    style="border-radius: 12px;
+                    background-color: #ff6961;color: #ffffff; width: 150px
+                    margin-left: 0px; margin-right: 10px">
+                    Cancel
+                  </button>
                   <button class="btn "
                     style="border-radius: 12px;
-                    background-color: #343a40;color: #42b983; width: 150px;">
+                    background-color: #343a40;color: #42b983; width: 150px;
+                    margin-right: 0px; margin-left: 18px">
                     Save
                   </button>
                 </div>
@@ -119,6 +129,9 @@ export default {
           console.error(error)
           alert(error)
         })
+    },
+    cancelModifyAccount () {
+      this.$router.push({ path: '/profile', query: { email: this.email } })
     },
     handleSubmit (e) {
       console.log('patatita')
