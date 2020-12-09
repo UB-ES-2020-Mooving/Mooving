@@ -37,7 +37,7 @@
           :position="{lat: moto_reserved.last_coordinate_latitude, lng: moto_reserved.last_coordinate_longitude}"
           :icon="{ url: require('./Images/purple-dot.png')}"
           :clickable="true"
-          @click="center=reserveMoto(moto_reserved.id)">
+          @click="reserveMoto(moto_reserved.id)">
         </GmapMarker>
         <GmapMarker v-if="is_moto_running"
           :position="{lat: moto_running.last_coordinate_latitude, lng: moto_running.last_coordinate_longitude}"
@@ -67,7 +67,7 @@ export default {
       center: { lat: 45.508, lng: -73.587 },
       myCoordinates: {
         lat: 0,
-        ln: 0
+        lng: 0
       },
       m: true,
       available_motos: {
