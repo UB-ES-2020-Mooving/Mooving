@@ -17,7 +17,8 @@
                   <input type="text" v-model="moto.licensePlate" id="licensePlate" name="licensePlate" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.licensePlate.$error }" />
                   <div v-if="submitted && $v.moto.licensePlate.$error" class="invalid-feedback">
                     <span v-if="!$v.moto.licensePlate.required">License Plate is required</span>
-                    <span v-if="!$v.moto.licensePlate.minLength">License Plate must be at least 8 characters</span>
+                    <span v-if="!$v.moto.licensePlate.minLength">License Plate must be exactly 8 characters</span>
+                    <span v-if="!$v.moto.licensePlate.maxLength">License Plate must be exactly 8 characters</span>
                   </div>
                 </div>
                 <div class="form-group">
@@ -33,7 +34,6 @@
                   <select v-model="moto.state" id="state" name="state" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.state.$error }" >
                     <option disabled value="">Select State</option>
                     <option>AVAILABLE</option>
-                    <option>RESERVED</option>
                     <option>REPAIRING</option>
                     <option>LOW BATTERY</option>
                     <option>UNREPAIRABLE</option>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { required, minLength, integer, minValue } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength, integer, minValue } from 'vuelidate/lib/validators'
 import axios from 'axios'
 export default {
   name: 'ModifyMotoForm',
@@ -83,7 +83,7 @@ export default {
   },
   validations: {
     moto: {
-      licensePlate: { required, minLength: minLength(8) },
+      licensePlate: { required, minLength: minLength(8), maxLength: maxLength(8) },
       state: { required },
       battery: { required, integer, minValue: minValue(0) }
     }
