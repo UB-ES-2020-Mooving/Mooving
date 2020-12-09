@@ -9,6 +9,17 @@
     </div>
     <!-- Title of the page -->
     <h1> {{ name }} </h1>
+    <!-- btn para añadir nuevas motos -->
+    <div class="text-sm-center" style="margin-top: 20px; margin-right: 10px; margin-left: 10px; margin-bottom: 20px;">
+        <button class="btn"
+                id="AddButton"
+                type="button"
+                @click="motoForm()"
+                style="margin-top: 20px;margin-left: 20px;border-radius: 12px;
+                background-color: #343a40;color: #42b983; width: 150px">
+          Add Motorbike
+        </button>
+    </div>
     <!-- Lista de motos para el mecanico-->
     <div class="list-group" v-if="is_mechanic">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
@@ -65,6 +76,10 @@ export default {
           console.error(error)
           alert(error)
         })
+    },
+    motoForm () {
+      // El mecanico accede a un formulario para añadir una moto
+      this.$router.push({ path: '/motoForm', query: { email: this.email } })
     }
   }
 }
