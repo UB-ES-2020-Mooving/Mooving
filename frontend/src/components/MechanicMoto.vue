@@ -116,6 +116,18 @@
           </div>
         </div>
       </div>
+      <!-- Boton para eliminar la moto -->
+      <div style="margin-top: 20px;margin-left: 15px; margin-bottom: 20px">
+        <button class="btn"
+                id="deleteButton"
+                :disabled=is_active
+                type="button"
+                @click="deleteMotorbike()"
+                style="border-radius: 12px;
+                background-color: #ff6961;color: #ffffff; width: 150px">
+          Delete
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -138,7 +150,8 @@ export default {
         type: '',
         km_restantes: 0.0,
         address: ''
-      }
+      },
+      is_active: false
     }
   },
   created () {
@@ -163,11 +176,18 @@ export default {
           this.moto.distance = res.data.mechanic_moto.distance
           this.moto.address = res.data.mechanic_moto.address
           console.log(res.data.mechanic_moto)
+          if (this.moto.state === 'ACTIVE') {
+            this.is_active = true
+          }
         })
         .catch((error) => {
           console.error(error)
           alert(error)
         })
+    },
+    deleteMotorbike () {
+      // Llamada a la API para eliminar la moto
+      // Si hay exito, routear a la pagina de lista de motos
     }
   }
 }
