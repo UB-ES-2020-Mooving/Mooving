@@ -18,8 +18,9 @@ def client():
 
     with app.test_client() as client:
         with app.app_context():
+
             init_db_tests()
-        yield client
+            yield client
 
     os.close(db_fd)
     os.unlink(app.config['DATABASE'])

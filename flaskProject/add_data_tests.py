@@ -7,6 +7,10 @@ from models.moto_model import MotoModel
 from models.client_model import ClientModel
 from models.mechanic_model import MechanicModel
 from models.reserved_running_model import ReservedRunningModel
+import os
+
+from app import app
+from db import db
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -17,9 +21,38 @@ if config('PRODUCTION', cast=bool, default=False):
 
 db = SQLAlchemy(app)
 
+import subprocess
+
+
+def create_new_db():
+    """
+    salida = os.system("sh server_create_db.sh")
+    print("Salida del comando CD: ",salida)
+    """
+
+    """
+
+
+    # list_files = subprocess.run(["sh", "server_create_db.sh"])
+    # print("The exit code was: %d" % list_files.returncode)
+    """
+    # list_files = subprocess.run(["date"])
+    subprocess.run(['hello.bat'])
+    #print("The exit code was: %d" % list_files.returncode)
+
+
+
 def init_db_tests():
+    """
+    j = db
     db.drop_all()
+    j1 = db
+
+    i = 0
     db.create_all()
+    clear_data()
+    """
+
     new_moto1 = MotoModel(
         state="AVAILABLE",
         matricula="1111-MMM",
@@ -99,11 +132,11 @@ def init_db_tests():
     db.session.add(new_moto)
 
     client1 = ClientModel(
-        nombre = "Juana",
-        iban = "2223462362665251w",
-        dni_nie = "11111111J",
-        email = "juanita@gmail.com",
-        password = "123456"
+        nombre="Juana",
+        iban="2223462362665251w",
+        dni_nie="11111111J",
+        email="juanita@gmail.com",
+        password="123456"
     )
     db.session.add(client1)
 
@@ -135,22 +168,22 @@ def init_db_tests():
     )
     db.session.add(client)
 
-    articulo=ArticleModel(
-        titulo = "¡Motos más nuevas y potentes que nunca!",
-        texto = "Las nuevas motos de Mooving están batiendo todos los"
-                "récord habidos y por haber. Tenemos más de 400 motos eléctricas"
-                "con una autonomía de más de 100KM.",
-        fecha_creacion = "2020/10/29",
-        visible = True)
+    articulo = ArticleModel(
+        titulo="¡Motos más nuevas y potentes que nunca!",
+        texto="Las nuevas motos de Mooving están batiendo todos los"
+              "récord habidos y por haber. Tenemos más de 400 motos eléctricas"
+              "con una autonomía de más de 100KM.",
+        fecha_creacion="2020/10/29",
+        visible=True)
     db.session.add(articulo)
 
-    articulo=ArticleModel(
-        titulo = "¡Motos más rápidas !",
-        texto = "Las nuevas motos de Mooving son más rápidas que las de la competencia."
-                " Tenemos más de 400 motos eléctricas"
-                " con una velocidad punta de más de 100KM/H .",
-        fecha_creacion = "2020/10/28",
-        visible = True)
+    articulo = ArticleModel(
+        titulo="¡Motos más rápidas !",
+        texto="Las nuevas motos de Mooving son más rápidas que las de la competencia."
+              " Tenemos más de 400 motos eléctricas"
+              " con una velocidad punta de más de 100KM/H .",
+        fecha_creacion="2020/10/28",
+        visible=True)
     db.session.add(articulo)
 
     new_mechanic = MechanicModel(
@@ -173,3 +206,33 @@ def init_db_tests():
     print('Success in adding items to database')
 
 
+def clear_data():
+    meta = db.metadata
+    for table in reversed(meta.sorted_tables):
+        db.session.execute(table.delete())
+    db.session.commit()
+
+
+"""import contextlib
+from sqlalchemy import MetaData
+
+meta = MetaData()
+
+with contextlib.closing(engine.connect()) as con:
+    trans = con.begin()
+    for table in reversed(meta.sorted_tables):
+        con.execute(table.delete())
+    trans.commit()
+    
+"""
+
+"""
+conn = engine.connect()
+stmt = students.delete().where(students.c.lastname == 'Khanna')
+conn.execute(stmt)
+s = students.select()
+conn.execute(s).fetchall()
+"""
+
+create_new_db()
+# init_db_tests()
