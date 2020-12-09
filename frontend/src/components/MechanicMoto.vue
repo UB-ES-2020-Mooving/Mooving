@@ -188,6 +188,7 @@ export default {
     deleteMotorbike () {
       // Llamada a la API para eliminar la moto
       // Si hay exito, routear a la pagina de lista de motos
+      this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
     }
   }
 }
