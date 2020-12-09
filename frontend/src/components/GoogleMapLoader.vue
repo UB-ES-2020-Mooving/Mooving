@@ -57,6 +57,7 @@
 
 <script>
 import axios from 'axios'
+import Vue from 'vue'
 
 const home = { lat: 41.417988, lng: 2.185246 }
 const home2 = { lat: 41.41793, lng: 2.18523 }
@@ -64,8 +65,6 @@ export default {
   data () {
     return {
       center: { lat: 45.508, lng: -73.587 },
-      places: [],
-      currentPlace: null,
       myCoordinates: {
         lat: 0,
         ln: 0
@@ -99,6 +98,7 @@ export default {
   },
   mounted () {
     this.geolocate()
+    Vue.$gmapDefaultResizeBus.$emit('resize')
   },
   created () {
     this.email = this.$route.query.email
@@ -110,7 +110,6 @@ export default {
     this.getAvailableMotos() // Gets the motos that are available for the client to use
     this.getReservedMoto() // Gets the moto reserved by this user
     this.getRunningMoto() //  Gets the moto that is being run by this user
-    this.drawDirection()
   },
   methods: {
     // receives a place object via the autocomplete component
