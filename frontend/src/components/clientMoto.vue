@@ -10,11 +10,11 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-      <div class="row text-center" style="margin-top: 20px;">
+      <div class="row text-center" style="margin-top: 20px; margin-left: 10px; margin-right: 10px;" >
         <div class="col-sm-6 sm-4">
-          <img class="rounded z-depth-2" alt="100x200" src="./Images/iconPremium.png"
+          <img class="rounded z-depth-2" width="97" height="88" alt="100x200" src="./Images/iconPremium.png"
                data-holder-rendered="true" v-if="this.moto.model_generic === 'premium'">
-          <img class="rounded z-depth-2" alt="100x200" src="./Images/iconNormal.png"
+          <img class="rounded z-depth-2" width="97" height="88" alt="100x200" src="./Images/iconNormal.png"
                data-holder-rendered="true" v-else-if="this.moto.model_generic === 'basic'">
         </div>
       </div>
@@ -71,16 +71,28 @@
         </div>
       </div>
       <!-- final del id prof -->
-      <!-- boton para reservar -->
-      <div>
+      <div class="row" style="margin-top: 20px;margin-bottom: 20px; margin-left: 16px; margin-right: 15px" v-if='true'>
+        <!--button to alert-->
+        <button class="btn"
+                id="alertButton"
+                type="button"
+                v-if='true'
+                @click="sendAlert()"
+                style="border-radius: 12px;
+                background-color: #ff6961;color: #ffffff; width: 150px;
+                margin-left: 0px; margin-right: 10px">
+          Notify Error
+        </button>
+        <!--boton para reservar-->
         <button class="btn"
                 id="reserveButton"
                 v-if="!is_reserved&&!is_running"
                 :disabled=!can_reserve
                 type="button"
                 @click="reserveMoto()"
-                style="margin-top: 20px;margin-left: 20px;border-radius: 12px;
-                background-color: #343a40;color: #42b983;width: 150px">
+                style="border-radius: 12px;
+                background-color: #343a40;color: #42b983; width: 150px;
+                margin-right: 0px; margin-left: 18px">
           Reserve
         </button>
       </div>
@@ -97,8 +109,8 @@
         <p style="font-weight: bold;">{{this.message_running}}<br> Enjoy cowboy!</p>
       </div>
       <!-- divisor de opciones-->
-      <div class="row" style="margin-top: 20px;margin-bottom: 20px">
-        <div style="position: absolute; left: 20px">
+      <div class="row" style="margin-top: 20px;margin-bottom: 20px; margin-left: 16px; margin-right: 15px">
+        <div style="margin-left: 0px; margin-right: 10px">
           <!-- boton para cancelar la reserva -->
           <button class="btn"
                   id="cancelButton"
@@ -110,7 +122,7 @@
             Cancel
           </button>
         </div>
-        <div style="position: absolute; right: 20px">
+        <div style="margin-right: 0px; margin-left: 18px">
           <!-- boton para aceptar la reserva -->
           <button class="btn"
                   id="startButton"
@@ -123,6 +135,20 @@
             Start
           </button>
         </div>
+      </div>
+      <!-- divisor para parar la moto -->
+      <div class="row" style="margin-top: 20px;margin-bottom: 20px; margin-left: 16px; margin-right: 15px" v-if="is_running">
+        <!-- boton para parar la reserva -->
+        <button class="btn"
+                id="stopButton"
+                v-if="is_running"
+                type="button"
+                @click="stopMotorbike()"
+                style="border-radius: 12px;
+                background-color: #ff6961;color: #ffffff; width: 150px
+                margin-left: 0px; margin-right: 10px">
+          Stop
+        </button>
       </div>
     </div>
   </div>
@@ -259,6 +285,12 @@ export default {
           // alert('Motorbike not running')
         })
     },
+    stopMotorbike () {
+      // Here we call to the API to stop the motorbike
+      // If everything was okay and the motorbike was stoped, we change the visibility of the buttons
+      this.is_running = false
+      this.is_reserved = false
+    },
     getReservedMoto () {
       // Call to the api GET to obtain the reserved motos
       const path = process.env.VUE_APP_CALL_PATH + '/reserve' + '/' + this.email
@@ -320,6 +352,10 @@ export default {
           console.error(error)
           // alert('No hay moto runeando!')
         })
+    },
+    sendAlert () {
+      // API call
+      console.log('Api call')
     }
   }
 }

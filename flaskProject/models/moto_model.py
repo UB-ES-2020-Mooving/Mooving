@@ -180,27 +180,14 @@ class MotoModel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    def set_moto(self, state, matricula, date_estreno, model_generic, last_coordinate_latitude,
-                 last_coordinate_longitude, km_restantes, km_totales, date_last_check, km_last_check):
-        self.state = state
+
+    def set_moto(self, matricula, km_restantes, state):
         self.matricula = matricula
-        self.date_estreno = date_estreno
-        self.model_generic = model_generic
-        if model_generic == "basic":
-            self.model_fabric = moto_model_basic["model"]
-            self.cc = moto_model_basic["cc"]
-            self.battery_autonomy = moto_model_basic["battery_autonomy"]
-        if model_generic == "premium":
-            self.model_fabric = moto_model_premium["model"]
-            self.cc = moto_model_premium["cc"]
-            self.battery_autonomy = moto_model_premium["battery_autonomy"]
-        self.last_coordinate_latitude = last_coordinate_latitude
-        self.last_coordinate_longitude = last_coordinate_longitude
-        self.address = self.obtainAddressFromCoordinates(last_coordinate_latitude, last_coordinate_longitude)
         self.km_restantes = km_restantes
-        self.km_totales = km_totales
-        self.date_last_check = date_last_check
-        self.km_last_check = km_last_check
+        self.state = state
+        self.km_last_check = self.km_totales
+        date_format = "%d/%m/%Y"
+        self.date_last_check = datetime.now().strftime(date_format)
 
     @classmethod
     def find_by_id(cls, id):

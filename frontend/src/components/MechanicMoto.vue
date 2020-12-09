@@ -10,7 +10,7 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-      <div class="row text-center" style="margin-top: 20px;">
+      <div class="row text-center" style="margin-top: 20px; margin-left: 10px; margin-right: 10px">
         <div class="col-sm-6 sm-4">
           <img class="rounded z-depth-2" alt="100x200" src="./Images/iconPremium.png"
                data-holder-rendered="true" v-if="this.moto.type === 'premium'">
