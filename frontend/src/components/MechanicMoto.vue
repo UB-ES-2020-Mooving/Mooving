@@ -120,7 +120,7 @@
       <div style="margin-top: 20px;margin-left: 15px; margin-bottom: 20px">
         <button class="btn"
                 id="deleteButton"
-                :disabled=is_active
+                :disabled="is_active||is_reserved"
                 type="button"
                 @click="deleteMotorbike()"
                 style="border-radius: 12px;
@@ -151,7 +151,8 @@ export default {
         km_restantes: 0.0,
         address: ''
       },
-      is_active: false
+      is_active: false,
+      is_reserved: false
     }
   },
   created () {
@@ -178,6 +179,8 @@ export default {
           console.log(res.data.mechanic_moto)
           if (this.moto.state === 'ACTIVE') {
             this.is_active = true
+          } else if (this.moto.state === 'RESERVED') {
+            this.is_reserved = true
           }
         })
         .catch((error) => {
