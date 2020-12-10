@@ -97,8 +97,8 @@ def test_client_delete_error2():
         })
         json_data_delete = r.get_json()
 
-        # Comprobamos si el estatus code es 500
-        assert r.status_code == 500
+        # Comprobamos si el estatus code es 400
+        assert r.status_code == 400
 
 
 # Comprobacion del caso en el que el cliente tenga un trayecto iniciado
@@ -137,17 +137,17 @@ def test_client_delete_error2():
         })
         json_data_post = r.get_json()
 
-        # Comprobamos si el estatus code es 201
+        # Comprobamos si el estatus code es 200
         assert r.status_code == 200
 
         ################################################################################################################
 
-        # Luego borramos el cliente creado anteriormente pero escribiendo mal la contraseña
+        # Luego borramos el cliente que ha hecho el start
         r = c.delete('/client/test_delete_client444@gmail.com', json={
-            "password": "inventada"
+            "password": "123456"
         })
         json_data_delete = r.get_json()
 
-        # Comprobamos si el estatus code es 500
-        assert r.status_code == 500
+        # Comprobamos si el estatus code es 401
+        assert r.status_code == 401
 
