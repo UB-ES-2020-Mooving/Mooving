@@ -7,7 +7,6 @@ from models.moto_model import MotoModel
 from models.client_model import ClientModel
 from models.mechanic_model import MechanicModel
 from models.reserved_running_model import ReservedRunningModel
-import os
 
 from app import app
 from db import db
@@ -19,39 +18,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 if config('PRODUCTION', cast=bool, default=False):
     app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL', default='localhost')
 
-db = SQLAlchemy(app)
+db.init_app(app)
 
-import subprocess
-
-
-def create_new_db():
-    """
-    salida = os.system("sh server_create_db.sh")
-    print("Salida del comando CD: ",salida)
-    """
-
-    """
-
-
-    # list_files = subprocess.run(["sh", "server_create_db.sh"])
-    # print("The exit code was: %d" % list_files.returncode)
-    """
-    # list_files = subprocess.run(["date"])
-    subprocess.run(['hello.bat'])
-    #print("The exit code was: %d" % list_files.returncode)
-
-
-
-def init_db_tests():
-    """
-    j = db
-    db.drop_all()
-    j1 = db
-
-    i = 0
-    db.create_all()
-    clear_data()
-    """
+def add_data(db=db):
 
     new_moto1 = MotoModel(
         state="AVAILABLE",
@@ -206,33 +175,10 @@ def init_db_tests():
     print('Success in adding items to database')
 
 
-def clear_data():
-    meta = db.metadata
-    for table in reversed(meta.sorted_tables):
+def clear_data(db=db):
+    ''' 
+    delete/truncate all information on the tables
+    '''
+    for table in reversed(db.metadata.sorted_tables):
         db.session.execute(table.delete())
     db.session.commit()
-
-
-"""import contextlib
-from sqlalchemy import MetaData
-
-meta = MetaData()
-
-with contextlib.closing(engine.connect()) as con:
-    trans = con.begin()
-    for table in reversed(meta.sorted_tables):
-        con.execute(table.delete())
-    trans.commit()
-    
-"""
-
-"""
-conn = engine.connect()
-stmt = students.delete().where(students.c.lastname == 'Khanna')
-conn.execute(stmt)
-s = students.select()
-conn.execute(s).fetchall()
-"""
-
-create_new_db()
-# init_db_tests()
