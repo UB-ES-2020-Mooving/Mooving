@@ -84,32 +84,32 @@ def test_ejemplo():
 # nombres.
 
 def test_ejemplo2(client):
-    with app.test_client() as c:
-        path = '/clients'
-        r = c.open(path)
-        json_data = r.get_json()
+    c = client
+    path = '/clients'
+    r = c.open(path)
+    json_data = r.get_json()
 
-        assert "clients" in json_data.keys()
-        assert r.status_code == 200
+    assert "clients" in json_data.keys()
+    assert r.status_code == 200
 
 
 def test_prueba2(client):
-    with client as c:
-        path = '/clients'
-        r = c.get(path)
-        json_data = r.get_json()
+    c = client
+    path = '/clients'
+    r = c.get(path)
+    json_data = r.get_json()
 
-        assert "clients" in json_data.keys()
-        assert r.status_code == 200
-        # assert len(json_data["clients"]) == 5
+    assert "clients" in json_data.keys()
+    assert r.status_code == 200
+    # assert len(json_data["clients"]) == 5
 
-        path = '/client'
-        params = {
-            "nombre": "Pepito",
-            "email": "pepito_prueba@gmail.com",
-            "iban": "23452345234523",
-            "dni_nie": "88783330D",
-            "password": "cacatua"
-        }
-        r = c.post(path, json=params)
-        assert r.status_code == 201
+    path = '/client'
+    params = {
+        "nombre": "Pepito",
+        "email": "pepito_prueba@gmail.com",
+        "iban": "23452345234523",
+        "dni_nie": "88783330D",
+        "password": "cacatua"
+    }
+    r = c.post(path, json=params)
+    assert r.status_code == 201
