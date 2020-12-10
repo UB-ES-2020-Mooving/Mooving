@@ -37,7 +37,7 @@ def test_ejemplo():
         # El get funciona correctamente
         path_get_client = "/client/1"
         #r = c.delete("/client/"+str(client0["client_id"]))
-        r = c.open(path_get_client)
+        r = c.get(path_get_client)
         json_data_get_client = r.get_json()
 
         """
@@ -85,7 +85,7 @@ def test_ejemplo():
 def test_ejemplo2():
     with app.test_client() as c:
         path = '/clients'
-        r = c.open(path)
+        r = c.get(path)
         json_data = r.get_json()
 
         assert "clients" in json_data.keys()

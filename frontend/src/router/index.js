@@ -11,6 +11,8 @@ import mechanicMoto from '../components/MechanicMoto'
 import motoForm from '../components/AddMotoForm'
 import ConfirmDeleteAccountDialog from '@/components/ConfirmDeleteAccountDialog.vue'
 import ModifyAccountForm from '@/components/ModifyAccountForm.vue'
+import map from '../components/MotoMap'
+
 
 
 Vue.use(Router)
@@ -73,6 +75,11 @@ export default new Router({
       path: '/modifyAccountForm',
       name: 'modifyAccountForm',
       component: ModifyAccountForm
+    },
+    {
+      path: '/map',
+      name: 'map',
+      component: map
     }
   ]
 })
