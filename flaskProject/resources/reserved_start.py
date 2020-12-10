@@ -254,9 +254,9 @@ class Start(Resource):
                             'message': 'Motorbike stoped successfully'},200
 
             return {'message_status': "Not Found",
-                    'message': "Client with email {} is not riding motorbike with id [{}]. "}, 404
+                    'message': "Client with email {} is not riding motorbike with id [{}]. "
+                    .format(client_email, moto_id)}, 404
 
         except:
             return {'message_status': "Internal Error",
-                    'message': "Client with email {} is not riding motorbike with id [{}]. "
-                        .format(client_email, moto_id)}, 404
+                    'message': "Client with email {} is not riding motorbike with id [{}]. "}, 500
