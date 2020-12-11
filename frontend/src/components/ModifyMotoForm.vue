@@ -142,15 +142,15 @@ export default {
         })
         .catch((error) => {
           console.error(error)
-          switch (error.status) {
+          switch (error.response.status) {
             case 409:
-              alert('Please check that license plate is not equal to another moto')
+              alert('Please check that the license plate is not equal to another motorbike\'s license plate')
               break
             case 400:
-              alert('Please check that State and Battery fields has sense')
+              alert('Please check that the state and the battery fields are consistent')
               break
             case 404:
-              alert('Please check that the moto exists')
+              alert(error)
               break
             default:
               alert('Internal error')
