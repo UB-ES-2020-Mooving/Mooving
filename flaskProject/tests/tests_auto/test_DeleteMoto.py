@@ -96,3 +96,51 @@ def test_DeleteMoto_2_BadPath():
         path = "/moto"
         r = c.delete(path)
         assert r.status_code == 500
+
+
+def test_DeleteMoto_3_ReservedMoto():
+    with app.test_client() as c:
+        # Hay que hacer esto por ahora, dado que sino falla
+        primera_llamada(c)
+
+        # Creo una moto
+        new_moto = create_test_moto()
+
+        new_moto.state = "RESERVED"
+        new_moto.save_to_db()
+
+        id_moto = new_moto.id
+        path = "/moto/" + str(id_moto)
+        r = c.delete(path)
+        json_data = r.get_json()
+
+        expected_keys = {"message", "message_status"}
+        # Lo pongo con un set pq no nos importa el orden.
+        assert set(json_data.keys()) == expected_keys
+        assert r.status_code == 409
+        # Nos aseguramos de que se borre
+        delete_test_moto()
+
+
+def test_DeleteMoto_4_ActiveMoto():
+    with app.test_client() as c:
+        # Hay que hacer esto por ahora, dado que sino falla
+        primera_llamada(c)
+
+        # Creo una moto
+        new_moto = create_test_moto()
+
+        new_moto.state = "ACTIVE"
+        new_moto.save_to_db()
+
+        id_moto = new_moto.id
+        path = "/moto/" + str(id_moto)
+        r = c.delete(path)
+        json_data = r.get_json()
+
+        expected_keys = {"message", "message_status"}
+        # Lo pongo con un set pq no nos importa el orden.
+        assert set(json_data.keys()) == expected_keys
+        assert r.status_code == 409
+        # Nos aseguramos de que se borre
+        delete_test_moto()
