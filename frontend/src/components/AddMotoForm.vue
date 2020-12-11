@@ -12,7 +12,7 @@
             <div>
               <h2>Motorbike Form</h2>
               <form @submit.prevent="handleSubmit">
-                <div class="form-group" v-if="!is_Correct">
+                <div class="form-group" v-if="!is_Correct" >
                   <label for="licensePlate">License Plate</label>
                   <input type="text" v-model="moto.licensePlate" id="licensePlate" name="licensePlate" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.licensePlate.$error }"  style="border-color: red"/>
                   <div v-if="submitted && $v.moto.licensePlate.$error" class="invalid-feedback">
@@ -49,11 +49,11 @@
                       id="cancelButton"
                       type="button"
                       @click="cancel()"
-                      style="margin-top: 20px;margin-left: 10px;border-radius: 12px;
-                      background-color: #ff6961;color: #ffffff; width: 140px">
+                      style="margin-top: 20px;margin-left: 0px; margin-right: 9px; border-radius: 12px;
+                      background-color: #ff6961;color: #ffffff; width: 140px;">
                     Cancel
                   </button>
-                  <button class="btn btn-primary" style="margin-top: 20px;margin-left: 5px;border-radius: 12px; background-color: #343a40;color: #42b983; width: 140px">Confirm</button>
+                  <button class="btn btn-primary" style="margin-top: 20px;margin-left: 9px; margin-right: 0px;border-radius: 12px; background-color: #343a40;color: #42b983; width: 140px">Confirm</button>
                 </div>
               </form>
             </div>
