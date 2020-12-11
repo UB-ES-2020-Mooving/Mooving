@@ -66,18 +66,27 @@
         </div>
       </div>
       <!-- actions divisor-->
-      <div id="profile-actions" class="row" style="margin-top: 20px;margin-bottom: 20px">
-        <div style="position: absolute; left: 20px">
-          <!-- button to delete the account -->
-          <button class="btn"
-                  id="deleteAccountButton"
-                  type="button"
-                  @click="deleteAccountConfirmation()"
-                  style="border-radius: 12px;
-                background-color: #ff6961;color: #ffffff; width: 150px">
-            Delete Account
-          </button>
-        </div>
+      <div id="profile-actions" class="row" style="margin-top: 20px;margin-bottom: 20px; margin-left: 16px; margin-right: 15px">
+        <!-- button to delete the account -->
+        <button class="btn"
+          id="deleteAccountButton"
+          type="button"
+          @click="deleteAccountConfirmation()"
+          style="border-radius: 12px;
+          background-color: #ff6961;color: #ffffff; width: 150px
+          margin-left: 0px; margin-right: 10px">
+          Delete Account
+        </button>
+        <!-- button to modify the account -->
+        <button class="btn"
+          id="modifyAccountButton"
+          type="button"
+          @click="modifyAccountForm()"
+          style="border-radius: 12px;
+          background-color: #343a40;color: #42b983; width: 150px;
+          margin-right: 0px; margin-left: 18px">
+          Modify Account
+        </button>
       </div>
     </div>
   </div>
@@ -103,7 +112,6 @@ export default {
     this.getProfileInfo()
   },
   methods: {
-
     getProfileInfo () {
       const parameters = {
         email: this.email
@@ -123,10 +131,11 @@ export default {
         })
     },
     deleteAccountConfirmation () {
-      console.log('patata')
       this.$router.push({ path: '/confirmDeleteAccount', query: { email: this.email } })
+    },
+    modifyAccountForm () {
+      this.$router.push({ path: '/modifyAccountForm', query: { email: this.email } })
     }
-
 
   }
 }
