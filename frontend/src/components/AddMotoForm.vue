@@ -31,7 +31,7 @@
                   </div>
                 </div>
                 <div v-if="!is_Correct" style="margin-top: 20px;margin-bottom: 20px;">
-                  <p style="color: red">{{this.message}}</p>
+                  <p style="color: red; font-size: 12px">{{this.message}}</p>
                 </div>
                 <div class="form-group">
                   <label for="type">Type</label>
