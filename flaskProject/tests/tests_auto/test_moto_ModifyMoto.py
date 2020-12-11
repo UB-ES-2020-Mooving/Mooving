@@ -52,12 +52,37 @@ def test_moto_Put_ModifyMotoCaseError():
     with app.test_client() as c:
         path = '/moto/1'
         params = {
-            'matricula': '1234-AAA',
+            'matricula': '4321-AAA',
             'km_restantes': 50,
             'state': 100
         }
         r = c.put(path, json=params)
         assert r.status_code == 500
+
+
+def test_moto_Put_ModifyMotoMatriculaError():
+    """
+        Test  "/moto/<int:id>" endpoint with PUT call:
+           - call with license plate incorrect (same as another motorbike), raise exception, return 409
+    """
+    with app.test_client() as c:
+        path = '/moto/1'
+        params = {
+            'matricula': '1234-AAA',
+            'km_restantes': 150.0,
+            'state': "AVAILABLE"
+        }
+        r = c.put(path, json=params)
+        assert r.status_code == 200
+
+        path = '/moto/1'
+        params = {
+            'matricula': '2222-MMM',
+            'km_restantes': 50.0,
+            'state': "AVAILABLE"
+        }
+        r = c.put(path, json=params)
+        assert r.status_code == 409
 
 
 

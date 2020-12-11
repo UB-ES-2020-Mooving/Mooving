@@ -65,12 +65,17 @@ class Moto(Resource):
 
         moto = MotoModel.find_by_id(id)
         if (moto):
-            try:
-                moto.set_moto(data['matricula'],data['km_restantes'],data['state'])
-                MotoModel.save_to_db(moto)
-                return {"message": "Motorbike modified successfully"}, 200
-            except:
-                return {"message": "Error while trying to modify motorbike with id [{}]".format(id)}, 500
+            moto_aux = MotoModel.find_by_matricula(data['matricula'])
+            if(moto.id != moto_aux.id):
+                return {'message': "Motorbike with license plate [{}] already exists".format(data['matricula'])}, 409
+            else:
+                try:
+                    moto.set_moto(data['matricula'],data['km_restantes'],data['state'])
+                    MotoModel.save_to_db(moto)
+                    return {"message": "Motorbike modified successfully"}, 200
+                except:
+                    return {"message": "Error while trying to modify motorbike with id [{}]".format(id)}, 500
+
         else:
             return {'message': "Motorbike with id [{}] Not Found".format(id)}, 404
 
