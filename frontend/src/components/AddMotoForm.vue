@@ -12,16 +12,25 @@
             <div>
               <h2>Motorbike Form</h2>
               <form @submit.prevent="handleSubmit">
-                <div class="form-group">
+                <div class="form-group" v-if="!is_Correct">
                   <label for="licensePlate">License Plate</label>
-                  <input type="text" v-model="moto.licensePlate" id="licensePlate" name="licensePlate" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.licensePlate.$error }" />
+                  <input type="text" v-model="moto.licensePlate" id="licensePlate" name="licensePlate" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.licensePlate.$error }"  style="border-color: red"/>
                   <div v-if="submitted && $v.moto.licensePlate.$error" class="invalid-feedback">
                     <span v-if="!$v.moto.licensePlate.required">Please, complete the form</span>
                     <span v-if="!$v.moto.licensePlate.minLength">License Plate must be at least 8 characters</span>
                     <span v-if="!$v.moto.licensePlate.maxLength">License Plate must be no more than 8 characters</span>
                   </div>
                 </div>
-                <div v-if="!is_Correct" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
+                <div class="form-group" v-if="is_Correct">
+                  <label for="licensePlate">License Plate</label>
+                  <input type="text" v-model="moto.licensePlate" id="licensePlate2" name="licensePlate" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.licensePlate.$error }"/>
+                  <div v-if="submitted && $v.moto.licensePlate.$error" class="invalid-feedback">
+                    <span v-if="!$v.moto.licensePlate.required">Please, complete the form</span>
+                    <span v-if="!$v.moto.licensePlate.minLength">License Plate must be at least 8 characters</span>
+                    <span v-if="!$v.moto.licensePlate.maxLength">License Plate must be no more than 8 characters</span>
+                  </div>
+                </div>
+                <div v-if="!is_Correct" style="margin-top: 20px;margin-bottom: 20px;">
                   <p style="color: red">{{this.message}}</p>
                 </div>
                 <div class="form-group">
@@ -102,16 +111,13 @@ export default {
         .then((res) => {
           this.message = res.data.message
           console.log(res.data.message)
-          if (this.message === 'Moto added successfully') {
-            this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
-          }
+          this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
         })
         .catch((error) => {
           this.message = error.response.data.message
           console.log(error.response.data.message)
-          this.is_Correct= false
+          this.is_Correct = false
           console.error(error)
-          //alert(error.response.data.message)
         })
     },
     cancel () {
