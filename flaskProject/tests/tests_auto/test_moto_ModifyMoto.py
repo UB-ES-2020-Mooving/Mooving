@@ -63,7 +63,7 @@ def test_moto_Put_ModifyMotoCaseError():
 def test_moto_Put_ModifyMotoMatriculaError():
     """
         Test  "/moto/<int:id>" endpoint with PUT call:
-           - call with license plate incorrect (same as another motorbike), raise exception, return 409
+           - call with license plate incorrect (same as another motorbike), return 409
     """
     with app.test_client() as c:
         path = '/moto/1'
@@ -83,6 +83,31 @@ def test_moto_Put_ModifyMotoMatriculaError():
         }
         r = c.put(path, json=params)
         assert r.status_code == 409
+
+
+def test_moto_Put_ModifyMotoBatteryStateError():
+    """
+        Test  "/moto/<int:id>" endpoint with PUT call:
+           - call with battery and state fields inconsistent,, return 400
+    """
+    with app.test_client() as c:
+        path = '/moto/1'
+        params = {
+            'matricula': '1234-AAA',
+            'km_restantes': 5.0,
+            'state': "AVAILABLE"
+        }
+        r = c.put(path, json=params)
+        assert r.status_code == 400
+
+        path = '/moto/1'
+        params = {
+            'matricula': '1234-AAA',
+            'km_restantes': 50.0,
+            'state': "LOW_BATTERY_FUEL"
+        }
+        r = c.put(path, json=params)
+        assert r.status_code == 400
 
 
 

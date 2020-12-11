@@ -69,6 +69,8 @@ class Moto(Resource):
             if(moto.id != moto_aux.id):
                 return {'message': "Motorbike with license plate [{}] already exists".format(data['matricula'])}, 409
             else:
+                if((data['km_restantes'] <= 5.0 and data['state'] == "AVAILABLE") or (data['km_restantes'] > 5.0 and data['state'] == "LOW_BATTERY_FUEL")):
+                    return {'message': "State and the battery fields are not consistent"}, 400
                 try:
                     moto.set_moto(data['matricula'],data['km_restantes'],data['state'])
                     MotoModel.save_to_db(moto)
