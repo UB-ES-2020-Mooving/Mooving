@@ -53,16 +53,18 @@ class Moto(Resource):
             if moto is None:
                 return {'message_status': 'Not Found',
                         'message': 'Motorbike with id [{}] not found'.format(id)}, 404
-            """
-            if moto.state == "ACTIVE":
-                return 
-            """
+
+            if moto.state in ("ACTIVE", "RESERVED"):
+                return {'message_status': 'Conflict',
+                        'message': 'Motorbike with id [{}] is {} and can not be deleted'
+                        .format(id, moto.state.lower())}, 409
 
             MotoModel.delete_from_db(moto)
             return {'message_status': 'Ok',
                     'message': 'Motorbike with id [{}] deleted successfully.'.format(id)}, 200
         except:
-            return {"message": "Error Delete Moto"}, 500
+            return {'message_status': 'Internal Error',
+                    'message': 'Internal Server Error during Delete Moto.'}, 500
 
     def put(self, id):
         parser = reqparse.RequestParser()
