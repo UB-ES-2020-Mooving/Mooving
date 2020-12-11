@@ -22,7 +22,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="battery">Battery</label>
+                  <label for="battery">Battery (km)</label>
                   <input type="text" v-model="moto.battery" id="battery" name="battery" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.battery.$error }" />
                   <div v-if="submitted && $v.moto.battery.$error" class="invalid-feedback">
                     <span v-if="!$v.moto.battery.required">Battery is required </span>
@@ -91,8 +91,27 @@ export default {
   created () {
     this.email = this.$route.query.email
     this.id = this.$route.query.id
+    this.getMotoInfo()
   },
   methods: {
+    getMotoInfo () {
+      const path = process.env.VUE_APP_CALL_PATH + '/mechanicMoto' + '/' + this.id
+      console.log(process.env.VUE_APP_CALL_PATH + '/mechanicMoto' + '/' + this.id)
+      axios.get(path)
+        .then((res) => {
+          this.moto.licensePlate = res.data.mechanic_moto.matricula
+          if (res.data.mechanic_moto.state === 'LOW_BATTERY_FUEL') {
+            this.moto.state = 'LOW BATTERY'
+          } else {
+            this.moto.state = res.data.mechanic_moto.state
+          }
+          this.moto.battery = parseInt(res.data.mechanic_moto.km_restantes)
+        })
+        .catch((error) => {
+          console.error(error)
+          alert('Error getting moto information')
+        })
+    },
     cancel () {
       this.$router.push({ path: '/mechanicMoto', query: { id: this.id, email: this.email } })
     },
@@ -123,7 +142,20 @@ export default {
         })
         .catch((error) => {
           console.error(error)
-          alert('Error modifying: please check that license plate is not equal to another moto or that the moto exists')
+          switch (error.status) {
+            case 409:
+              alert('Please check that license plate is not equal to another moto')
+              break
+            case 400:
+              alert('Please check that State and Battery fields has sense')
+              break
+            case 404:
+              alert('Please check that the moto exists')
+              break
+            default:
+              alert('Internal error')
+              break
+          }
         })
     }
   }
