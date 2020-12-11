@@ -21,12 +21,15 @@
                     <span v-if="!$v.moto.licensePlate.maxLength">License Plate must be no more than 8 characters</span>
                   </div>
                 </div>
+                <div v-if="!is_Correct" style="margin-top: 20px;margin-bottom: 20px; margin-left: 20px">
+                  <p style="color: red">{{this.message}}</p>
+                </div>
                 <div class="form-group">
                   <label for="type">Type</label>
                   <select v-model="moto.type" id="type" name="type" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.type.$error }" >
                     <option disabled value="">Select type</option>
-                    <option>Basic</option>
-                    <option>Premium</option>
+                    <option>basic</option>
+                    <option>premium</option>
                   </select>
                   <div v-if="submitted && $v.moto.type.$error" class="invalid-feedback">
                     <span v-if="!$v.moto.type.required">Please, complete the form</span>
@@ -61,6 +64,8 @@ export default {
   data () {
     return {
       email: '',
+      message: '',
+      is_Correct: true,
       moto: {
         licensePlate: '',
         type: ''
@@ -86,7 +91,28 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
+      const parameters = {
+        license_plate: this.moto.licensePlate,
+        model_generic: this.moto.type
+      }
+      console.log(parameters)
+      const path = process.env.VUE_APP_CALL_PATH + '/moto'
+      console.log(path)
+      axios.post(path, parameters)
+        .then((res) => {
+          this.message = res.data.message
+          console.log(res.data.message)
+          if (this.message === 'Moto added successfully') {
+            this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
+          }
+        })
+        .catch((error) => {
+          this.message = error.response.data.message
+          console.log(error.response.data.message)
+          this.is_Correct= false
+          console.error(error)
+          //alert(error.response.data.message)
+        })
     },
     cancel () {
       this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
