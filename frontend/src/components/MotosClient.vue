@@ -61,43 +61,41 @@
     </div>
     <!-- Title of the page: Motorbikes for the client -->
     <h2>{{ name }}</h2>
-    <!-- Filters -->
-    <div style="position: center">
-      <b-navbar toggleable>
-        <b-navbar-brand style="margin-left: 40px">
-          <p style="font-size: large;margin-top: 15px;color: #495057;font-weight: bold;">Filters</p>
-        </b-navbar-brand>
-        <b-navbar-toggle target="navbar-toggle-collapse-filters">
-          <template #default="{ expanded }">
-            <b-icon v-if="expanded" icon="chevron-bar-up" size="sm"></b-icon>
-            <b-icon v-else icon="chevron-bar-down" size="sm"></b-icon>
-          </template>
-        </b-navbar-toggle>
-        <b-collapse id="navbar-toggle-collapse-filters" is-nav>
-          <b-navbar-nav class="ml-auto">
-            <div class="text-center">
-              <!-- Checkboxes to filter moto's type -->
-              <h6 class="text-left" style="margin-left: 40px;font-weight: bold;color: #495057">Filter types of motorbikes: </h6>
-              <div class="row" style="margin-left: 80px">
-                <div style="margin-right: 20px;">
-                  <input type="checkbox" id="checkboxBasic" v-model="basic" @change="filterMotoListByType()">
-                  <label for="checkboxBasic" style="color: #495057">Basic </label>
-                </div>
-                <div>
-                  <input type="checkbox" id="checkboxPremium" v-model="premium" @change="filterMotoListByType()">
-                  <label for="checkboxPremium" style="color: #495057">Premium</label>
-                </div>
-              </div>
-              <!-- Slider to filter moto's remaining km -->
-              <h6 class="text-left" style="margin-left: 40px;font-weight: bold;color: #495057">Range of remaining battery: </h6>
-              <custom-slider :values="sliderValues" id="sliderKmRestantes" v-model="slider_km_restantes" style="color: #495057;position: center" @change=filterMotoListByKmRestantes() />
-            </div>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-navbar>
+    <!-- Filters with class filter options-->
+    <div id="divButtonFilters"  style="margin-left: 30px; margin-right: 30px;background-color: #d7dee5">
+      <!-- div with button and icons-->
+      <div>
+        <button class="btn"
+                style="color: #42b983;width: 100%;font-weight: bold;background-color: #d7dee5"
+                @click="showFilters()">
+          Filters
+          <b-icon v-if="show_filter" icon="caret-down-fill"></b-icon>
+          <b-icon v-if="!show_filter" icon="caret-up-fill"></b-icon>
+        </button>
+      </div>
+      <!-- divisor para filtros -->
+      <div class="text-center"
+           v-if="!show_filter"
+           style="padding-top: 20px;background-color: #d7dee5">
+        <!-- Checkboxes to filter moto's type -->
+        <h6 class="text-left" style="margin-left: 40px;font-weight: bold;color: #495057">Filter types of motorbikes: </h6>
+        <div class="row" style="margin-left: 80px">
+          <div style="margin-right: 20px;">
+            <input type="checkbox" id="checkboxBasic" v-model="basic" @change="filterMotoListByType()">
+            <label for="checkboxBasic" style="margin-left: 5px;color: #495057">Basic</label>
+          </div>
+          <div>
+            <input type="checkbox" id="checkboxPremium" v-model="premium" @change="filterMotoListByType()">
+            <label for="checkboxPremium" style="margin-left: 5px; color: #495057">Premium</label>
+          </div>
+        </div>
+        <!-- Slider to filter moto's remaining km -->
+        <h6 class="text-left" style="margin-left: 40px;font-weight: bold;color: #495057">Range of remaining battery: </h6>
+        <custom-slider :values="sliderValues" id="sliderKmRestantes" v-model="slider_km_restantes" style="color: #495057;position: center" @change=filterMotoListByKmRestantes() />
+      </div>
     </div>
     <!-- Lista de motos para el cliente-->
-    <div class="list-group" v-if="is_client">
+    <div class="list-group" v-if="is_client" style="margin-top: 20px">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
       <div id="lista_motos_client" v-if="available_motos.length>0" class="center-screen">
         <button v-for="item in available_motos" :key="item.matricula" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto(item.id)">
@@ -194,7 +192,8 @@ export default {
         matricula: 'ASDJ',
         distance: 0,
         model_generic: 'PATATAS'
-      }
+      },
+      show_filter: false
     }
   },
   created () {
@@ -202,8 +201,12 @@ export default {
     this.email = this.$route.query.email // si la extension es @mooving.com es un mecanico
     this.getReservedMoto() // Gets the moto reserved by this user
     this.getRunningMoto() //  Gets the moto that is being run by this user
+    this.showFilters() // Shows or hides the filters
   },
   methods: {
+    showFilters () {
+      this.show_filter = !this.show_filter
+    },
     reserveMoto (id) {
       // Nos lleva a otra pagina donde se ve la info especifica de la moto
       this.$router.push({ path: '/clientMoto', query: { id: id, email: this.email } })
