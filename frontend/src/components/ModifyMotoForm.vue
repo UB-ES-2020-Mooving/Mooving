@@ -14,24 +14,29 @@
               <form @submit.prevent="handleSubmit">
                 <div class="form-group">
                   <label for="licensePlate">License Plate</label>
-                  <input type="text" v-model="moto.licensePlate" id="licensePlate" name="licensePlate" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.licensePlate.$error }" />
-                  <div v-if="submitted && $v.moto.licensePlate.$error" class="invalid-feedback">
+                  <input type="text" v-model="moto.licensePlate" id="licensePlate" name="licensePlate" class="form-control" :class="{ 'is-invalid': submitted && ($v.moto.licensePlate.$error || error_matricula) }" />
+                  <div v-if="submitted && ($v.moto.licensePlate.$error || error_matricula)" class="invalid-feedback">
                     <span v-if="!$v.moto.licensePlate.required">License Plate is required</span>
-                    <span v-if="!$v.moto.licensePlate.minLength">License Plate must be exactly 8 characters</span>
-                    <span v-if="!$v.moto.licensePlate.maxLength">License Plate must be exactly 8 characters</span>
+                    <span v-if="(!$v.moto.licensePlate.minLength) || (!$v.moto.licensePlate.maxLength)">License Plate must be exactly 8 characters</span>
                   </div>
+                </div>
+                <div v-if="error_matricula" style="margin-top: 20px;margin-bottom: 20px;">
+                  <p style="color: red; font-size: 12px">Please check that the license plate is not equal to another motorbike's license plate</p>
                 </div>
                 <div class="form-group">
                   <label for="battery">Battery (km)</label>
-                  <input type="text" v-model="moto.battery" id="battery" name="battery" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.battery.$error }" />
-                  <div v-if="submitted && $v.moto.battery.$error" class="invalid-feedback">
+                  <input type="text" v-model="moto.battery" id="battery" name="battery" class="form-control" :class="{ 'is-invalid': submitted && ($v.moto.battery.$error || error_battery_state) }" />
+                  <div v-if="submitted && ($v.moto.battery.$error || error_battery_state)" class="invalid-feedback">
                     <span v-if="!$v.moto.battery.required">Battery is required </span>
-                    <span v-if="!$v.moto.battery.minLength">Battery must be a positive integer (included 0)</span>
+                    <span v-if="(!$v.moto.battery.minValue) || (!$v.moto.battery.integer)">Battery must be a positive integer (included 0)</span>
                   </div>
+                </div>
+                <div v-if="error_battery_state" style="margin-top: 20px;margin-bottom: 20px;">
+                  <p style="color: red; font-size: 12px">Please check that the state and the battery fields are consistent</p>
                 </div>
                 <div class="form-group">
                   <label for="state">State</label>
-                  <select v-model="moto.state" id="state" name="state" class="form-control" :class="{ 'is-invalid': submitted && $v.moto.state.$error }" >
+                  <select v-model="moto.state" id="state" name="state" class="form-control" :class="{ 'is-invalid': submitted && ($v.moto.state.$error || error_battery_state) }" >
                     <option disabled value="">Select State</option>
                     <option>AVAILABLE</option>
                     <option>REPAIRING</option>
@@ -40,20 +45,23 @@
                     <option>UNCHECKED</option>
                     <option>ACCIDENT</option>
                   </select>
-                  <div v-if="submitted && $v.moto.state.$error" class="invalid-feedback">
+                  <div v-if="submitted && ($v.moto.state.$error || error_battery_state)" class="invalid-feedback">
                     <span v-if="!$v.moto.state.required">State is required</span>
                   </div>
+                </div>
+                <div v-if="error_battery_state" style="margin-top: 20px;margin-bottom: 20px;">
+                  <p style="color: red; font-size: 12px">Please check that the state and the battery fields are consistent</p>
                 </div>
                 <div class="form-group">
                   <button class="btn"
                           id="cancelButton"
                           type="button"
                           @click="cancel()"
-                          style="margin-top: 20px;margin-left: 10px;border-radius: 12px;
-                      background-color: #ff6961;color: #ffffff; width: 140px">
+                          style="margin-top: 20px;margin-left: 0px; margin-right: 9px; border-radius: 12px;
+                      background-color: #ff6961;color: #ffffff; width: 140px;">
                     Cancel
                   </button>
-                  <button class="btn btn-primary" id="saveButton" style="margin-top: 20px;margin-left: 5px;border-radius: 12px; background-color: #343a40;color: #42b983; width: 140px">Save</button>
+                  <button class="btn btn-primary" id="saveButton" style="margin-top: 20px;margin-left: 9px; margin-right: 0px;border-radius: 12px; background-color: #343a40;color: #42b983; width: 140px">Save</button>
                 </div>
               </form>
             </div>
@@ -78,7 +86,9 @@ export default {
         state: '',
         battery: null
       },
-      submitted: false
+      submitted: false,
+      error_matricula: false,
+      error_battery_state: false
     }
   },
   validations: {
@@ -144,15 +154,23 @@ export default {
           console.error(error)
           switch (error.response.status) {
             case 409:
-              alert('Please check that the license plate is not equal to another motorbike\'s license plate')
+              this.error_matricula = true
+              this.error_battery_state = false
+              // alert('Please check that the license plate is not equal to another motorbike\'s license plate')
               break
             case 400:
-              alert('Please check that the state and the battery fields are consistent')
+              this.error_matricula = false
+              this.error_battery_state = true
+              // alert('Please check that the state and the battery fields are consistent')
               break
             case 404:
+              this.error_matricula = false
+              this.error_battery_state = false
               alert(error)
               break
             default:
+              this.error_matricula = false
+              this.error_battery_state = false
               alert('Internal error')
               break
           }
