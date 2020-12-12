@@ -213,7 +213,7 @@ class MotoModel(db.Model):
         round_value = 1
         data = {'motos': []}
         for m in motos:
-            distancia_metros = distance((m['last_coordinate_latitude'], m['last_coordinate_latitude']), coord).m
+            distancia_metros = distance((m['last_coordinate_latitude'], m['last_coordinate_longitude']), coord).m
             m[key_name] = round(distancia_metros / round_value) * round_value
             # Si es menor que la máxima distancia lo metemos
             if m[key_name] < max_dist:
