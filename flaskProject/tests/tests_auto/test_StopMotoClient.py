@@ -66,8 +66,8 @@ def test_StopMotoClient_0_GoodRequest(client):
         "client_email": client_reserve.email,
         "moto_id": moto.id
     }
-
-    r = c.put(path, json=params)
+    path += "/" + params["client_email"] + "/" + str(params["moto_id"])
+    r = c.put(path)
     json_data = r.get_json()
 
     expected_keys = {"message_status", "message"}
@@ -92,8 +92,8 @@ def test_StopMotoClient_1_NotStarted_NotFound(client):
         "client_email": client_reserve.email,
         "moto_id": moto.id
     }
-
-    r = c.put(path, json=params)
+    path += "/" + params["client_email"] + "/" + str(params["moto_id"])
+    r = c.put(path)
     json_data = r.get_json()
 
     expected_keys = {"message_status", "message"}
@@ -121,7 +121,8 @@ def test_StopMotoClient_2_InventedEmail_NotFound(client):
         "moto_id": moto.id
     }
 
-    r = c.put(path, json=params)
+    path += "/" + params["client_email"] + "/" + str(params["moto_id"])
+    r = c.put(path)
     json_data = r.get_json()
 
     expected_keys = {"message_status", "message"}
@@ -149,8 +150,9 @@ def test_StopMotoClient_3_InventedMotoID_NotFound(client):
         "client_email": client_reserve.email,
         "moto_id": 1234432239849
     }
+    path += "/"+params["client_email"]+"/"+str(params["moto_id"])
 
-    r = c.put(path, json=params)
+    r = c.put(path)
     json_data = r.get_json()
 
     expected_keys = {"message_status", "message"}

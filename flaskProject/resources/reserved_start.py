@@ -212,14 +212,8 @@ class Start(Resource):
         except:
             return {"message": "Error POST Start Moto"}, 500
 
-    def put(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('client_email', type=str, required=True, help="Client email cannot be left blank")
-        parser.add_argument('moto_id', type=int, required=True, help="Moto id cannot be left blank")
-        data = parser.parse_args()
+    def put(self, client_email, moto_id):
 
-        client_email = data['client_email']
-        moto_id = data['moto_id']
         try:
             moto = MotoModel.query.filter(MotoModel.id == moto_id).first()
             client = ClientModel.query.filter(ClientModel.email == client_email).first()
