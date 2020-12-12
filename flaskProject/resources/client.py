@@ -112,7 +112,7 @@ class Profile(Resource):
 
     def put(self, email):
         parser = reqparse.RequestParser()
-        parser.add_argument('nombre', type=str, required=False)
+        parser.add_argument('name', type=str, required=False)
         parser.add_argument('iban', type=str, required=False)
         parser.add_argument('dni_nie', type=str, required=False)
         parser.add_argument('email', type=str, required=False)
@@ -120,17 +120,20 @@ class Profile(Resource):
 
         try:
             client = ClientModel.find_by_email(email)
-            if data['nombre']:
-                client.set_name(data['nombre'])
-            if data['iban']:
-                client.set_iban(data['iban'])
-            if data['dni_nie']:
-                client.set_dni_nie(data['dni_nie'])
-            if data['email']:
-                client.set_email(data['email'])
+            if(client is not None):
+                if data['name']:
+                    client.set_name(data['name'])
+                if data['iban']:
+                    client.set_iban(data['iban'])
+                if data['dni_nie']:
+                    client.set_dni_nie(data['dni_nie'])
+                if data['email']:
+                    client.set_email(data['email'])
 
-            return {"message": "Client profile modified successfully"}, 200
+                return {"message": "Client profile modified successfully"}, 200
+            else:
+                return {"message": "Client with this email doesn't exist"}, 404
         except:
-            return {"message": "Error Put client profile"}, 500
+            return {"message": "Error Modify client profile"}, 500
 
 
