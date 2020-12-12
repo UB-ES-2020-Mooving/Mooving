@@ -34,7 +34,7 @@ class Moto(Resource):
             try:
                 date_format = "%d/%m/%Y"
                 today = datetime.now().strftime(date_format)
-                str_today = today#str(today.day) + str(today.month) + str(today.year)
+                str_today = today  # str(today.day) + str(today.month) + str(today.year)
 
                 # Esto de aquí genera unas coordenadas en BCN con ruido gausiano.
                 latt, long = MotoModel.get_random_coordinates()
@@ -49,12 +49,22 @@ class Moto(Resource):
     def delete(self, id):
         try:
             moto = MotoModel.find_by_id(id)
-            if moto:
-                MotoModel.delete_from_db(moto)
-                return {"message": "Moto deleted"}, 200
-            return {"message": "Moto not found "}, 404
+            # Si no se encuentra...
+            if moto is None:
+                return {'message_status': 'Not Found',
+                        'message': 'Motorbike with id [{}] not found'.format(id)}, 404
+
+            if moto.state in ("ACTIVE", "RESERVED"):
+                return {'message_status': 'Conflict',
+                        'message': 'Motorbike with id [{}] is {} and can not be deleted'
+                        .format(id, moto.state.lower())}, 409
+
+            MotoModel.delete_from_db(moto)
+            return {'message_status': 'Ok',
+                    'message': 'Motorbike with id [{}] deleted successfully.'.format(id)}, 200
         except:
-            return {"message": "Error Delete Moto"}, 500
+            return {'message_status': 'Internal Error',
+                    'message': 'Internal Server Error during Delete Moto.'}, 500
 
     def put(self, id):
         parser = reqparse.RequestParser()
@@ -66,7 +76,7 @@ class Moto(Resource):
         moto = MotoModel.find_by_id(id)
         if (moto):
             try:
-                moto.set_moto(data['matricula'],data['km_restantes'],data['state'])
+                moto.set_moto(data['matricula'], data['km_restantes'], data['state'])
                 MotoModel.save_to_db(moto)
                 return {"message": "Motorbike modified successfully"}, 200
             except:
