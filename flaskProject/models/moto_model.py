@@ -194,6 +194,10 @@ class MotoModel(db.Model):
         return MotoModel.query.filter_by(id=id).first()
 
     @classmethod
+    def find_by_matricula(cls, matricula):
+        return MotoModel.query.filter_by(matricula=matricula).first()
+
+    @classmethod
     def find_by_state(cls, state):
         return MotoModel.query.filter_by(state=state).all()
 
