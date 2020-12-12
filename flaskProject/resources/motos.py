@@ -66,7 +66,7 @@ class Moto(Resource):
         moto = MotoModel.find_by_id(id)
         if (moto):
             moto_aux = MotoModel.find_by_matricula(data['matricula'])
-            if(moto.id != moto_aux.id):
+            if(moto_aux is not None and moto.id != moto_aux.id):
                 return {'message': "Motorbike with license plate [{}] already exists".format(data['matricula'])}, 409
             else:
                 if((data['km_restantes'] <= 5.0 and data['state'] == "AVAILABLE") or (data['km_restantes'] > 5.0 and data['state'] == "LOW_BATTERY_FUEL")):
