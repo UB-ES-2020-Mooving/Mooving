@@ -154,7 +154,7 @@
                 type="button"
                 @click="stopMotorbike()"
                 style="border-radius: 12px;
-                background-color: #ff6961;color: #ffffff; width: 150px
+                background-color: #ff6961;color: #ffffff; width: 150px;
                 margin-left: 0px; margin-right: 10px">
           Stop
         </button>
