@@ -65,8 +65,8 @@ api.add_resource(Moto, "/moto/<int:id>", "/moto")
 api.add_resource(ClientMotosList, '/motos')
 api.add_resource(MechanicMotosList, '/mechanicMotos')
 
-api.add_resource(ClientMoto,'/clientMoto/<int:id>') #para mostrar al cliente informacion de un moto en concreto
-api.add_resource(MechanicMoto,'/mechanicMoto/<int:id>') #para mostrar al mechanic informacion de un moto en concreto
+api.add_resource(ClientMoto,'/clientMoto/<int:id>') # Para mostrar al cliente informacion de un moto en concreto
+api.add_resource(MechanicMoto,'/mechanicMoto/<int:id>') # Para mostrar al mechanic informacion de un moto en concreto
 
 
 api.add_resource(Login, '/login')
