@@ -5,10 +5,32 @@
         <b-navbar-brand href="#">
           <img src="./Images/moovingLogoBlanco.png" alt= "Logo" style= "width:100px;">
         </b-navbar-brand>
+        <b-navbar-toggle target="navbar-toggle-collapse">
+          <template #default="{ expanded }">
+            <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+            <b-icon v-else icon="chevron-bar-down"></b-icon>
+          </template>
+        </b-navbar-toggle>
+        <b-collapse id="navbar-toggle-collapse" is-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item><router-link :to="{path: '/motospagemechanic', query: { email: this.email } }">Motorbikes</router-link></b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
       </b-navbar>
     </div>
     <!-- Title of the page -->
     <h1> {{ name }} </h1>
+    <!-- btn para añadir nuevas motos -->
+    <div class="text-sm-center" style="margin-top: 20px; margin-right: 10px; margin-left: 10px; margin-bottom: 20px;">
+        <button class="btn"
+                id="AddButton"
+                type="button"
+                @click="motoForm()"
+                style="margin-top: 20px;margin-left: 20px;border-radius: 12px;
+                background-color: #343a40;color: #42b983; width: 150px">
+          Add Motorbike
+        </button>
+    </div>
     <!-- Lista de motos para el mecanico-->
     <div class="list-group" v-if="is_mechanic">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
@@ -65,6 +87,10 @@ export default {
           console.error(error)
           alert(error)
         })
+    },
+    motoForm () {
+      // El mecanico accede a un formulario para añadir una moto
+      this.$router.push({ path: '/motoForm', query: { email: this.email } })
     }
   }
 }

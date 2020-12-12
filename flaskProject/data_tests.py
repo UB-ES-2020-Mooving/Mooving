@@ -6,7 +6,6 @@ from models.article_model import ArticleModel
 from models.moto_model import MotoModel
 from models.client_model import ClientModel
 from models.mechanic_model import MechanicModel
-from models.reserved_running_model import ReservedRunningModel
 
 from app import app
 from db import db

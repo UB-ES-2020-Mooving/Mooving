@@ -37,8 +37,10 @@ def test_ejemplo():
 
         # El get funciona correctamente
         path_get_client = "/client/1"
-        # r = c.delete("/client/"+str(client0["client_id"]))
-        r = c.open(path_get_client)
+
+        #r = c.delete("/client/"+str(client0["client_id"]))
+        r = c.get(path_get_client)
+
         json_data_get_client = r.get_json()
 
         """
@@ -82,6 +84,7 @@ def test_ejemplo():
 # ejecutan ambos si ejecutas pytest, aunque puedes ejecutarlos por separado
 # si haces uso de los botones de play que salen a la izquierda de los
 # nombres.
+
 
 def test_ejemplo2(client):
     c = client
