@@ -66,7 +66,7 @@ export default {
     return {
       center: { lat: 45.508, lng: -73.587 },
       myCoordinates: {
-        lat:  41.384199,
+        lat: 41.384199,
         lng: 2.160358
       },
       m: true,
@@ -115,7 +115,6 @@ export default {
         this.getReservedMoto() // Gets the moto reserved by this user
         this.getRunningMoto() // Gets the moto running by this user
       })
-
   },
   methods: {
     // receives a place object via the autocomplete component
