@@ -123,30 +123,33 @@
           </div>
         </div>
       </div>
-      <!-- btn para modificar la moto -->
-      <div class="text-sm-center" style="margin-top: 20px; margin-right: 10px; margin-left: 10px; margin-bottom: 20px;">
-        <button class="btn"
-                id="modifyButton"
-                :disabled=deshabilitar
-                type="button"
-                @click="modifyMotorbikeForm()"
-                style="margin-top: 20px;margin-left: 20px;border-radius: 12px;
-                background-color: #343a40;color: #42b983; width: 150px">
-          Modify
-        </button>
-      </div>
-      <!-- Boton para eliminar la moto -->
-      <div style="margin-top: 20px;margin-left: 15px; margin-bottom: 20px">
-        <button class="btn"
-                id="deleteButton"
-                :disabled="is_active||is_reserved"
-                type="button"
-                @click="deleteMotorbike()"
-                style="border-radius: 12px;
+      <div class="row" style="margin-top: 20px;margin-bottom: 20px; margin-left: 16px; margin-right: 15px">
+        <!-- Boton para eliminar la moto -->
+        <div style="margin-left: 0px; margin-right: 10px">
+          <button class="btn"
+                  id="deleteButton"
+                  :disabled="is_active||is_reserved"
+                  type="button"
+                  @click="deleteMotorbike()"
+                  style="border-radius: 12px;
                 background-color: #ff6961;color: #ffffff; width: 150px">
-          Delete
-        </button>
+            Delete
+          </button>
+        </div>
+        <!-- btn para modificar la moto -->
+        <div style="margin-right: 0px; margin-left: 18px">
+          <button class="btn"
+                  id="modifyButton"
+                  :disabled=deshabilitar
+                  type="button"
+                  @click="modifyMotorbikeForm()"
+                  style="border-radius: 12px;
+                background-color: #343a40;color: #42b983; width: 150px">
+            Modify
+          </button>
+        </div>
       </div>
+
     </div>
   </div>
 </template>
