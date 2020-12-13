@@ -1,5 +1,6 @@
 from tests.tests_auto.config_tests import *
 
+
 def test_ejemplo():
     # Se utiliza la keyword "with" porque es más seguro trabajar con recursos de esa
     # manera. Al fin y al cabo es una asignación pero se asegura de una correcta
@@ -29,15 +30,19 @@ def test_ejemplo():
 
         clients = json_data["clients"]
         len_clients = len(clients)
-        #assert len_clients == 4
+        # assert len_clients == 4
         client0 = clients[0]
 
         # Aquí estoy probando otras cosas para ver como funcionan
 
         # El get funciona correctamente
         path_get_client = "/client/1"
+
+
         #r = c.delete("/client/"+str(client0["client_id"]))
         r = c.get(path_get_client)
+
+
         json_data_get_client = r.get_json()
 
         """
@@ -53,16 +58,15 @@ def test_ejemplo():
         json_data = r.get_json()
         clients2 = json_data["clients"]
         # Ya fallaba antes, no te asustes
-        #assert len(clients)-1 == len(clients2)
-        #assert client0 in clients and client0 not in clients2
-
+        # assert len(clients)-1 == len(clients2)
+        # assert client0 in clients and client0 not in clients2
 
         # Ejemplo de post. Este si que funciona
         r = c.post('/client', json={
             "nombre": "Pepito 2",
-            "email": "pepito40@gmail.com" ,
+            "email": "pepito40@gmail.com",
             "iban": "2345245234523",
-            "dni_nie": "885688230D" ,
+            "dni_nie": "885688230D",
             "password": "cacatua"
         })
         json_data_post = r.get_json()
@@ -77,16 +81,41 @@ def test_ejemplo():
         # Pero realmente hasta ahora solo ha sido un campo de pruebas donde
         # ver que tal funcionaban algunas cosas. Espero que te sea útil.
 
+
 # Es el mismo ejemplo que el anterior, pero solo para que veas que se
 # ejecutan ambos si ejecutas pytest, aunque puedes ejecutarlos por separado
 # si haces uso de los botones de play que salen a la izquierda de los
 # nombres.
 
-def test_ejemplo2():
-    with app.test_client() as c:
-        path = '/clients'
-        r = c.get(path)
-        json_data = r.get_json()
 
-        assert "clients" in json_data.keys()
-        assert r.status_code == 200
+def test_ejemplo2(client):
+    c = client
+    path = '/clients'
+    r = c.open(path)
+    json_data = r.get_json()
+
+    assert "clients" in json_data.keys()
+    assert r.status_code == 200
+
+
+def test_prueba2(client):
+    c = client
+    path = '/clients'
+    r = c.get(path)
+    json_data = r.get_json()
+
+    assert "clients" in json_data.keys()
+    assert r.status_code == 200
+    # assert len(json_data["clients"]) == 5
+
+    path = '/client'
+    params = {
+        "nombre": "Pepito",
+        "email": "pepito_prueba@gmail.com",
+        "iban": "23452345234523",
+        "dni_nie": "88783330D",
+        "password": "cacatua"
+    }
+    r = c.post(path, json=params)
+    assert r.status_code == 201
+

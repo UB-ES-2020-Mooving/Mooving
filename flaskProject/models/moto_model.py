@@ -75,6 +75,16 @@ class MotoModel(db.Model):
                                       language="es")
         return location.address
 
+    def updateCoordAndAddress(self,coord):
+        self.last_coordinate_latitude, self.last_coordinate_longitude = coord
+
+        geolocator = Nominatim(user_agent="Mooving")
+        location = geolocator.reverse(
+            str(self.last_coordinate_latitude) +
+            ',' + str(self.last_coordinate_longitude),
+            language="es")
+        self.address = location.address
+
     def json(self):
         data = {
             'id': self.id,
@@ -194,6 +204,10 @@ class MotoModel(db.Model):
         return MotoModel.query.filter_by(id=id).first()
 
     @classmethod
+    def find_by_matricula(cls, matricula):
+        return MotoModel.query.filter_by(matricula=matricula).first()
+
+    @classmethod
     def find_by_state(cls, state):
         return MotoModel.query.filter_by(state=state).all()
 
@@ -213,7 +227,7 @@ class MotoModel(db.Model):
         round_value = 1
         data = {'motos': []}
         for m in motos:
-            distancia_metros = distance((m['last_coordinate_latitude'], m['last_coordinate_latitude']), coord).m
+            distancia_metros = distance((m['last_coordinate_latitude'], m['last_coordinate_longitude']), coord).m
             m[key_name] = round(distancia_metros / round_value) * round_value
             # Si es menor que la máxima distancia lo metemos
             if m[key_name] < max_dist:
@@ -223,8 +237,36 @@ class MotoModel(db.Model):
 
         return data
 
+    def compute_km_recorridos(self, coord):
+        distancia_km = distance(
+            (self.last_coordinate_latitude, self.last_coordinate_longitude), coord).km
+
+        # En principio esto es lo mínimo que tiene que gastar
+        km_recorridos = distancia_km
+        # Si es menor o igual lo asignamos y ya está
+        if self.km_restantes <= km_recorridos:
+            km_recorridos = self.km_restantes
+
+        # Sinó hacemos un cálculo random para los km_extra que se recorren
+        # a parte de la distancia entre las coordenadas.
+        else:
+            km_recorridos += random.uniform(0., self.km_restantes - km_recorridos)
+
+        return km_recorridos
+
+
+
     def set_state(self, state):
         self.state = state
+
+    def set_coord(self, coord):
+        latt, long = coord
+        self.last_coordinate_latitude  = latt
+        self.last_coordinate_longitude = long
+
+    def hasLowBattery(self):
+        # todo revisar esta función
+        return self.km_restantes < 5.
 
     @classmethod
     def condiciones_AND(cls, lista):

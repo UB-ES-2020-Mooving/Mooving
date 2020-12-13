@@ -65,8 +65,8 @@ api.add_resource(Moto, "/moto/<int:id>", "/moto")
 api.add_resource(ClientMotosList, '/motos')
 api.add_resource(MechanicMotosList, '/mechanicMotos')
 
-api.add_resource(ClientMoto,'/clientMoto/<int:id>') #para mostrar al cliente informacion de un moto en concreto
-api.add_resource(MechanicMoto,'/mechanicMoto/<int:id>') #para mostrar al mechanic informacion de un moto en concreto
+api.add_resource(ClientMoto,'/clientMoto/<int:id>') # Para mostrar al cliente informacion de un moto en concreto
+api.add_resource(MechanicMoto,'/mechanicMoto/<int:id>') # Para mostrar al mechanic informacion de un moto en concreto
 
 
 api.add_resource(Login, '/login')
@@ -74,8 +74,10 @@ api.add_resource(Login, '/login')
 api.add_resource(Mechanic, "/mechanic/<int:id>", "/mechanic")
 api.add_resource(MechanicList, '/mechanics')
 
-api.add_resource(Reserved, "/reserve/<string:client_email>", "/reserve", "/reserve/<string:client_email>/<int:moto_id>")
-api.add_resource(Start, "/start/<string:client_email>", "/start")
+
+api.add_resource(Reserved, "/reserve/<string:client_email>", "/reserve","/reserve/<string:client_email>/<int:moto_id>")
+api.add_resource(Start, "/start/<string:client_email>", "/start", "/start/<string:client_email>/<int:moto_id>")
+
 
 
 

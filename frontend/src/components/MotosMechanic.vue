@@ -21,12 +21,12 @@
     <!-- Title of the page -->
     <h1> {{ name }} </h1>
     <!-- btn para añadir nuevas motos -->
-    <div class="text-sm-center" style="margin-top: 20px; margin-right: 10px; margin-left: 10px; margin-bottom: 20px;">
+    <div class="text-sm-center" style="margin-top: 10px; margin-right: 10px; margin-left: 10px; margin-bottom: 20px;">
         <button class="btn"
                 id="AddButton"
                 type="button"
                 @click="motoForm()"
-                style="margin-top: 20px;margin-left: 20px;border-radius: 12px;
+                style="margin-left: 20px;margin-right: 20px;border-radius: 12px;
                 background-color: #343a40;color: #42b983; width: 150px">
           Add Motorbike
         </button>
