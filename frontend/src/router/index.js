@@ -10,7 +10,10 @@ import clientMoto from '../components/clientMoto'
 import mechanicMoto from '../components/MechanicMoto'
 import motoForm from '../components/AddMotoForm'
 import ConfirmDeleteAccountDialog from '@/components/ConfirmDeleteAccountDialog.vue'
+import ModifyMotoForm from '@/components/ModifyMotoForm.vue'
+import ModifyAccountForm from '@/components/ModifyAccountForm.vue'
 import map from '../components/MotoMap'
+
 
 
 Vue.use(Router)
@@ -68,6 +71,16 @@ export default new Router({
       path: '/confirmDeleteAccount',
       name: 'confirmDeleteAccount',
       component: ConfirmDeleteAccountDialog
+    },
+    {
+      path: '/modifyMotoForm',
+      name: 'ModifyMotoForm',
+      component: ModifyMotoForm
+    },
+    {
+      path: '/modifyAccountForm',
+      name: 'modifyAccountForm',
+      component: ModifyAccountForm
     },
     {
       path: '/map',
