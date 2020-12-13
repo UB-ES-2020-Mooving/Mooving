@@ -197,8 +197,17 @@ export default {
     },
     deleteMotorbike () {
       // Llamada a la API para eliminar la moto
-      // Si hay exito, routear a la pagina de lista de motos
-      this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
+      const path = process.env.VUE_APP_CALL_PATH + '/moto' + '/' + this.id
+      console.log(process.env.VUE_APP_CALL_PATH + '/moto' + '/' + this.id)
+      axios.delete(path)
+        .then((res) => {
+          // Si hay exito, routear a la pagina de lista de motos
+          console.log(res.data.message)
+          this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
