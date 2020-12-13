@@ -131,6 +131,10 @@ export default {
       available_motos: {
         items: []
       },
+      myCoordinates: {
+        lat:  41.384199,
+        lng: 2.160358
+      },
       message_no_motos_available: 'There are no motos available',
       is_client: true,
       basic: true,
@@ -198,11 +202,18 @@ export default {
     }
   },
   created () {
-    this.getAvailableMotos() // Gets the motos that are available for the client to use
+    this.$getLocation({})
+      .then(coordinates => {
+        this.myCoordinates = coordinates
+        this.getAvailableMotos() // Gets the motos that are available for the client to use
+        this.getReservedMoto() // Gets the moto reserved by this user
+        this.getRunningMoto() //  Gets the moto that is being run by this user
+        this.showFilters() // Shows or hides the filters
+      })
+      .catch(error => alert(error))
+    console.log(this.myCoordinates)
     this.email = this.$route.query.email // si la extension es @mooving.com es un mecanico
-    this.getReservedMoto() // Gets the moto reserved by this user
-    this.getRunningMoto() //  Gets the moto that is being run by this user
-    this.showFilters() // Shows or hides the filters
+
   },
   methods: {
     showFilters () {
@@ -233,11 +244,14 @@ export default {
       this.getAvailableMotos()
     },
     getAvailableMotos () {
+      console.log(this.myCoordinates)
       const path = process.env.VUE_APP_CALL_PATH + '/motos'
       axios.get(path, {
         params: {
           model_generic: this.model_generic,
-          more_km_restantes: this.more_km_restantes
+          more_km_restantes: this.more_km_restantes,
+          client_coordinate_latitude: this.myCoordinates.lat,
+          client_coordinate_longitude: this.myCoordinates.lng
         }
       })
         .then((res) => {

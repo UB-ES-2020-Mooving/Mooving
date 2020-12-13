@@ -66,8 +66,8 @@ export default {
     return {
       center: { lat: 45.508, lng: -73.587 },
       myCoordinates: {
-        lat: 0,
-        lng: 0
+        lat:  41.384199,
+        lng: 2.160358
       },
       m: true,
       available_motos: {
@@ -105,11 +105,12 @@ export default {
     this.$getLocation({})
       .then(coordinates => {
         this.myCoordinates = coordinates
+        this.getAvailableMotos() // Gets the motos that are available for the client to use
+        this.getReservedMoto() // Gets the moto reserved by this user
+        this.getRunningMoto() //  Gets the moto that is being run by this user
       })
       .catch(error => alert(error))
-    this.getAvailableMotos() // Gets the motos that are available for the client to use
-    this.getReservedMoto() // Gets the moto reserved by this user
-    this.getRunningMoto() //  Gets the moto that is being run by this user
+
   },
   methods: {
     // receives a place object via the autocomplete component
@@ -125,7 +126,9 @@ export default {
       axios.get(path, {
         params: {
           model_generic: this.model_generic,
-          more_km_restantes: this.more_km_restantes
+          more_km_restantes: this.more_km_restantes,
+          client_coordinate_latitude: this.myCoordinates.lat,
+          client_coordinate_longitude: this.myCoordinates.lng
         }
       })
         .then((res) => {
