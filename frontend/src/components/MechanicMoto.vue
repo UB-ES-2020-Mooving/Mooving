@@ -123,6 +123,18 @@
           </div>
         </div>
       </div>
+      <!-- btn para modificar la moto -->
+      <div class="text-sm-center" style="margin-top: 20px; margin-right: 10px; margin-left: 10px; margin-bottom: 20px;">
+        <button class="btn"
+                id="modifyButton"
+                :disabled=deshabilitar
+                type="button"
+                @click="modifyMotorbikeForm()"
+                style="margin-top: 20px;margin-left: 20px;border-radius: 12px;
+                background-color: #343a40;color: #42b983; width: 150px">
+          Modify
+        </button>
+      </div>
       <!-- Boton para eliminar la moto -->
       <div style="margin-top: 20px;margin-left: 15px; margin-bottom: 20px">
         <button class="btn"
@@ -147,6 +159,7 @@ export default {
     return {
       email: '',
       id: 0,
+      deshabilitar: false,
       moto: {
         matricula: '',
         state: '',
@@ -183,6 +196,7 @@ export default {
           this.moto.km_restantes = res.data.mechanic_moto.km_restantes
           this.moto.distance = res.data.mechanic_moto.distance
           this.moto.address = res.data.mechanic_moto.address
+          this.deshabilitar = (this.moto.state === 'ACTIVE') || (this.moto.state === 'RESERVED')
           console.log(res.data.mechanic_moto)
           if (this.moto.state === 'ACTIVE') {
             this.is_active = true
@@ -194,6 +208,10 @@ export default {
           console.error(error)
           alert(error)
         })
+    },
+    modifyMotorbikeForm () {
+      // El mecanico accede a un formulario para modificar la moto
+      this.$router.push({ path: '/modifyMotoForm', query: { email: this.email, id: this.id } })
     },
     deleteMotorbike () {
       // Llamada a la API para eliminar la moto
