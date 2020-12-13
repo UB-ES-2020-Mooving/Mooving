@@ -172,7 +172,7 @@ export default {
       email: '',
       id: 0,
       myCoordinates: {
-        lat:  41.384199,
+        lat: 41.384199,
         lng: 2.160358
       },
       moto: {

@@ -132,7 +132,7 @@ export default {
         items: []
       },
       myCoordinates: {
-        lat:  41.384199,
+        lat: 41.384199,
         lng: 2.160358
       },
       message_no_motos_available: 'There are no motos available',
@@ -218,7 +218,6 @@ export default {
       })
     console.log(this.myCoordinates)
     this.email = this.$route.query.email // si la extension es @mooving.com es un mecanico
-
   },
   methods: {
     showFilters () {
