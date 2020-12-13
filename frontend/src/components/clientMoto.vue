@@ -210,7 +210,12 @@ export default {
         this.getReservedMoto() // Gets the moto reserved by this user
         this.getRunningMoto() // Gets the moto running by this user
       })
-      .catch(error => alert(error))
+      .catch(error => {
+        alert(error)
+        this.getMotoInfo()
+        this.getReservedMoto() // Gets the moto reserved by this user
+        this.getRunningMoto() // Gets the moto running by this user
+      })
     // Si no está runeando otra moto y no está reservando otra moto, puede reservarla
     if (!this.is_running_another_moto && !this.is_another_moto_reserved) {
       this.can_reserve = true

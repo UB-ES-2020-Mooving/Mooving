@@ -210,7 +210,12 @@ export default {
         this.getRunningMoto() //  Gets the moto that is being run by this user
         this.showFilters() // Shows or hides the filters
       })
-      .catch(error => alert(error))
+      .catch(error => {
+        alert(error)
+        this.getMotoInfo()
+        this.getReservedMoto() // Gets the moto reserved by this user
+        this.getRunningMoto() // Gets the moto running by this user
+      })
     console.log(this.myCoordinates)
     this.email = this.$route.query.email // si la extension es @mooving.com es un mecanico
 

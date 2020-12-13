@@ -109,7 +109,12 @@ export default {
         this.getReservedMoto() // Gets the moto reserved by this user
         this.getRunningMoto() //  Gets the moto that is being run by this user
       })
-      .catch(error => alert(error))
+      .catch(error => {
+        alert(error)
+        this.getMotoInfo()
+        this.getReservedMoto() // Gets the moto reserved by this user
+        this.getRunningMoto() // Gets the moto running by this user
+      })
 
   },
   methods: {
