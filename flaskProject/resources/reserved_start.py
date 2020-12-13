@@ -253,4 +253,4 @@ class Start(Resource):
 
         except:
             return {'message_status': "Internal Error",
-                    'message': "Client with email {} is not riding motorbike with id [{}]. "}, 500
+                    'message': "Internal Server Error. "}, 500
