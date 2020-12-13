@@ -7,6 +7,8 @@ def test_client_moto_filter_0_BASE():
         more_km_restantes = 0
         path = '/motos'
         params = {
+            "client_coordinate_latitude":41.387677,
+            "client_coordinate_longitude":2.169320,
             "model_generic": model_generic,
             "more_km_restantes": more_km_restantes
         }
@@ -24,6 +26,8 @@ def test_client_moto_filter_1_GRID():
 
                 path = '/motos'
                 params = {
+                    "client_coordinate_latitude": 41.387677,
+                    "client_coordinate_longitude": 2.169320,
                     "model_generic": model_generic,
                     "more_km_restantes": more_km_restantes
                 }
