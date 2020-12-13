@@ -5,8 +5,15 @@
         <b-navbar-brand href="#">
           <img src="./Images/moovingLogoBlanco.png" alt= "Logo" style= "width:100px;">
         </b-navbar-brand>
+        <b-navbar-toggle target="navbar-toggle-collapse">
+          <template #default="{ expanded }">
+            <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+            <b-icon v-else icon="chevron-bar-down"></b-icon>
+          </template>
+        </b-navbar-toggle>
         <b-collapse id="navbar-toggle-collapse" is-nav>
           <b-navbar-nav class="ml-auto">
+            <b-nav-item style="text-align: center"><router-link :to="{path: '/motospagemechanic', query: { email: this.email } }">Motorbikes</router-link></b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -128,6 +135,18 @@
           Modify
         </button>
       </div>
+      <!-- Boton para eliminar la moto -->
+      <div style="margin-top: 20px;margin-left: 15px; margin-bottom: 20px">
+        <button class="btn"
+                id="deleteButton"
+                :disabled="is_active||is_reserved"
+                type="button"
+                @click="deleteMotorbike()"
+                style="border-radius: 12px;
+                background-color: #ff6961;color: #ffffff; width: 150px">
+          Delete
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -151,7 +170,9 @@ export default {
         type: '',
         km_restantes: 0.0,
         address: ''
-      }
+      },
+      is_active: false,
+      is_reserved: false
     }
   },
   created () {
@@ -177,6 +198,11 @@ export default {
           this.moto.address = res.data.mechanic_moto.address
           this.deshabilitar = (this.moto.state === 'ACTIVE') || (this.moto.state === 'RESERVED')
           console.log(res.data.mechanic_moto)
+          if (this.moto.state === 'ACTIVE') {
+            this.is_active = true
+          } else if (this.moto.state === 'RESERVED') {
+            this.is_reserved = true
+          }
         })
         .catch((error) => {
           console.error(error)
@@ -186,6 +212,20 @@ export default {
     modifyMotorbikeForm () {
       // El mecanico accede a un formulario para modificar la moto
       this.$router.push({ path: '/modifyMotoForm', query: { email: this.email, id: this.id } })
+    },
+    deleteMotorbike () {
+      // Llamada a la API para eliminar la moto
+      const path = process.env.VUE_APP_CALL_PATH + '/moto' + '/' + this.id
+      console.log(process.env.VUE_APP_CALL_PATH + '/moto' + '/' + this.id)
+      axios.delete(path)
+        .then((res) => {
+          // Si hay exito, routear a la pagina de lista de motos
+          console.log(res.data.message)
+          this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
