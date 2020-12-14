@@ -13,10 +13,10 @@ class MotoError(Resource):
                     rr = ReservedRunningModel.find_by_moto(moto.id)
                     rr.delete_from_db()
                     moto.set_state("ALERT")
-                    return {"message": "Correctly reported error"}, 200
+                    return {"message": "Correctly reported error"}, 201
                 else:
                     moto.set_state("ALERT")
-                    return {"message": "Correctly reported error"}, 200
+                    return {"message": "Correctly reported error"}, 201
             else:
                 return {"message": "Moto not found"}, 404
         except:
