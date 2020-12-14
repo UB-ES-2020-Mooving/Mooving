@@ -38,8 +38,10 @@ def test_ejemplo():
         # El get funciona correctamente
         path_get_client = "/client/1"
 
+
         #r = c.delete("/client/"+str(client0["client_id"]))
         r = c.get(path_get_client)
+
 
         json_data_get_client = r.get_json()
 
@@ -116,3 +118,4 @@ def test_prueba2(client):
     }
     r = c.post(path, json=params)
     assert r.status_code == 201
+

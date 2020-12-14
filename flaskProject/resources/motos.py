@@ -94,24 +94,21 @@ class Moto(Resource):
 class ClientMotosList(Resource):
     def get(self):
         parser = reqparse.RequestParser()
+        parser.add_argument('client_coordinate_latitude', type=float, required=True, help="This field cannot be left blank")
+        parser.add_argument('client_coordinate_longitude', type=float, required=True, help="This field cannot be left blank")
         parser.add_argument('model_generic', type=str, required=True, help="This field cannot be left blank")
         parser.add_argument('more_km_restantes', type=int, required=True, help="This field cannot be left blank")
-
-        # Parámetros que pueden ser útiles en el futuro:
-        # parser.add_argument('client_coordinate_latitude', type=float, required=True,help="This field cannot be left blank")
-        # parser.add_argument('client_coordinate_longitude', type=float, required=True,help="This field cannot be left blank")
-        # parser.add_argument('max_distance_m', type=float)
-
         data = parser.parse_args()
 
-        # coord_client = (data["client_coordinate_latitude"], data["client_coordinate_longitude"])
-        coord_client = (23.44333, 23.4433)
+        # Parámetros que pueden ser útiles en el futuro:
+        # parser.add_argument('max_distance_m', type=float)
+
+        coord_client = (data["client_coordinate_latitude"], data["client_coordinate_longitude"])
 
         # Aquí se empieza con las condiciones resultantes de los filtros.
         list_and = []
 
-        # Para el cliente siempre queremos las ACTIVE
-        # (creo que se tiene que cambiar por AVAILABLE en algun momento)
+        # Para el cliente siempre queremos las AVAILABLE
         list_and.append(MotoModel.state == "AVAILABLE")
 
         # El caso sin filtro es data["more_km_restantes"]==0
@@ -149,7 +146,15 @@ class MechanicMotosList(Resource):
 # informacion de un moto en concreto para cliente
 class ClientMoto(Resource):
     def get(self, id):
-        coord_client = (23.44333, 23.4433)
+        parser = reqparse.RequestParser()
+        parser.add_argument('client_coordinate_latitude', type=float, required=True,
+                            help="This field cannot be left blank")
+        parser.add_argument('client_coordinate_longitude', type=float, required=True,
+                            help="This field cannot be left blank")
+        data = parser.parse_args()
+
+        coord_client = (data["client_coordinate_latitude"], data["client_coordinate_longitude"])
+
         try:
             moto = MotoModel.find_by_id(id)
             moto_json = [moto.json_clientMoto()]

@@ -123,18 +123,33 @@
           </div>
         </div>
       </div>
-      <!-- Boton para eliminar la moto -->
-      <div style="margin-top: 20px;margin-left: 15px; margin-bottom: 20px">
-        <button class="btn"
-                id="deleteButton"
-                :disabled="is_active||is_reserved"
-                type="button"
-                @click="deleteMotorbike()"
-                style="border-radius: 12px;
+      <div class="row" style="margin-top: 20px;margin-bottom: 20px; margin-left: 16px; margin-right: 15px">
+        <!-- Boton para eliminar la moto -->
+        <div style="margin-left: 0px; margin-right: 10px">
+          <button class="btn"
+                  id="deleteButton"
+                  :disabled="is_active||is_reserved"
+                  type="button"
+                  @click="deleteMotorbike()"
+                  style="border-radius: 12px;
                 background-color: #ff6961;color: #ffffff; width: 150px">
-          Delete
-        </button>
+            Delete
+          </button>
+        </div>
+        <!-- btn para modificar la moto -->
+        <div style="margin-right: 0px; margin-left: 18px">
+          <button class="btn"
+                  id="modifyButton"
+                  :disabled=deshabilitar
+                  type="button"
+                  @click="modifyMotorbikeForm()"
+                  style="border-radius: 12px;
+                background-color: #343a40;color: #42b983; width: 150px">
+            Modify
+          </button>
+        </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -147,6 +162,7 @@ export default {
     return {
       email: '',
       id: 0,
+      deshabilitar: false,
       moto: {
         matricula: '',
         state: '',
@@ -183,6 +199,7 @@ export default {
           this.moto.km_restantes = res.data.mechanic_moto.km_restantes
           this.moto.distance = res.data.mechanic_moto.distance
           this.moto.address = res.data.mechanic_moto.address
+          this.deshabilitar = (this.moto.state === 'ACTIVE') || (this.moto.state === 'RESERVED')
           console.log(res.data.mechanic_moto)
           if (this.moto.state === 'ACTIVE') {
             this.is_active = true
@@ -195,10 +212,23 @@ export default {
           alert(error)
         })
     },
+    modifyMotorbikeForm () {
+      // El mecanico accede a un formulario para modificar la moto
+      this.$router.push({ path: '/modifyMotoForm', query: { email: this.email, id: this.id } })
+    },
     deleteMotorbike () {
       // Llamada a la API para eliminar la moto
-      // Si hay exito, routear a la pagina de lista de motos
-      this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
+      const path = process.env.VUE_APP_CALL_PATH + '/moto' + '/' + this.id
+      console.log(process.env.VUE_APP_CALL_PATH + '/moto' + '/' + this.id)
+      axios.delete(path)
+        .then((res) => {
+          // Si hay exito, routear a la pagina de lista de motos
+          console.log(res.data.message)
+          this.$router.push({ path: '/motospagemechanic', query: { email: this.email } })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
