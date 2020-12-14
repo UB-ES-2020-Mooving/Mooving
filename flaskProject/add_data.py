@@ -126,7 +126,7 @@ def init_db():
 
     new_moto = MotoModel(
         state="AVAILABLE",
-        matricula="9999-MMM",
+        matricula="5454-MMM",
         date_estreno="28/11/2020",
         model_generic="premium",
         last_coordinate_latitude=41.384223,
@@ -136,6 +136,33 @@ def init_db():
         date_last_check="28/10/2020",
         km_last_check=100.0)
     db.session.add(new_moto)
+
+    new_moto9 = MotoModel(
+        state="AVAILABLE",
+        matricula="9999-MMM",
+        date_estreno="28/10/2020",
+        model_generic="basic",
+        last_coordinate_latitude=41.591158,
+        last_coordinate_longitude=1.520865,
+        km_restantes=34.0,
+        km_totales=300.0,
+        date_last_check="18/10/2020",
+        km_last_check=0.0)
+    db.session.add(new_moto9)
+
+    new_moto10 = MotoModel(
+        state="AVAILABLE",
+        matricula="1010-MMM",
+        date_estreno="28/10/2020",
+        model_generic="basic",
+        last_coordinate_latitude=41.591158,
+        last_coordinate_longitude=1.5209,
+        km_restantes=999.0,
+        km_totales=300.0,
+        date_last_check="18/10/2020",
+        km_last_check=0.0)
+    db.session.add(new_moto10)
+
 
     client1 = ClientModel(
         nombre = "Juana",

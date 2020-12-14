@@ -154,7 +154,7 @@
                 type="button"
                 @click="stopMotorbike()"
                 style="border-radius: 12px;
-                background-color: #ff6961;color: #ffffff; width: 150px
+                background-color: #ff6961;color: #ffffff; width: 150px;
                 margin-left: 0px; margin-right: 10px">
           Stop
         </button>
@@ -171,6 +171,10 @@ export default {
     return {
       email: '',
       id: 0,
+      myCoordinates: {
+        lat: 41.384199,
+        lng: 2.160358
+      },
       moto: {
         matricula: '',
         model_generic: '',
@@ -199,9 +203,19 @@ export default {
   created () {
     this.email = this.$route.query.email
     this.id = this.$route.query.id
-    this.getMotoInfo()
-    this.getReservedMoto() // Gets the moto reserved by this user
-    this.getRunningMoto() // Gets the moto running by this user
+    this.$getLocation({})
+      .then(coordinates => {
+        this.myCoordinates = coordinates
+        this.getMotoInfo()
+        this.getReservedMoto() // Gets the moto reserved by this user
+        this.getRunningMoto() // Gets the moto running by this user
+      })
+      .catch(error => {
+        alert(error)
+        this.getMotoInfo()
+        this.getReservedMoto() // Gets the moto reserved by this user
+        this.getRunningMoto() // Gets the moto running by this user
+      })
     // Si no está runeando otra moto y no está reservando otra moto, puede reservarla
     if (!this.is_running_another_moto && !this.is_another_moto_reserved) {
       this.can_reserve = true
@@ -216,7 +230,12 @@ export default {
     getMotoInfo () {
       const path = process.env.VUE_APP_CALL_PATH + '/clientMoto' + '/' + this.id
       console.log(process.env.VUE_APP_CALL_PATH + '/clientMoto' + '/' + this.id)
-      axios.get(path)
+      axios.get(path, {
+        params: {
+          client_coordinate_latitude: this.myCoordinates.lat,
+          client_coordinate_longitude: this.myCoordinates.lng
+        }
+      })
         .then((res) => {
           this.moto.matricula = res.data.client_moto.matricula
           this.moto.model_generic = res.data.client_moto.model_generic
@@ -296,9 +315,19 @@ export default {
     },
     stopMotorbike () {
       // Here we call to the API to stop the motorbike
-      // If everything was okay and the motorbike was stoped, we change the visibility of the buttons
-      this.is_running = false
-      this.is_reserved = false
+      const path = process.env.VUE_APP_CALL_PATH + '/start' + '/' + this.email + '/' + this.id
+      console.log(process.env.VUE_APP_CALL_PATH + '/start' + '/' + this.email + '/' + this.id)
+      axios.put(path)
+        .then((res) => {
+          // If everything was okay and the motorbike was stoped, we change the visibility of the buttons
+          this.is_running = false
+          this.is_reserved = false
+          console.log(res.data.message_status)
+          console.log(res.data.message)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     },
     getReservedMoto () {
       // Call to the api GET to obtain the reserved motos
