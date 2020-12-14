@@ -110,7 +110,7 @@ class MotoModel(db.Model):
             'id': self.id,
             'matricula': self.matricula,
             'model_generic': self.model_generic,
-            'km_restantes': self.km_restantes,
+            'km_restantes': round(self.km_restantes),
             'address': self.address,
             'last_coordinate_latitude': self.last_coordinate_latitude,
             'last_coordinate_longitude': self.last_coordinate_longitude,
@@ -250,7 +250,7 @@ class MotoModel(db.Model):
         # Sinó hacemos un cálculo random para los km_extra que se recorren
         # a parte de la distancia entre las coordenadas.
         else:
-            km_recorridos += random.uniform(0., self.km_restantes - km_recorridos)
+            km_recorridos += random.uniform(0., self.km_restantes - km_recorridos)/2.
 
         return km_recorridos
 
