@@ -241,6 +241,7 @@ class Start(Resource):
                     else:
                         moto.state = "AVAILABLE"
                     moto.updateCoordAndAddress(new_coord)
+                    moto.save_to_db()
 
                     r.delete_from_db()
 
