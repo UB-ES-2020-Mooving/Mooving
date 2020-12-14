@@ -120,15 +120,27 @@ class Profile(Resource):
 
         try:
             client = ClientModel.find_by_email(email)
-            if(client is not None):
+            if client is not None:
                 if data['name']:
                     client.set_name(data['name'])
                 if data['iban']:
                     client.set_iban(data['iban'])
                 if data['dni_nie']:
-                    client.set_dni_nie(data['dni_nie'])
+                    if ClientModel.find_by_dni(data['dni_nie']) is None:
+                        client.set_dni_nie(data['dni_nie'])
+                    else:
+                        if ClientModel.find_by_dni(data['dni_nie']).client_id == client.client_id:
+                            client.set_dni_nie(data['dni_nie'])
+                        else:
+                            return {"message": "The new DNI/NIE is already in use"}, 406
                 if data['email']:
-                    client.set_email(data['email'])
+                    if ClientModel.find_by_email(data['email']) is None:
+                        client.set_email(data['email'])
+                    else:
+                        if ClientModel.find_by_email(data['email']) == client:
+                            client.set_email(data['email'])
+                        else:
+                            return {"message": "The new email is already in use"}, 405
 
                 return {"message": "Client profile modified successfully"}, 200
             else:
