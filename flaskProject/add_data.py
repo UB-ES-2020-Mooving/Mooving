@@ -137,6 +137,19 @@ def init_db():
         km_last_check=100.0)
     db.session.add(new_moto)
 
+    new_moto = MotoModel(
+        state="AVAILABLE",
+        matricula="4545-MMM",
+        date_estreno="28/11/2020",
+        model_generic="premium",
+        last_coordinate_latitude=41.359801,
+        last_coordinate_longitude=2.083990,
+        km_restantes=35.0,
+        km_totales=403.0,
+        date_last_check="28/10/2020",
+        km_last_check=100.0)
+    db.session.add(new_moto)
+
     client1 = ClientModel(
         nombre = "Juana",
         iban = "2223462362665251w",
