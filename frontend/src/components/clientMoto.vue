@@ -154,7 +154,7 @@
                 type="button"
                 @click="stopMotorbike()"
                 style="border-radius: 12px;
-                background-color: #ff6961;color: #ffffff; width: 150px
+                background-color: #ff6961;color: #ffffff; width: 150px;
                 margin-left: 0px; margin-right: 10px">
           Stop
         </button>
@@ -315,9 +315,19 @@ export default {
     },
     stopMotorbike () {
       // Here we call to the API to stop the motorbike
-      // If everything was okay and the motorbike was stoped, we change the visibility of the buttons
-      this.is_running = false
-      this.is_reserved = false
+      const path = process.env.VUE_APP_CALL_PATH + '/start' + '/' + this.email + '/' + this.id
+      console.log(process.env.VUE_APP_CALL_PATH + '/start' + '/' + this.email + '/' + this.id)
+      axios.put(path)
+        .then((res) => {
+          // If everything was okay and the motorbike was stoped, we change the visibility of the buttons
+          this.is_running = false
+          this.is_reserved = false
+          console.log(res.data.message_status)
+          console.log(res.data.message)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     },
     getReservedMoto () {
       // Call to the api GET to obtain the reserved motos
