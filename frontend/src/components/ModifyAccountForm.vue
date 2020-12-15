@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group">
                   <label for="dniNie">DNI/NIE</label>
-                  <input type="text" v-model="user.dniNie" id="dniNie" name="dniNie" class="form-control" :class="{ 'is-invalid': submitted && $v.user.dniNie.$error | error_dniNie}" />
+                  <input type="text" v-model="user.dniNie" id="dniNie" name="dniNie" class="form-control" :class="{ 'is-invalid': submitted && $v.user.dniNie.$error || error_dniNie}" />
                   <div v-if="submitted && $v.user.dniNie.$error" class="invalid-feedback">
                     <span v-if="!$v.user.dniNie.required">DNI/NIE is required</span>
                     <span v-if="!$v.user.dniNie.minLength">DNI/NIE must be at least 8 characters</span>
