@@ -393,7 +393,22 @@ export default {
     },
     sendAlert () {
       // API call
-      console.log('Api call')
+      const path = process.env.VUE_APP_CALL_PATH + '/notifyError/' + this.id
+      axios.post(path)
+        .then((res) => {
+          alert(`Motorbike with license plate ${this.moto.matricula} has been reported to have a problem. Thanks!`)
+          this.$router.push({ path: '/motospageclient', query: { email: this.email } })
+        })
+        .catch((error) => {
+          switch (error.response.status) {
+            case 404:
+              alert('It seems that the motorbike you are trying to notify an error of doesn\'t exist.\nReturn to the motorbikes list and try again.')
+              break
+            default:
+              alert('Internal Server error, try again or get in touch with customer support')
+              break
+          }
+        })
     }
   }
 }
