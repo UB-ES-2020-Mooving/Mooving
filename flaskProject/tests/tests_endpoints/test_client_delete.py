@@ -1,4 +1,4 @@
-from tests.tests_auto.config_tests import *
+from tests.tests_endpoints.config_tests import *
 from models.client_model import ClientModel
 
 # Comprobacion del caso basico de delete client donde

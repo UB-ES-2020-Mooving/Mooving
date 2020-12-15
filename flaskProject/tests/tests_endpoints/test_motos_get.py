@@ -1,4 +1,4 @@
-from tests.tests_auto.config_tests import *
+from tests.tests_endpoints.config_tests import *
 from models.moto_model import MotoModel
 
 def test_client_moto_filter_0_BASE():

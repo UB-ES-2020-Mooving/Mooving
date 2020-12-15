@@ -13,7 +13,7 @@ python -m pip install -r requirements.txt
 echo "Running tests..."
 case $TEST_BACKEND in
     SECONDARY)
-        python -m pytest tests/tests_secondary
+        python -m pytest tests/tests_secondaries
         ;;
     ENDPOINTS)
         python -m pytest tests/tests_endpoints
