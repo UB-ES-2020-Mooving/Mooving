@@ -124,6 +124,32 @@ def init_db():
         km_last_check=100.0)
     db.session.add(new_moto)
 
+    new_moto = MotoModel(
+        state="AVAILABLE",
+        matricula="5454-MMM",
+        date_estreno="28/11/2020",
+        model_generic="premium",
+        last_coordinate_latitude=41.384223,
+        last_coordinate_longitude=2.160337,
+        km_restantes=35.0,
+        km_totales=403.0,
+        date_last_check="28/10/2020",
+        km_last_check=100.0)
+    db.session.add(new_moto)
+
+    new_moto = MotoModel(
+        state="AVAILABLE",
+        matricula="4545-MMM",
+        date_estreno="28/11/2020",
+        model_generic="premium",
+        last_coordinate_latitude=41.359801,
+        last_coordinate_longitude=2.083990,
+        km_restantes=35.0,
+        km_totales=403.0,
+        date_last_check="28/10/2020",
+        km_last_check=100.0)
+    db.session.add(new_moto)
+
     new_moto9 = MotoModel(
         state="AVAILABLE",
         matricula="9999-MMM",
