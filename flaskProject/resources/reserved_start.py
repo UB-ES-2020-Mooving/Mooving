@@ -226,9 +226,9 @@ class Start(Resource):
                     # En caso de que exista y de que este ACTIVE
 
                     # Aquí simulamos un par de cosas para aumentar el realismo de la versión de prueba
-
+                    old_coord = moto.last_coordinate_latitude, moto.last_coordinate_longitude
                     # Unas nuevas coordenadas (Aleatorias)
-                    new_coord = MotoModel.get_random_coordinates()
+                    new_coord = MotoModel.get_random_coordinates(coord=old_coord, std_deviation = 0.0015 * moto.km_restantes)
                     # Calculamos los km_recorridos basándonos en las coordenadas
                     # (y poniendo un extra random, suponiendo trayectorias no rectas).
                     km_recorridos = moto.compute_km_recorridos(new_coord)
@@ -241,6 +241,7 @@ class Start(Resource):
                     else:
                         moto.state = "AVAILABLE"
                     moto.updateCoordAndAddress(new_coord)
+                    moto.save_to_db()
 
                     r.delete_from_db()
 

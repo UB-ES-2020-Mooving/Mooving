@@ -75,7 +75,7 @@ class MotoModel(db.Model):
                                       language="es")
         return location.address
 
-    def updateCoordAndAddress(self,coord):
+    def updateCoordAndAddress(self, coord):
         self.last_coordinate_latitude, self.last_coordinate_longitude = coord
 
         geolocator = Nominatim(user_agent="Mooving")
@@ -98,10 +98,10 @@ class MotoModel(db.Model):
             'last_coordinate_latitude': self.last_coordinate_latitude,
             'last_coordinate_longitude': self.last_coordinate_longitude,
             'address': self.address,
-            'km_restantes': self.km_restantes,
-            'km_totales': self.km_totales,
+            'km_restantes': round(self.km_restantes),
+            'km_totales': round(self.km_totales),
             'date_last_check': self.date_last_check,
-            'km_last_check': self.km_last_check,
+            'km_last_check': round(self.km_last_check),
         }
         return data
 
@@ -110,7 +110,7 @@ class MotoModel(db.Model):
             'id': self.id,
             'matricula': self.matricula,
             'model_generic': self.model_generic,
-            'km_restantes': self.km_restantes,
+            'km_restantes': round(self.km_restantes),
             'address': self.address,
             'last_coordinate_latitude': self.last_coordinate_latitude,
             'last_coordinate_longitude': self.last_coordinate_longitude,
@@ -122,7 +122,7 @@ class MotoModel(db.Model):
             'id': self.id,
             'matricula': self.matricula,
             'model_generic': self.model_generic,
-            'km_restantes': self.km_restantes,
+            'km_restantes': round(self.km_restantes),
             'last_coordinate_latitude': self.last_coordinate_latitude,
             'last_coordinate_longitude': self.last_coordinate_longitude,
         }
@@ -141,11 +141,11 @@ class MotoModel(db.Model):
             'license_plate': self.matricula,
             'state': self.state,
             'type': self.model_generic,  # type of moto (basic, premium)
-            'km_total': self.km_totales,  # km since added to the system
+            'km_total': round(self.km_totales),  # km since added to the system
             'time_total': time_total,  # days since added to the system: date_estreno - date_actual
             'id': self.id,
             'time_since_last_check': time_since_last_check,  # days since last check
-            'km_since_last_check': self.km_totales - self.km_last_check,  # km since last check
+            'km_since_last_check': round(self.km_totales - self.km_last_check),  # km since last check
             'last_coordinate_latitude': self.last_coordinate_latitude,
             'last_coordinate_longitude': self.last_coordinate_longitude,
         }
@@ -165,11 +165,11 @@ class MotoModel(db.Model):
             'matricula': self.matricula,
             'state': self.state,
             'type': self.model_generic,
-            'km_total': self.km_totales,  # km since added to the system
+            'km_total': round(self.km_totales),  # km since added to the system
             'time_total': time_total,  # days since added to the system: date_estreno - date_actual
             'time_since_last_check': time_since_last_check,  # days since last check
-            'km_since_last_check': self.km_totales - self.km_last_check,  # km since last check
-            'km_restantes': self.km_restantes,
+            'km_since_last_check': round(self.km_totales - self.km_last_check),  # km since last check
+            'km_restantes': round(self.km_restantes),
             'last_coordinate_latitude': self.last_coordinate_latitude,
             'last_coordinate_longitude': self.last_coordinate_longitude,
             'address': self.address
@@ -189,7 +189,6 @@ class MotoModel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
-
 
     def set_moto(self, matricula, km_restantes, state):
         self.matricula = matricula
@@ -250,11 +249,9 @@ class MotoModel(db.Model):
         # Sinó hacemos un cálculo random para los km_extra que se recorren
         # a parte de la distancia entre las coordenadas.
         else:
-            km_recorridos += random.uniform(0., self.km_restantes - km_recorridos)
+            km_recorridos += random.uniform(0., self.km_restantes - km_recorridos) / 2.
 
         return km_recorridos
-
-
 
     def set_state(self, state):
         self.state = state
@@ -262,7 +259,7 @@ class MotoModel(db.Model):
 
     def set_coord(self, coord):
         latt, long = coord
-        self.last_coordinate_latitude  = latt
+        self.last_coordinate_latitude = latt
         self.last_coordinate_longitude = long
 
     def hasLowBattery(self):
