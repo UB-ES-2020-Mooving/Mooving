@@ -35,10 +35,13 @@
                 </div>
                 <div class="form-group">
                   <label for="email">Email</label>
-                  <input type="email" v-model="user.email" id="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && $v.user.email.$error }" />
+                  <input type="email" v-model="user.email" id="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && $v.user.email.$error || error_email}" />
                   <div v-if="submitted && $v.user.email.$error" class="invalid-feedback">
                     <span v-if="!$v.user.email.required">Email is required</span>
                     <span v-if="!$v.user.email.email">Email is invalid</span>
+                  </div>
+                  <div v-if="error_email" style="margin-top: 20px;margin-bottom: 20px;">
+                    <p style="color: red; font-size: 12px">It seems that a user with that email already exists.</p>
                   </div>
                 </div>
                 <div class="form-group">
@@ -52,10 +55,13 @@
                 </div>
                 <div class="form-group">
                   <label for="dniNie">DNI/NIE</label>
-                  <input type="text" v-model="user.dniNie" id="dniNie" name="dniNie" class="form-control" :class="{ 'is-invalid': submitted && $v.user.dniNie.$error }" />
+                  <input type="text" v-model="user.dniNie" id="dniNie" name="dniNie" class="form-control" :class="{ 'is-invalid': submitted && $v.user.dniNie.$error | error_dniNie}" />
                   <div v-if="submitted && $v.user.dniNie.$error" class="invalid-feedback">
                     <span v-if="!$v.user.dniNie.required">DNI/NIE is required</span>
                     <span v-if="!$v.user.dniNie.minLength">DNI/NIE must be at least 8 characters</span>
+                  </div>
+                  <div v-if="error_dniNie" style="margin-top: 20px;margin-bottom: 20px;">
+                    <p style="color: red; font-size: 12px">It seems that a user with that DNI/NIE already exists.</p>
                   </div>
                 </div>
                 <div class="form-row flex-nowrap" style="margin-top: 20px;margin-bottom: 20px; margin-left: 16px; margin-right: 15px">
@@ -97,7 +103,9 @@ export default {
         iban: '',
         email: ''
       },
-      submitted: false
+      submitted: false,
+      error_dniNie: false,
+      error_email: false
     }
   },
   validations: {
@@ -144,11 +152,33 @@ export default {
       }
 
       const parameters = {
-        email: this.email,
-        password: this.user.password
+        name: this.user.completeName,
+        iban: this.user.iban,
+        dni_nie: this.user.dniNie,
+        email: this.user.email
       }
-      // API call
-      console.log('API call')
+      const path = process.env.VUE_APP_CALL_PATH + '/profile/' + this.email
+      axios.put(path, parameters)
+        .then((res) => {
+          this.$router.push({ path: '/profile', query: { email: this.user.email } })
+        })
+        .catch((error) => {
+          console.error(error)
+          switch (error.response.status) {
+            case 406:
+              this.error_dniNie = true
+              break
+            case 405:
+              this.error_email = true
+              break
+            case 404:
+              alert(`It seems that an account with the email ${this.email} doesn't exist.`)
+              break
+            default:
+              alert('Internal Server error, try again or get in touch with customer support')
+              break
+          }
+        })
     }
   }
 }
