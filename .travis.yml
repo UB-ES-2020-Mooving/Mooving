@@ -23,7 +23,7 @@ branches:
   only:
   - main
   - develop
-  - TR8T2_CTFlask
+  - TD15T1_AdaptDBForLongStreets
 before_deploy:
 - cd flaskProject
 - heroku
@@ -35,5 +35,5 @@ deploy:
   app:
     main: mooving
     develop: mooving-develop
-    TR8T2_CTFlask: provant999
+    TD15T1_AdaptDBForLongStreets: provant999
   run: "./server_create_db.sh"

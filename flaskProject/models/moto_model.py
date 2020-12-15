@@ -34,7 +34,7 @@ class MotoModel(db.Model):
     # Atributo last_coordinate_longitude, ultima coordenada longitud de la moto
     last_coordinate_longitude = db.Column(db.Float, nullable=False)
     # Atributo address, direccion de la ultima aparcamiento de la moto
-    address = db.Column(db.String(150), nullable=False)
+    address = db.Column(db.String(250), nullable=False)
 
     # Atributo km_restantes de la moto para que se le acabe la bateria
     km_restantes = db.Column(db.Float, nullable=False)
