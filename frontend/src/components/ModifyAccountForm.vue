@@ -158,6 +158,8 @@ export default {
         email: this.user.email
       }
       const path = process.env.VUE_APP_CALL_PATH + '/profile/' + this.email
+      this.error_dniNie = false
+      this.error_email = false
       axios.put(path, parameters)
         .then((res) => {
           this.$router.push({ path: '/profile', query: { email: this.user.email } })
