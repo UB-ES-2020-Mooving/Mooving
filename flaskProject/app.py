@@ -13,6 +13,7 @@ from resources.client import Client, ClientsList, Profile
 from resources.motos import Moto, ClientMotosList, MechanicMotosList, ClientMoto, MechanicMoto
 from resources.login import Login
 from resources.reserved_start import Reserved, Start
+from resources.moto_error import MotoError
 
 # App configuration
 from decouple import config
@@ -79,7 +80,7 @@ api.add_resource(Reserved, "/reserve/<string:client_email>", "/reserve","/reserv
 api.add_resource(Start, "/start/<string:client_email>", "/start", "/start/<string:client_email>/<int:moto_id>")
 
 
-
+api.add_resource(MotoError, "/notifyError/<int:moto_id>")
 
 
 @app.route('/')

@@ -258,6 +258,7 @@ class MotoModel(db.Model):
 
     def set_state(self, state):
         self.state = state
+        db.session.commit()
 
     def set_coord(self, coord):
         latt, long = coord

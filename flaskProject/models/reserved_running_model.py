@@ -94,6 +94,10 @@ class ReservedRunningModel(db.Model):
         return ReservedRunningModel.query.filter_by(clientId=client_id).first()
 
     @classmethod
+    def find_by_moto(cls, moto_id):
+        return ReservedRunningModel.query.filter_by(motoId=moto_id).first()
+
+    @classmethod
     def find_by_client_moto(cls, client_id, moto_id):
         return ReservedRunningModel.query.filter_by(clientId=client_id).filter_by(motoId=moto_id).first()
 
