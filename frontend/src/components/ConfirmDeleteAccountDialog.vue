@@ -30,10 +30,13 @@
               <form @submit.prevent="handleSubmit">
                 <div class="form-group">
                   <label for="password">Password</label>
-                  <input type="password" v-model="user.password" id="password" name="password" class="form-control" :class="{ 'is-invalid': submitted && $v.user.password.$error }" />
+                  <input type="password" v-model="user.password" id="password" name="password" class="form-control" :class="{ 'is-invalid': submitted && $v.user.password.$error || error_password}" />
                   <div v-if="submitted && $v.user.password.$error" class="invalid-feedback">
                     <span v-if="!$v.user.password.required">Password is required</span>
                     <span v-if="!$v.user.password.minLength">Password must be at least 6 characters</span>
+                  </div>
+                  <div v-if="error_password" style="margin-top: 20px;margin-bottom: 20px;">
+                    <p style="color: red; font-size: 12px">The password is not correct.</p>
                   </div>
                 </div>
                 <div class="form-group">
@@ -62,7 +65,8 @@ export default {
       user: {
         password: ''
       },
-      submitted: false
+      submitted: false,
+      error_password: false
     }
   },
   validations: {
@@ -85,11 +89,33 @@ export default {
       }
 
       const parameters = {
-        email: this.email,
         password: this.user.password
       }
       // API call
-      console.log('API call')
+      const path = process.env.VUE_APP_CALL_PATH + '/client/' + this.email
+      axios.delete(path, { data: parameters })
+        .then((res) => {
+          // route to reloaded motorbike info page:
+          console.log('EXITO')
+          this.$router.push({ path: '/' })
+        })
+        .catch((error) => {
+          console.error(error)
+          switch (error.response.status) {
+            case 400:
+              this.error_password = true
+              break
+            case 401:
+              alert('You cannnot delete an account with a motorbike running.')
+              break
+            case 404:
+              alert(`It seems that an account with the email ${this.email} doesn't exist.`)
+              break
+            default:
+              alert('Internal Server error, try again or get in touch with customer support')
+              break
+          }
+        })
     }
   }
 }
