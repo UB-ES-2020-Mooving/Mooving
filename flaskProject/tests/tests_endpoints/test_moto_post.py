@@ -1,10 +1,10 @@
-from tests.tests_auto.config_tests import *
+from tests.tests_endpoints.config_tests import *
 from models.moto_model import MotoModel
 
 
 def test_AddNewMoto_0_GoodRequest():
     with app.test_client() as c:
-        path = '/moto'
+        path = '/motos'
         params = {
             "license_plate": "4321-PPP",
             "model_generic": "basic"
@@ -13,7 +13,7 @@ def test_AddNewMoto_0_GoodRequest():
         # No me preguntes porqué pero hace falta hacer una llamada (la primera vez) antes de acceder a MotoModel
         # Supongo que la App no se inicializa hasta que hago una llamada de algún tipo.
         c.get(path)
-
+        path = '/moto'
         # Nos aseguramos de que no esté en la DB
         db_moto = MotoModel.query.filter(MotoModel.matricula == params["license_plate"]).first()
         if db_moto is not None:
@@ -40,13 +40,13 @@ def test_AddNewMoto_1_NoParams():
 
 def test_AddNewMoto_2_ExistingLicensePlate():
     with app.test_client() as c:
-        path = '/moto'
+        path = '/motos'
 
 
         # No me preguntes porqué pero hace falta hacer una llamada (la primera vez) antes de acceder a MotoModel
         # Supongo que la App no se inicializa hasta que hago una llamada de algún tipo.
         c.get(path)
-
+        path = '/moto'
         # Cogemos una moto de la base de datos
         db_moto = MotoModel.query.first()
 

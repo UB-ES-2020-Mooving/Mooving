@@ -1,4 +1,4 @@
-from tests.tests_auto.config_tests import *
+from tests.tests_endpoints.config_tests import *
 
 # Es el mismo que test_clients_post.py que el anterior, pero solo para que veas que se
 # ejecutan ambos si ejecutas pytest, aunque puedes ejecutarlos por separado
