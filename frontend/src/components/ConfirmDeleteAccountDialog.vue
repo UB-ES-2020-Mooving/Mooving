@@ -106,7 +106,7 @@ export default {
               this.error_password = true
               break
             case 401:
-              alert('You cannnot delete an account with a motorbike reserved/running!')
+              alert('You cannnot delete an account with a motorbike running.')
               break
             case 404:
               alert(`It seems that an account with the email ${this.email} doesn't exist.`)
