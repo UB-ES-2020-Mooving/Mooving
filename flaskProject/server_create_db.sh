@@ -12,7 +12,7 @@ if [ -f "data.db" ]; then
     rm "data.db"
 fi
 
-if [[ -n "$DATABASE_UR" ]]; then
+if [[ -n "$DATABASE_URL" ]]; then
     psql -d $DATABASE_URL -c "DROP TABLE alembic_version ;"
 fi
 
