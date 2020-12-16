@@ -23,7 +23,7 @@ branches:
   only:
   - main
   - develop
-  - TD16T1_ChangeDBUrlScript
+  - TD2T2_CreateDBTravis
 before_deploy:
 - cd flaskProject
 - heroku
@@ -35,5 +35,5 @@ deploy:
   app:
     main: mooving
     develop: mooving-develop
-    TD16T1_ChangeDBUrlScript: provant999
+    TD2T2_CreateDBTravis: provant999
   run: "./server_create_db.sh"
