@@ -13,9 +13,17 @@ python -m pip install -r requirements.txt
 echo "Running tests..."
 case $TEST_BACKEND in
     SECONDARY)
+        cd ..
+        ./local_create_db.sh
+        cd flaskProject
+        python add_data.py
         python -m pytest tests/tests_secondaries
         ;;
     ENDPOINTS)
+        cd ..
+        ./local_create_db.sh
+        cd flaskProject
+        python add_data.py
         python -m pytest tests/tests_endpoints
         ;;
     AUTO)
@@ -26,6 +34,10 @@ case $TEST_BACKEND in
         python -m pytest tests/tests_auto
         ;;
     *)
+        cd ..
+        ./local_create_db.sh
+        cd flaskProject
+        python add_data.py
         python -m pytest tests/
         ;;
 esac
