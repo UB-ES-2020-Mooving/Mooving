@@ -12,8 +12,8 @@ if [ -f "data.db" ]; then
     rm "data.db"
 fi
 
-if [[ -n "$DATABASE_UR" ]]; then
-    psql -d $DATABASE_URL -c "DROP TABLE alembic_version ;"
+if [[ -n "$DATABASE_URL" ]]; then
+    psql -d $DATABASE_URL -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
 fi
 
 flask db init

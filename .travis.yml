@@ -23,7 +23,7 @@ branches:
   only:
   - main
   - develop
-  - TD15T1_AdaptDBForLongStreets
+  - TD16T1_ChangeDBUrlScript
 before_deploy:
 - cd flaskProject
 - heroku
@@ -35,5 +35,5 @@ deploy:
   app:
     main: mooving
     develop: mooving-develop
-    TD15T1_AdaptDBForLongStreets: provant999
+    TD16T1_ChangeDBUrlScript: provant999
   run: "./server_create_db.sh"
