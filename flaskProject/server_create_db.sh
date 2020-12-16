@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 if [ -e "migrations" ]; then
     rm -r "migrations"
 fi
@@ -10,7 +11,11 @@ fi
 if [ -f "data.db" ]; then
     rm "data.db"
 fi
-psql -d $DATABASE_URL -c "DROP TABLE alembic_version ;"
+
+if [[ -n "$DATABASE_URL" ]]; then
+    psql -d $DATABASE_URL -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
+fi
+
 flask db init
 flask db migrate -m "Initial migration"
 flask db upgrade

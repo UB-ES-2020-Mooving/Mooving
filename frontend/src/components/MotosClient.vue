@@ -15,6 +15,7 @@
           <b-navbar-nav class="ml-auto">
             <b-nav-item><router-link :to="{path: '/motospageclient', query: { email: this.email } }">Motorbikes</router-link></b-nav-item>
             <b-nav-item><router-link :to="{path: '/profile', query: { email: this.email } }">Personal Info</router-link></b-nav-item>
+            <b-nav-item><router-link :to="{path: '/map', query: { email: this.email } }">Map</router-link></b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -61,18 +62,41 @@
     </div>
     <!-- Title of the page: Motorbikes for the client -->
     <h2>{{ name }}</h2>
-    <!-- Checkboxes to filter moto's type -->
-    <h5>Filter type/s of motorbikes: </h5>
-    <input type="checkbox" id="checkboxBasic" v-model="basic" @change="filterMotoListByType()">
-    <label for="checkboxBasic">Basic </label>
-    <input type="checkbox" id="checkboxPremium" v-model="premium" @change="filterMotoListByType()">
-    <label for="checkboxPremium">Premium</label>
-    <br>
-    <!-- Slider to filter moto's remaining km -->
-    <h5>Range of remaining battery: </h5>
-    <custom-slider :values="sliderValues" id="sliderKmRestantes" v-model="slider_km_restantes" @change=filterMotoListByKmRestantes() />
+    <!-- Filters with class filter options-->
+    <div id="divButtonFilters"  style="margin-left: 30px; margin-right: 30px;background-color: #d7dee5">
+      <!-- div with button and icons-->
+      <div>
+        <button class="btn"
+                style="color: #42b983;width: 100%;font-weight: bold;background-color: #d7dee5"
+                @click="showFilters()">
+          Filters
+          <b-icon v-if="show_filter" icon="caret-down-fill"></b-icon>
+          <b-icon v-if="!show_filter" icon="caret-up-fill"></b-icon>
+        </button>
+      </div>
+      <!-- divisor para filtros -->
+      <div class="text-center"
+           v-if="!show_filter"
+           style="padding-top: 20px;background-color: #d7dee5">
+        <!-- Checkboxes to filter moto's type -->
+        <h6 class="text-left" style="margin-left: 40px;font-weight: bold;color: #495057">Filter types of motorbikes: </h6>
+        <div class="row" style="margin-left: 80px">
+          <div style="margin-right: 20px;">
+            <input type="checkbox" id="checkboxBasic" v-model="basic" @change="filterMotoListByType()">
+            <label for="checkboxBasic" style="margin-left: 5px;color: #495057">Basic</label>
+          </div>
+          <div>
+            <input type="checkbox" id="checkboxPremium" v-model="premium" @change="filterMotoListByType()">
+            <label for="checkboxPremium" style="margin-left: 5px; color: #495057">Premium</label>
+          </div>
+        </div>
+        <!-- Slider to filter moto's remaining km -->
+        <h6 class="text-left" style="margin-left: 40px;font-weight: bold;color: #495057">Range of remaining battery: </h6>
+        <custom-slider :values="sliderValues" id="sliderKmRestantes" v-model="slider_km_restantes" style="color: #495057;position: center" @change=filterMotoListByKmRestantes() />
+      </div>
+    </div>
     <!-- Lista de motos para el cliente-->
-    <div class="list-group" v-if="is_client">
+    <div class="list-group" v-if="is_client" style="margin-top: 20px">
       <!-- Mostrar cabecera y lista solo si hay elementos -->
       <div id="lista_motos_client" v-if="available_motos.length>0" class="center-screen">
         <button v-for="item in available_motos" :key="item.matricula" type="button" class="list-group-item list-group-item-action"  @click="reserveMoto(item.id)">
@@ -106,6 +130,10 @@ export default {
       email: '',
       available_motos: {
         items: []
+      },
+      myCoordinates: {
+        lat: 41.384199,
+        lng: 2.160358
       },
       message_no_motos_available: 'There are no motos available',
       is_client: true,
@@ -169,16 +197,32 @@ export default {
         matricula: 'ASDJ',
         distance: 0,
         model_generic: 'PATATAS'
-      }
+      },
+      show_filter: false
     }
   },
   created () {
-    this.getAvailableMotos() // Gets the motos that are available for the client to use
+    this.$getLocation({})
+      .then(coordinates => {
+        this.myCoordinates = coordinates
+        this.getAvailableMotos() // Gets the motos that are available for the client to use
+        this.getReservedMoto() // Gets the moto reserved by this user
+        this.getRunningMoto() //  Gets the moto that is being run by this user
+        this.showFilters() // Shows or hides the filters
+      })
+      .catch(error => {
+        alert(error)
+        this.getMotoInfo()
+        this.getReservedMoto() // Gets the moto reserved by this user
+        this.getRunningMoto() // Gets the moto running by this user
+      })
+    console.log(this.myCoordinates)
     this.email = this.$route.query.email // si la extension es @mooving.com es un mecanico
-    this.getReservedMoto() // Gets the moto reserved by this user
-    this.getRunningMoto() //  Gets the moto that is being run by this user
   },
   methods: {
+    showFilters () {
+      this.show_filter = !this.show_filter
+    },
     reserveMoto (id) {
       // Nos lleva a otra pagina donde se ve la info especifica de la moto
       this.$router.push({ path: '/clientMoto', query: { id: id, email: this.email } })
@@ -204,11 +248,14 @@ export default {
       this.getAvailableMotos()
     },
     getAvailableMotos () {
+      console.log(this.myCoordinates)
       const path = process.env.VUE_APP_CALL_PATH + '/motos'
       axios.get(path, {
         params: {
           model_generic: this.model_generic,
-          more_km_restantes: this.more_km_restantes
+          more_km_restantes: this.more_km_restantes,
+          client_coordinate_latitude: this.myCoordinates.lat,
+          client_coordinate_longitude: this.myCoordinates.lng
         }
       })
         .then((res) => {

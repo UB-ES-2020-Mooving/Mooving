@@ -87,6 +87,11 @@ class ClientModel(db.Model):
     def find_by_email(cls, email):
         return ClientModel.query.filter_by(email=email).first()
 
+    # Metodo que encuentra al cliente segun su dni y lo retorna
+    @classmethod
+    def find_by_dni(cls, dni_nie):
+        return ClientModel.query.filter_by(dni_nie=dni_nie).first()
+
     # Metodo que comprueba si la contraseña es correcta
     def verify_password(self, password):
         return self.password.__eq__(password)

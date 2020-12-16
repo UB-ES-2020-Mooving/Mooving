@@ -4,6 +4,7 @@ from models.client_model import ClientModel
 from models.moto_model import MotoModel
 from sqlalchemy import and_
 
+
 class Reserved(Resource):
     def get(self, client_email):
         try:
@@ -41,9 +42,11 @@ class Reserved(Resource):
                             ReservedRunningModel.delete_from_db(rr)
                             return {"message": "The time limit for the start has expired"}, 500
                     else:
-                        return {"message": "ERROR RESERVED MOTO. Moto state isn't RESERVED, moto state = [{}]".format(rr.moto.state)}, 500
+                        return {"message": "ERROR RESERVED MOTO. Moto state isn't RESERVED, moto state = [{}]".format(
+                            rr.moto.state)}, 500
                 else:
-                    return {"message": "ERROR RESERVED MOTO. Error Client [{}] haven't reserved moto".format(client.client_id)}, 404
+                    return {"message": "ERROR RESERVED MOTO. Error Client [{}] haven't reserved moto".format(
+                        client.client_id)}, 404
             else:
                 return {"message": "ERROR RESERVED MOTO. Error Client Not Found"}, 404
 
@@ -66,7 +69,7 @@ class Reserved(Resource):
         if moto is not None and client is not None:
             # Compruebo si el estado de la moto es el correcto (AVAILABLE)
             if moto.state == 'AVAILABLE':
-                #Compruebo si el cliente no tiene motos reservadas
+                # Compruebo si el cliente no tiene motos reservadas
                 if ReservedRunningModel.find_by_client(client.client_id) is None:
                     rr = ReservedRunningModel(client, moto)
                     ReservedRunningModel.save_to_db(rr)
@@ -74,7 +77,7 @@ class Reserved(Resource):
 
                     remaining_time = rr.make_remaining_time()
                     if remaining_time.minute < 10:
-                        time_min = "0"+ str(remaining_time.minute)
+                        time_min = "0" + str(remaining_time.minute)
                     else:
                         time_min = str(remaining_time.minute)
                     if remaining_time.hour < 10:
@@ -85,9 +88,11 @@ class Reserved(Resource):
                     return {"message": "You have until {}:{}h to start the motorbike".format(time_h, time_min),
                             "remaining_time": time_h + ":" + time_min}, 201
                 else:
-                    return {"message": "ERROR RESERVED MOTO. Customer [{}] already has a reserved motorcycle".format(client.client_id)}, 500
+                    return {"message": "ERROR RESERVED MOTO. Customer [{}] already has a reserved motorcycle".format(
+                        client.client_id)}, 500
             else:
-                return {"message": "ERROR RESERVED MOTO. Moto state isn't AVAILABLE, moto state = [{}]".format(moto.state)}, 500
+                return {"message": "ERROR RESERVED MOTO. Moto state isn't AVAILABLE, moto state = [{}]".format(
+                    moto.state)}, 500
         else:
             return {"message": "ERROR RESERVED MOTO. Motorcycle error or client not found for Reserved Moto post"}, 404
 
@@ -207,3 +212,46 @@ class Start(Resource):
         except:
             return {"message": "Error POST Start Moto"}, 500
 
+    def put(self, client_email, moto_id):
+
+        try:
+            moto = MotoModel.query.filter(MotoModel.id == moto_id).first()
+            client = ClientModel.query.filter(ClientModel.email == client_email).first()
+
+            if moto is not None and client is not None:
+                r = ReservedRunningModel.query.filter(and_(
+                        ReservedRunningModel.motoId == moto_id,
+                        ReservedRunningModel.clientId == client.client_id)).first()
+                if r is not None and moto.state == "ACTIVE":
+                    # En caso de que exista y de que este ACTIVE
+
+                    # Aquí simulamos un par de cosas para aumentar el realismo de la versión de prueba
+                    old_coord = moto.last_coordinate_latitude, moto.last_coordinate_longitude
+                    # Unas nuevas coordenadas (Aleatorias)
+                    new_coord = MotoModel.get_random_coordinates(coord=old_coord, std_deviation = 0.0015 * moto.km_restantes)
+                    # Calculamos los km_recorridos basándonos en las coordenadas
+                    # (y poniendo un extra random, suponiendo trayectorias no rectas).
+                    km_recorridos = moto.compute_km_recorridos(new_coord)
+
+                    # Actualizamos todó lo necesario
+                    moto.km_totales += km_recorridos
+                    moto.km_restantes -= km_recorridos
+                    if moto.hasLowBattery():
+                        moto.state = 'LOW_BATTERY_FUEL'
+                    else:
+                        moto.state = "AVAILABLE"
+                    moto.updateCoordAndAddress(new_coord)
+                    moto.save_to_db()
+
+                    r.delete_from_db()
+
+                    return {'message_status': 'Ok',
+                            'message': 'Motorbike stoped successfully'},200
+
+            return {'message_status': "Not Found",
+                    'message': "Client with email {} is not riding motorbike with id [{}]. "
+                    .format(client_email, moto_id)}, 404
+
+        except:
+            return {'message_status': "Internal Error",
+                    'message': "Internal Server Error. "}, 500

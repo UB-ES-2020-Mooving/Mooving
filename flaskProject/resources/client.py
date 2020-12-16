@@ -1,5 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.client_model import ClientModel
+from models.reserved_running_model import ReservedRunningModel
+from models.moto_model import MotoModel
 
 
 class Client(Resource):
@@ -36,13 +38,37 @@ class Client(Resource):
 
         return entry.json(), 201
 
-    def delete(self, client_id):
-        c = ClientModel.query.filter_by(client_id=client_id).first()
-        if c:
-            c.delete_from_db()
-            return {'message': 'Client with ID [{}] correctly deleted.'.format(client_id)}, 200
-        else:
-            return {'message': 'There is no client with ID [{}] .'.format(client_id)}, 404
+    def delete(self, email_client):
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('password', type=str, required=True, help="Password cannot be left blanck")
+        data = parser.parse_args()
+
+        password = data['password']
+        c = ClientModel.find_by_email(email_client)
+        if c: # Si existe el cliente
+            if c.password == password: # Si la password coincide con la del cliente
+                rr = ReservedRunningModel.find_by_client(c.client_id)
+                if(rr is not None): # Si existe una reserva o start afiliada al cliente, indagamos
+                    moto = MotoModel.find_by_id(rr.moto.id)
+                    if(moto.state == "RESERVED"): # Si la moto esta reservada
+                        # Borramos la fila de rr
+                        rr.delete_from_db()
+                        # Actualizamos el estado de la moto
+                        moto.state = "AVAILABLE"
+                        moto.save_to_db()
+                        # Borramos el cliente
+                        c.delete_from_db()
+                        return {"message": "Client DELETED successfully"}, 200
+                    if(moto.state == "ACTIVE"): # No podemos borrar el cliente porque antes tiene que finalizar el trayecto
+                        return {'message': 'The account cannot be deleted because you have a journey started'}, 401
+                else: # Si no existe reserva o start, podemos borrarlo directamente
+                    c.delete_from_db()
+                    return {"message": "Client DELETED successfully"}, 200
+            else: # Password erronea
+                return {'message': 'ERROR: The password is not correct.'}, 400
+        else: # Si no existe el cliente
+            return {'message': 'ERROR: There is no client with email [{}] .'.format(email_client)}, 404
 
     def put(self, client_id):
         # Creamos el request parser, que nos ayudará a manejar la informacion de entrada
@@ -86,7 +112,7 @@ class Profile(Resource):
 
     def put(self, email):
         parser = reqparse.RequestParser()
-        parser.add_argument('nombre', type=str, required=False)
+        parser.add_argument('name', type=str, required=False)
         parser.add_argument('iban', type=str, required=False)
         parser.add_argument('dni_nie', type=str, required=False)
         parser.add_argument('email', type=str, required=False)
@@ -94,17 +120,32 @@ class Profile(Resource):
 
         try:
             client = ClientModel.find_by_email(email)
-            if data['nombre']:
-                client.set_name(data['nombre'])
-            if data['iban']:
-                client.set_iban(data['iban'])
-            if data['dni_nie']:
-                client.set_dni_nie(data['dni_nie'])
-            if data['email']:
-                client.set_email(data['email'])
+            if client is not None:
+                if data['name']:
+                    client.set_name(data['name'])
+                if data['iban']:
+                    client.set_iban(data['iban'])
+                if data['dni_nie']:
+                    if ClientModel.find_by_dni(data['dni_nie']) is None:
+                        client.set_dni_nie(data['dni_nie'])
+                    else:
+                        if ClientModel.find_by_dni(data['dni_nie']).client_id == client.client_id:
+                            client.set_dni_nie(data['dni_nie'])
+                        else:
+                            return {"message": "The new DNI/NIE is already in use"}, 406
+                if data['email']:
+                    if ClientModel.find_by_email(data['email']) is None:
+                        client.set_email(data['email'])
+                    else:
+                        if ClientModel.find_by_email(data['email']) == client:
+                            client.set_email(data['email'])
+                        else:
+                            return {"message": "The new email is already in use"}, 405
 
-            return {"message": "Client profile modified successfully"}, 200
+                return {"message": "Client profile modified successfully"}, 200
+            else:
+                return {"message": "Client with this email doesn't exist"}, 404
         except:
-            return {"message": "Error Put client profile"}, 500
+            return {"message": "Error Modify client profile"}, 500
 
 

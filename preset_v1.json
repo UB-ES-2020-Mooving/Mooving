@@ -1,5 +1,7 @@
 {
     "useConfigFiles": false,
+    "packageManager": "npm",
+    "useTaobaoRegistry": false,
     "plugins": {
         "@vue/cli-plugin-babel": {},
         "@vue/cli-plugin-router": {

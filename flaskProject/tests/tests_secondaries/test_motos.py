@@ -1,7 +1,11 @@
+# coding=utf-8
+
 import math
 
 import app
 from models.moto_model import MotoModel
+from datetime import datetime
+
 
 # Test
 
@@ -136,3 +140,33 @@ def test_street_variable():
         km_last_check=0.0)
 
     assert new_moto.address == "Al Kufrah, Libia"
+
+def test_ModifyMoto_updateFields():
+    """
+    GIVEN a MotoModel model
+    WHEN a MotoModel is updated
+    THEN check the fields is updated correctly
+    """
+    new_moto = MotoModel(
+        state="REPAIRING",
+        matricula="1234-MMM",
+        date_estreno="24/11/2020",
+        model_generic="premium",
+        last_coordinate_latitude=23.4434,
+        last_coordinate_longitude=23.4433,
+        km_restantes=120.0,
+        km_totales=10.0,
+        date_last_check="24/11/2020",
+        km_last_check=0.0)
+
+    MotoModel.set_moto(new_moto,"1234-AAA",110.0,"AVAILABLE")
+    assert new_moto.matricula == "1234-AAA"
+    assert new_moto.km_restantes == 110.0
+    assert new_moto.state == "AVAILABLE"
+    assert new_moto.km_last_check == 10.0
+    date_format = "%d/%m/%Y"
+    today = datetime.now().strftime(date_format)
+    assert isinstance(today, str)
+    assert isinstance(new_moto.date_last_check, str)
+    assert new_moto.date_last_check == today
+
