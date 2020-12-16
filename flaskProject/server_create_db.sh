@@ -13,7 +13,7 @@ if [ -f "data.db" ]; then
 fi
 
 if [[ -n "$DATABASE_URL" ]]; then
-    psql -d $DATABASE_URL -c "DROP DATABASE ;"
+    psql -d $DATABASE_URL -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
 fi
 
 flask db init
