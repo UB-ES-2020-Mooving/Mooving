@@ -13,7 +13,7 @@ if [ -f "data.db" ]; then
 fi
 
 if [[ -n "$DATABASE_URL" ]]; then
-    dropdb $DATABASE_URL
+    psql -d $DATABASE_URL -c "DROP DATABASE ;"
 fi
 
 flask db init
