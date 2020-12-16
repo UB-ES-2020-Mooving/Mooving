@@ -13,7 +13,7 @@ if [ -f "data.db" ]; then
 fi
 
 if [[ -n "$DATABASE_URL" ]]; then
-    psql -d $DATABASE_URL -c "DROP TABLE alembic_version ;"
+    dropdb $DATABASE_URL
 fi
 
 flask db init
